@@ -68,6 +68,10 @@
           </style>
           <table class="table" border = 1>
             <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
+            <tr><td>Argument</td><td>An argument is input given by the user in a command.</td>
+               <td>dir_test (in cd dir_test)</td></tr>
+            <tr><td>Command</td><td>A command is an instruction given by a user to perform a specific task.</td>
+               <td>pwd, ls, cd</td></tr>
             <tr><td>Command Line Tool (CLI)</td><td>A command line tool is a text interface to your computer. The CLI takes in commands, and passes them on to the shell. The shell interprets the command and then passes them on to the operating system to run.</td>
                <td></td></tr>
             <tr><td>Graphical User Interface (GUI)</td><td>A graphical user interface is a visual way to interact with a computer using items like windows, icons, and menus. </td>
@@ -78,14 +82,18 @@
                 <td></td></tr>
             <tr><td>Operating system</td><td>The operating system is a software that serves as an intermediary between the user and the computer hardware. It allows users to interact with the computer without needing to understand the computer's language. It performs fundamental tasks like management of the file system, management of resources such as memory and processes, and handling input and output. It consist of a kernel, a shell and other programs that deal with user interface, networking etc.</td>
                <td>Windows, macOS, Ubuntu</td></tr>
+            <tr><td>Option</td><td> An option is an argument that changes the behavior of a command. It is a predefined string that usually starts with a single or a double dash ("-" or "--").</td>
+                <td>-l (in ls -l)</td></tr>
             <tr><td>Prompt</td><td> A prompt is a small section of text that appears on the screen when a user opens a terminal.</td>
                 <td>user@host:~$</td></tr>
             <tr><td>Shell</td><td>A shell is a program that processes and executes commands and prints output. </td>
                 <td>bash</td></tr>
             <tr><td>Terminal</td><td>A terminal is an example of a command line interface. It is a wrapper program which runs the shell.</td>
                 <td></td></tr>
+
+
           </table>
-            <h2 id="File system">File system</h2>
+            <h2 id="File System">File system</h2>
             <p>The Linux file system is a structured hierarchy of files and directories. The starting point of the hierarchy is called the root and is represented by a single forward slash: /. Files or empty directories form the endpoints of the hierarchy. An example is given in the figure below.</p>
             <picture>
                <source class="responsive-img-srcset" srcset=" //assets/img/file_system-480.webp 480w, /assets/img/file_system-800.webp 800w, /assets/img/file_system-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -104,6 +112,9 @@
                   <pre class="highlight"><code><span class="nf">pwd</span></code></pre>
                </div>
             </div>
+            <p><big><strong>ls</strong></big></p>
+            <p>The command ls is used to list the content of a directory, that is by default the current working directory. To list files of a different directory, add the filepath of the directory as the first argument </p>
+
             <p><big><strong>cd</strong></big></p>
             <p>If you want to change the working directory you can use the command cd. It stands for <em>changes directory</em> and can be used in the following way: </p>
             <div class="language-shell highlighter-rouge">
