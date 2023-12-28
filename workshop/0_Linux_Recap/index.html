@@ -70,10 +70,12 @@
             <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
             <tr><td>Argument</td><td>An argument is input given by the user in a command.</td>
                <td>dir_test (in cd dir_test)</td></tr>
-            <tr><td>Command</td><td>A command is an instruction given by a user to perform a specific task.</td>
-               <td>pwd, ls, cd</td></tr>
+            <tr><td>Command</td><td>A command is an instruction given by a user to perform a specific task. The first word of every command is called the command name.</td>
+               <td>pwd, ls -l, cd</td></tr>
             <tr><td>Command Line Tool (CLI)</td><td>A command line tool is a text interface to your computer. The CLI takes in commands, and passes them on to the shell. The shell interprets the command and then passes them on to the operating system to run.</td>
                <td></td></tr>
+            <tr><td>Command Name</td><td>A command name is the first word of every command.</td>
+                  <td>pwd, ls, cd</td></tr>
             <tr><td>Graphical User Interface (GUI)</td><td>A graphical user interface is a visual way to interact with a computer using items like windows, icons, and menus. </td>
                <td></td></tr>
             <tr><td>Kernel</td><td>The kernel is the heart of the OS. For example, Windows has the NT kernel, and macOS has the XNU kernel.</td>
@@ -91,7 +93,7 @@
             <tr><td>Terminal</td><td>A terminal is an example of a command line interface. It is a wrapper program which runs the shell.</td>
                 <td></td></tr>
           </table>
-          
+
             <h2 id="File System">File system</h2>
             <p>The Linux file system is a structured hierarchy of files and directories. The starting point of the hierarchy is called the root and is represented by a single forward slash: /. Files or empty directories form the endpoints of the hierarchy. An example is given in the figure below.</p>
          <figure>
@@ -105,7 +107,7 @@
          <h2 id="Commands">Linux commands</h2>
             <p>Moving forward, we will go over a set of Linux commands that you will find yourself using quite often throughout 
               this workshop. These commands are essential tools in your Linux toolkit. You can follow the code in your terminal.
-              Note that you can find the manual page of each command by typing <em>command</em> --help.</p>
+              Note that you can find the manual page of each command by typing the command name followed by <em>--help</em>.</p>
             <p><big><strong>pwd</strong></big></p>
             <p>The command pwd stands for <em>print working directory</em>. It prints the full filename of the current working directory</p>
             <div class="language-shell highlighter-rouge">
@@ -114,8 +116,8 @@
                </div>
             </div>
             <p><big><strong>ls</strong></big></p>
-            <p>The command ls is used to list the content of a directory, by default the current working directory. To list files of a different directory, add the directory's filename as an argument.
-               Options include <em>-l</em> to use the long listing format, <em>-h</em> to print sizes in human readable format and <em>-a</em> to also show entries that start with "." (typically the current and parent directory). Options can be combined e.g., -lah. To see the full list of options, you can type ls --help into a terminal.
+            <p>The command ls is used to list the contents of a directory (by default the current working directory). To list the contents of a different directory, you can add the directory's filename as an argument.
+               Options include <em>-l</em> to use the long listing format, <em>-h</em> to print sizes in human readable format and <br><em>-a</em> to also show entries that start with "." (typically the current and parent directory). Options can be combined e.g., -lah. To see the full list of options, you can type ls --help into a terminal.
             </p>
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
