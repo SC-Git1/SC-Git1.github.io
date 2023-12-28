@@ -104,7 +104,7 @@
             <h2 id="Commands">Linux commands</h2>
             <p>Moving forward, we will go over a set of Linux commands that you will find yourself using quite often throughout 
               this workshop. These commands are essential tools in your Linux toolkit. You can follow the code in your terminal.
-              Note that you can find the help page of each command by typing <em>command</em> --help.</p>
+              Note that you can find the manual page of each command by typing <em>command</em> --help.</p>
             <p><big><strong>pwd</strong></big></p>
             <p>The command pwd stands for <em>print working directory</em>. It prints the full filename of the current working directory</p>
             <div class="language-shell highlighter-rouge">
@@ -113,7 +113,17 @@
                </div>
             </div>
             <p><big><strong>ls</strong></big></p>
-            <p>The command ls is used to list the content of a directory, that is by default the current working directory. To list files of a different directory, add the filepath of the directory as the first argument </p>
+            <p>The command ls is used to list the content of a directory, by default the current working directory. To list files of a different directory, add the directory's filename as an argument.
+               Options include <em>-l</em> to use the long listing format, <em>-h</em> to print sizes in human readable format and <em>-a</em> to also show entries that start with "." (typically the current and parent directory). Options can be combined e.g., -lah. To see the full list of options, you can type ls --help into a terminal.
+            </p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">ls</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">ls -lah</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">ls</span> <span class="s">/full/path/to/directory</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">ls -lah</span> <span class="s">/full/path/to/directory</span></code></pre>
+               </div>
+            </div>
 
             <p><big><strong>cd</strong></big></p>
             <p>If you want to change the working directory you can use the command cd. It stands for <em>changes directory</em> and can be used in the following way: </p>
