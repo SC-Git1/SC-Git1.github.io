@@ -5,7 +5,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title> Linux | Recap</title>
+      <title> Module 0 | Linux</title>
       <meta name="author" content="Sophie Colette">
       <meta name="description" content="Revision of Linuc commands and related terminologies">
       <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
@@ -42,10 +42,9 @@
       </header>
       <div class="post distill">
          <d-title>
-            <h1>a distill-style blog post</h1>
-            <p>an example of a distill-style blog post and main elements</p>
+            <h1>Module 0: Linux</h1>
+            <p>Linux commands and related terminologies</p>
          </d-title>
-         <d-byline></d-byline>
          <d-article>
             <d-contents>
                <nav class="l-text figcaption">
@@ -60,10 +59,30 @@
                </nav>
             </d-contents>
             <h2 id="Glossary">Glossary</h2>
-            <p>This theme supports rendering beautiful math in inline and display modes using <a href="https://www.mathjax.org/" rel="external nofollow noopener" target="_blank">MathJax 3</a> engine. You just need to surround your math expression with <code class="language-plaintext highlighter-rouge">$$</code>, like <code class="language-plaintext highlighter-rouge">$$ E = mc^2 $$</code>. If you leave it inside a paragraph, it will produce an inline expression, just like \(E = mc^2\).</p>
-            <p>To use display mode, again surround your expression with <code class="language-plaintext highlighter-rouge">$$</code> and place it as a separate paragraph. Here is an example:</p>
-            \[\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)\] 
-            <p>Note that MathJax 3 is <a href="https://docs.mathjax.org/en/latest/upgrading/whats-new-3.0.html" rel="external nofollow noopener" target="_blank">a major re-write of MathJax</a> that brought a significant improvement to the loading and rendering speed, which is now <a href="http://www.intmath.com/cg5/katex-mathjax-comparison.php" rel="external nofollow noopener" target="_blank">on par with KaTeX</a>.</p>
+            <style> 
+              td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%; }
+              td:nth-child(2) { text-align: justify; width:60%; }
+              td:nth-child(1) { width:20%; }
+              td:first-child,td:last-child { text-align: center; }
+            </style>
+            <table class="table" border = 1>
+              <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
+              <tr><td>Command Line Tool (CLI)</td><td>A command line tool is a text interface to your computer. The CLI takes in commands, and passes them on to the shell. The shell interprets the command and then passes them on to the operating system to run.</td>
+                 <td></td></tr>
+              <tr><td>Graphical User Interface (GUI)</td><td>A graphical user interface is a visual way to interact with a computer using items like windows, icons, and menus. </td>
+                 <td></td></tr>
+              <tr><td>Kernel</td><td>The kernel is the heart of the OS. For example, Windows has the NT kernel, and macOS has the XNU kernel.</td>
+                  <td>NT kernel<br> (of Windows),<br> XNU kernel<br> (of macOS)</td></tr><tr>
+                  <td>Linux</td><td>Technically, Linux is a kernel. However, when most people say “Linux”, they are referring to a whole OS that uses the Linux kernel. There are many OS that use Linux, and they are called distributions. Ubuntu is one example of a Linux distribution.</td>
+                  <td></td></tr>
+              <tr><td>Operating system</td><td>The operating system is a software that serves as an intermediary between the user and the computer hardware. It allows users to interact with the computer without needing to understand the computer's language. It performs fundamental tasks like management of the file system, management of resources such as memory and processes, and handling input and output.</td>
+                 <td>Windows, macOS, Ubuntu</td></tr>
+              <tr><td>Shell</td><td>A shell provides an interface between the user and the kernel of the OS. The shell executes programs called commands. </td>
+                  <td>bash</td></tr>
+            </table>
+            <hr>
+            <p>Moving forward, we will go over a set of Linux commands that you will find yourself using quite often throughout 
+              this workshop. These commands are essential tools in your Linux toolkit.</p>
             <hr>
             <h2 id="Commands">Commands</h2>
             <p>Citations are then used in the article body with the <code class="language-plaintext highlighter-rouge">&lt;d-cite&gt;</code> tag. The key attribute is a reference to the id provided in the bibliography. The key attribute can take multiple ids, separated by commas.</p>
