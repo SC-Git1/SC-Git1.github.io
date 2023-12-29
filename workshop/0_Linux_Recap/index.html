@@ -86,6 +86,7 @@
                <td>Windows, macOS, Ubuntu</td></tr>
             <tr><td>Option</td><td> An option is an argument that changes the behavior of a command. It is a predefined string that usually starts with a single or a double dash ("-" or "--").</td>
                 <td>-l (in ls -l)</td></tr>
+            <tr><td>Path</td><td>A path is the location of a file or a directory in a human-readable format.</td><td>/home/usr2</td></tr>
             <tr><td>Prompt</td><td> A prompt is a small section of text that appears on the screen when a user opens a terminal.</td>
                 <td>user@host:~$</td></tr>
             <tr><td>Shell</td><td>A shell is a program that processes and executes commands and prints output. </td>
@@ -95,14 +96,16 @@
           </table>
 
             <h2 id="File System">File system</h2>
-            <p>The Linux file system is a structured hierarchy of files and directories. The starting point of the hierarchy is called the root and is represented by a single forward slash: /. Files or empty directories form the endpoints of the hierarchy. An example is given in the figure below.</p>
+            <p>The Linux file system is a structured hierarchy of files and directories. The starting point of the hierarchy is called the root and is represented by a single forward slash: /. Files or empty directories form the endpoints of the hierarchy.
+               You can refer to an item in a Linux file system by its path. A path can be absolute or relative. In the Linux file system, an absolute path starts from the root directory "/", followed by the full path to the item. An example is /home/usr2 in the figure below. Relative paths start from the current directory. If for example you are in /home, your can type "usr2" or "./usr2". If you need to go up a directory level i.e., start the relative path from the parent directory, you can start the filepath with "../".
+            
          <figure>
             <picture>
                <source class="responsive-img-srcset" srcset=" //assets/img/file_system-480.webp 480w, /assets/img/file_system-800.webp 800w, /assets/img/file_system-1400.webp 1400w, " sizes="95vw" type="image/webp">
                </source> <img src="/assets/img/file_system.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
             </picture>
          </figure>
-         <div class="caption"> A Linux file system. The root is indicated by a forward slash. Three subdirectories of the root are shown here: /bin, /home, and  /lib. The directory of user 2 can be found under /home/usr2.</div>
+         <div class="caption"> A Linux file system. The root is indicated by a forward slash. Three subdirectories of the root are shown here: /bin, /home, and /lib. The directory of user 2 can be found under /home/usr2. The relative path from /home to the directory of user 2 is "usr2" or "./usr2". the relative path from /home to the root directory is "..". </div>
             
          <h2 id="Commands">Linux commands</h2>
             <p>Moving forward, we will go over a set of Linux commands that you will find yourself using quite often throughout 
@@ -117,14 +120,14 @@
             </div>
             <p><big><strong>ls</strong></big></p>
             <p>The command ls is used to list the contents of a directory (by default the current working directory). To list the contents of a different directory, you can add the directory's filename as an argument.
-               Options include <em>-l</em> to use the long listing format, <em>-h</em> to print sizes in human readable format and <br><em>-a</em> to also show entries that start with "." (typically the current and parent directory). Options can be combined e.g., -lah. To see the full list of options, you can type ls --help into a terminal.
+               Options include <em>-l</em> to use the long listing format, <em>-h</em> to print sizes in human readable format and <br><em>-a</em> to also show entries that start with "." (typically the current and parent directory). Options can be combined e.g., -lah. To see the full list of options, you can type ls <em>--help</em> into a terminal.
             </p>
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
                   <pre class="highlight"><code><span class="nf">ls</span></code></pre>
                   <pre class="highlight"><code><span class="nf">ls -lah</span></code></pre>
-                  <pre class="highlight"><code><span class="nf">ls</span> <span class="s">/full/path/to/directory</span></code></pre>
-                  <pre class="highlight"><code><span class="nf">ls -lah</span> <span class="s">/full/path/to/directory</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">ls</span> <span class="s"> /path/to/directory</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">ls -lah</span> <span class="s"> /path/to/directory</span></code></pre>
                </div>
             </div>
 
@@ -132,12 +135,20 @@
             <p>If you want to change the working directory you can use the command cd. It stands for <em>change directory</em> and can be used in the following way: </p>
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                  <pre class="highlight"><code><span class="nf">cd</span> <span class="s">/full/path/to/directory</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">cd</span> <span class="s">/path/to/directory</span></code></pre>
                   <pre class="highlight"><code><span class="nf">cd</span> <span class="s">./path/to/directory</span></code></pre>
                   <pre class="highlight"><code><span class="nf">cd</span> <span class="s">../path/to/directory</span></code></pre>
                </div>
             </div>
-            Note that "directory" is a string that represents the filename that you want to set as the working directory. Its value can be a full path: <em>/full/path/to/directory</em>, or a relative path from the current directory <em>./path/to/directory</em>  or the parent directory <em>../path/to/directory</em></p
+            <p><big><strong>mkdir</strong></big></p>
+            The command mkdir stands for <em>make directory</em>. As the name suggests, it is used to create new, empty directories. Note that if the directory already exists, mkdir will throw an error. The command is used in the following way:
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">mkdir</span> <span class="s">/path/to/directory</span></code></pre>
+               </div>
+            </div>
+            <p>An option of mkdir that is used often is <em>-p</em>. As an exercise, try to find the meaning of this option in the manual page of the command using the terminal.</p>
+            <details><summary>Click here to check your answer</summary> <p>If you type <code class="language-plaintext highlighter-rouge">mkdir --help</code> into the terminal and press enter, the manual page appears. According to the manual, the option <em>-p</em> handles non-existing parent directories and does not throw an error if the directory already exists, but silently exits instead.</p> </details>
             <hr>
          </d-article>
          <d-appendix>
