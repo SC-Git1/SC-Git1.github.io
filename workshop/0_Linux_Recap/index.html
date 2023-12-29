@@ -53,13 +53,15 @@
                   <div><a href="#Introduction">Introduction</a></div>
                   <div><a href="#Glossary">Glossary</a></div>
                   <div><a href="#File System">File System</a></div>
-                  <div><a href="#Commands">Linux Commands</a></div>
+                  <div><a href="#Commands">List of Linux Commands</a></div>
+                  <div><a href="#The pipe command in Linux">List of Linux Commands</a></div>
                </nav>
             </d-contents>
             <h2 id="Introduction">Introduction</h2>
             <p>This module contains Linux commands and terminology that will be essential during the workshop. Feel free to go through the module. You can also use it as a handy reference to circle 
                back to anytime you need a refresher.</p>
             <h2 id="Glossary">Glossary</h2>
+            <p>This glossary contains terms that will bbe used throughout the workshop. Note that some terms may have a different definition depending on the context. The definitions here reflect their meaning in the context of Linux terminals.</p>
             <style> 
             td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%; }
             td:nth-child(2) { text-align: justify; width:60%; }
@@ -91,6 +93,8 @@
                 <td>user@host:~$</td></tr>
             <tr><td>Shell</td><td>A shell is a program that processes and executes commands and prints output. </td>
                 <td>bash</td></tr>
+            <tr><td>Standard Output</td><td>The standard output is the default place to where a program sends its output data. By default, this is the terminal screen.</td>
+                <td></td></tr>
             <tr><td>Terminal</td><td>A terminal is an example of a command line interface. It is a wrapper program which runs the shell.</td>
                 <td></td></tr>
           </table>
@@ -107,7 +111,7 @@
          </figure>
          <div class="caption"> A Linux file system. The root is indicated by a forward slash. Three subdirectories of the root are shown here: /bin, /home, and /lib. The directory of user 2 can be found under /home/usr2. The relative path from /home to the directory of user 2 is "usr2" or "./usr2". the relative path from /home to the root directory is "..". </div>
             
-         <h2 id="Commands">Linux commands</h2>
+         <h2 id="Commands">List of Linux commands</h2>
             <p>Moving forward, we will go over a set of Linux commands that you will find yourself using quite often throughout 
               this workshop. These commands are essential tools in your Linux toolkit. You can follow the code in your terminal.
               Note that you can find the manual page of each command by typing the command name followed by <em>--help</em>.</p>
@@ -141,15 +145,79 @@
                </div>
             </div>
             <p><big><strong>mkdir</strong></big></p>
-            The command mkdir stands for <em>make directory</em>. As the name suggests, it is used to create new, empty directories. Note that if the directory already exists, mkdir will throw an error. The command is used in the following way:
+            <p>The command mkdir stands for <em>make directory</em>. As the name suggests, it is used to create new, empty directories. Note that if the directory already exists, mkdir will throw an error. The command is used in the following way:
+            </p>
             <div class="language-shell highlighter-rouge">
-               <div class="highlight">
-                  <pre class="highlight"><code><span class="nf">mkdir</span> <span class="s">/path/to/directory</span></code></pre>
-               </div>
+              <div class="highlight">
+                <pre class="highlight"><code><span class="nf">mkdir</span> <span class="s">/path/to/directory</span></code></pre>
+              </div>
             </div>
             <p>An option of mkdir that is used often is <em>-p</em>. As an exercise, try to find the meaning of this option in the manual page of the command using the terminal.</p>
-            <details><summary>Check your answer</summary> <p>When you type <code class="language-plaintext highlighter-rouge">mkdir --kelp</code> into the terminal and press enter, the manual page appears. With the option <em>-p</em>, mkdir handles non-existing parent directories by creating them as needed, and does not throw an error if the directory already exists.</p> </details>
-            <hr>
+            <details><summary>Check your answer</summary> <p>When you type <code class="language-plaintext highlighter-rouge">mkdir --help</code> into the terminal and press enter, the manual page appears. With the option <em>-p</em>, mkdir handles non-existing parent directories by creating them as needed, and it does not throw an error if the directory already exists.</p> </details>
+            <p><big><strong>cp</strong></big></p>
+            <p>The command cp copies files or directories. To copy a file or an empty directory, use:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">cp</span> <span class="s">/path/to/item /path/to/copy</span></code></pre>
+               </div>
+             </div>
+             <p>By default, only files are copied to the new location. Thus, if the directory you want to copy contains subdirectories, the command above will throw the error <code class="language-plaintext highlighter-rouge">cp: -r not specified; omitting directory"</code>. As a solution, use the option <em>-r</em> to copy directories recursively.</p>
+             <p><big><strong>mv</strong></big></p>
+             To mv a file instead of copying it, you can use the command mv. Note that you can also use mv to rename a file or directory.
+             <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">mv</span> <span class="s">/path/to/item /new/path/to/item</span></code></pre>
+               </div>
+             </div>
+             <p><big><strong>rm</strong></big></p>
+             <p>To remove a file, you can use the command rm. When you use rm on a directory, the command will throw an error <code class="language-plaintext highlighter-rouge">rm: cannot remove '/path/tp/item': Is a directory</code>. To remove a directory you should use the option <em>-r</em>. </p>
+             <p><strong>Note</strong> that the error is thrown to help you. So, do not add the -r option unless you intend to remove a directory.</p>
+             <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">rm</span> <span class="s">/path/to/file</span></code></pre>
+                 <pre class="highlight"><code><span class="nf">rm -r</span> <span class="s">/path/to/directory</span></code></pre>
+               </div>
+             </div>
+             <p><big><strong>cat</strong></big></p>
+             <p>The command cat displays the entire content of a file to the standard output (by default).</p>
+             <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">cat</span> <span class="s">/path/to/file</span></code></pre>
+               </div>
+             </div>
+             <p>Note: always check how large the file is before displaying its entire content on the terminal screen. For large files it is adviced to use the commands more instead.</p>
+             <p><big><strong>more</strong></big></p>
+             <p>The command only the part of a file that fits the screen (= a page). On the last line, you can find the % of the file that has been viewed. To view the next line of the file, press "enter". To browse through the pages, press the upwards and downwards pointing arrow. To quit, press "q". When you have arrived at the end of the file, the command automatically quits.</p>
+             <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">more</span> <span class="s">/path/to/file</span></code></pre>
+               </div>
+             </div>
+             <p><big><strong>head</strong></big></p>
+            <p>To inspect the first lines of a file, you can use the command head. By default, this displays the first 5 lines. To change the number of lines on display, use the option <em>-n</em>, followed by an integer (int).</p>
+            # to get everything except the header
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">head</span> <span class="s">/path/to/file</span></code></pre>
+                 <pre class="highlight"><code><span class="nf">head -n</span> <span class="s">int /path/to/directory</span></code></pre>
+               </div>
+             </div>
+             <p>Note that similarly to head you can use tail to display the last lines of a file.</p>
+             <p><big><strong>grep</strong></big></p>
+             <p><big><strong>wc</strong></big></p>
+             <p><big><strong>wget</strong></big></p>
+             <h3 id="The pipe command in Linux">The pipe command in Linux</h3>
+             <p>To Add</p>
+             <h2 id="Cheat sheet">Cheat sheet</h2>
+             <p>There exist many cheat sheets online, which are short overviews of the most used commands in Linux. One example is provided below:</p>
+             <p>Add PDF</p>
+             <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">cat</span> <span class="s">/path/to/file</span><span class="nf">grep</span><span>"Span"</span></code></pre>
+               </div>
+             </div>
+             <hr>
+             <h2 class
          </d-article>
          <d-appendix>
             <d-citation-list></d-citation-list>
