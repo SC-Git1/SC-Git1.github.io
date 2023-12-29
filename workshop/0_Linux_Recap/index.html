@@ -54,7 +54,8 @@
                   <div><a href="#Glossary">Glossary</a></div>
                   <div><a href="#File System">File System</a></div>
                   <div><a href="#Commands">List of Linux Commands</a></div>
-                  <div><a href="#The pipe command in Linux">List of Linux Commands</a></div>
+                  <div><a href="#The pipe Command in Linux">The Pipe Command in Linux</a></div>
+                  <div><a href="#Writing to a File in Linux">Writing to a File in Linux</a></div>
                </nav>
             </d-contents>
             <h2 id="Introduction">Introduction</h2>
@@ -202,22 +203,82 @@
                  <pre class="highlight"><code><span class="nf">head -n</span> <span class="s">int /path/to/directory</span></code></pre>
                </div>
              </div>
-             <p>Note that similarly to head you can use tail to display the last lines of a file.</p>
+             <p>Note that similarly to head you can use tail to display the last lines of a file. To get everything except the one-line header from a file: 
+             <p><strong>It is important to note</strong> that a line in a file is a series of characters ending with a newline character: "\n" (A newline character corresponds to pressing "enter" in Linux). So, a line may be longer than the dimensions of the terminal screen. In that case, the terminal will automatically wrap the text to the next line on display.</p>  
+               <div class="language-shell highlighter-rouge">
+                  <div class="highlight">
+                    <pre class="highlight"><code><span class="nf">cat</span> <span class="s">path/to/file </span><span class="nf">| tail </span><span class="s">-n+2</span></code></pre>
+                </div>
+               </div>
              <p><big><strong>grep</strong></big></p>
              <p><big><strong>wc</strong></big></p>
-             <p><big><strong>wget</strong></big></p>
-             <h3 id="The pipe command in Linux">The pipe command in Linux</h3>
-             <p>To Add</p>
-             <h2 id="Cheat sheet">Cheat sheet</h2>
-             <p>There exist many cheat sheets online, which are short overviews of the most used commands in Linux. One example is provided below:</p>
-             <p>Add PDF</p>
+             <p>The wc command is used to find respectively the newline, word and byte count of a file. To only print the newline, word, or byte count, you can use the option <em>-l</em>/<em>-w</em> or <em>-c</em>.</p>
              <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">cat</span> <span class="s">/path/to/file</span><span class="nf">grep</span><span>"Span"</span></code></pre>
-               </div>
+                 <pre class="highlight"><code><span class="nf">wc</span> <span class="s">path/to/file</span></code></pre>
              </div>
-             <hr>
-             <h2 class
+            </div>
+             <p><big><strong>wget</strong></big></p>
+             <p>The wget command is a blend of <em>World Wide Web</em> and <em>get</em>. As the name suggests, you can use this command to download a file from the internet.</p>
+             <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">wget</span> <span class="s">[url]</span></code></pre>
+             </div>
+            </div>
+            <p>Note: if you want to store the file with a different name, you can use the <em>-O</em>option, to change the destination directory to a different one than the current directory you can use the <em>-P</em> option.</p>
+            <p><big><strong>grep</strong></big></p>
+            <p>The command grep searches for lines in plain-text files that contain a certain pattern. This pattern can be a string e.g., "name" or a regular expression e.g. "[Nn]ame". In the regular expression both lines containing "Name" and "name" are captured. By default, the output is written to the terminal screen.</p> 
+            <h3 id="The Pipe Command in Linux">The Pipe Command in Linux</h3>
+             <p>The pipe command in Linux is used to compactly write a "pipeline" and is represented by "|". A pipeline is a set of actions where the output of one command is redirected to the next. For example, if you want to now the number of words in the first line, you can use:</p>
+             <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">head -n</span><span class="s"> 1 path/to/file</span> <span class="nf">| wc -w</span></code></pre>
+             </div>
+            </div>
+            <h3 id="Writing to a File in Linux">Writing to a File in Linux</h3>
+            <p>To write text to a file, you can use the single (">") or double (">>") greater than sign. When using ">", the file is overwritten i.e., any content already in the file will be lost. To append to the end of an existing file, use ">>". For example, to write the one-line header of one file to another:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">head -n</span><span class="s"> 1 path/to/file</span> <span class="nf">| wc -w</span></code></pre>
+             </div>
+            </div>
+            <h3 id="Nano">Nano</h3>
+            <p>Nano is a text-editor available in most terminals. You can open a file with this command:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span class="nf">nano</span><span class="s">/path/to/file</span></code></pre>
+             </div>
+            </div>
+            <p>If the file does not exist yet, your screen will look like this:</p>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/nano-480.webp 480w, /assets/img/nano-800.webp 800w, /assets/img/nano-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/nano.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
+            <div class="caption"> The nano program after opening a new file.</div>
+            <p>If the file already exists, nano will show its context. At the bottom of the screen, you can find a list of handy keyboard shortcuts. The symbol "^" means ctrl. For example, to cut and paste you can use "ctrl + k" and "ctrl + u" repectively. </p>
+            <p>After you edited the file, you can exit the nano program by pressing "ctrl + x". Nano will then ask you if you want to save the modified buffer. If you want to save the file changes, press "Y", followed by "Enter". If you want to discard them, press "N". Finally, to cancel and go back to the file, press "ctrl + C".</p>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/nano_exit-480.webp 480w, /assets/img/nano_exit-800.webp 800w, /assets/img/nano_exit-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/nano_exit.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
+            <div class="caption"> The nano program after pressing "ctrl + X".</div>
+            <h3 id="Programming in Linux - Tips">Programming in Linux - Tips</h3>
+            <p>Programming in Linux can be quite daunting and difficult at first. If you are not certain how your command will behave, you can always first try it on a test file or directory that you created.</p>
+            <p>For commands that take a while, you can copy a subset of the data to a test file or directory, and run the commands on the subset first to debug your code.</p>
+            <p>A suggestion for the next step on your Linux journey, is to learn about regex regressions. That way you can greatly expand the usage of many commands. For example, to remove all files that start with "sample_A1_" you can use:
+               <code class="language-plaintext highlighter-rouge">rm sample_A1_*</code></p>
+            </p>
+            <h2>Good luck!</h2>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/linux_journey-480.webp 480w, /assets/img/linux_journey-800.webp 800w, /assets/img/linux_journey-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/linux_journey.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
          </d-article>
          <d-appendix>
             <d-citation-list></d-citation-list>
