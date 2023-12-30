@@ -62,49 +62,40 @@
                It is either a compressed tarball (.tar.bz2 files ) or a .conda file. You do not need to know how these file formats work, but now you can recognize them.
                To install a package, you need a package manager. This is software that installs a package for you. Conda packages are installed with the package manager Conda. The recommended way to get Conda is through one of its distributions. There are two popular distributions of Conda: Miniconda and Anaconda.</p>
 
+               Besides package manager, Miniconda and Anaconda have two additional functionalities:
+               1. Environment manager
+               2. Dependency manager
+
+               <h3><strong>Environment manager</strong></h3>
+               <h3><strong>Dependency manager</strong></h3>
+
+               The first step in using Conda packages is to install a distribution. If you already have a Conda or Mamba distribution installed, you can skip the installation step. In this workshop, we will install Miniconda, which is the lightweight version and thus requires far less disk space than Anaconda.
+
                <details><summary>Optional: What is Mamba?</summary>
-               <p>Mamba is a reimplementation of Conda, that is significantly faster during installation and dependency resolution. Mamba is fully compatible with Conda packages and supports most 
-                  Conda commands. You can use Mamba by either installing the Mamba package in your base environment, or by installing its own standalone distribution Micromamba.
-                  However, note that Mamba and Conda do not coexist happily. Also, Conda is still the more popular and supported than Mamba, and therefore it is preferred if you eventually want to share your code with others.
-               </p>
-               
+                  <p>Mamba is a reimplementation of Conda, that is significantly faster during installation and dependency resolution. Mamba is fully compatible with Conda packages and supports most 
+                     Conda commands. You can use Mamba by either installing the Mamba package in your base environment, or by installing its own standalone distribution Micromamba.
+                     However, note that Mamba and Conda do not coexist happily. Also, Conda is still the more popular and supported than Mamba, and therefore it is preferred if you eventually want to share your code with others.
+                  </p>
+               </details>
                <figure>
                   <picture>
                      </source> <img src="/assets/img/conda.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
                      <source class="responsive-img-srcset" srcset=" //assets/img/conda-1400.webp 1400w, " sizes="95vw" type="image/webp">
                   </picture>
                </figure>
-# Add a figure explaining the difference between conda, anaconda, miniconda, mamba, micromamba
+               <div class="caption">Overview of popular package managers Pip, Conda and Mamba.</div>
 
-               Besides package manager, Miniconda and Anaconda have two additional functionalities:
-               1. Environment manager
-               2. Dependency manager
-
-               #h3 Environment manager
-# Explain Pip? => Maybe later.
-               
-               h3 Dependency manager
-
-The first step in using Conda packages is to install a distribution. If you already have a Conda or Mamba distribution installed, you can skip the installation step. In this workshop, we will install Miniconda, which is the lightweight version and thus requires far less disk space than Anaconda.
-
-
-
-
-               
-               To install a Conda package.These packages can be installed using a package manager.
-               An example of a package manager is Conda.
+               <h2 id="Installation">Install MiniConda</h2>
             </p>
-            # A note on pip packages
-            Pip packages are software that runs in Python. Conda packages can combine multiple programming languages. Because the software that we are going to need in this tutorial is not Python-based, we are going to use Conda.
-            <p>Conda is a package, dependency and package manager.</p>
-               <figure>
-                  <picture>
-                     <source class="responsive-img-srcset" srcset=" //assets/img/linux_journey-480.webp 480w, /assets/img/linux_journey-800.webp 800w, /assets/img/linux_journey-1400.webp 1400w, " sizes="95vw" type="image/webp">
-                     </source> <img src="/assets/img/linux_journey.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
-                  </picture>
-               </figure>
-            <h2 id="Glossary">Glossary</h2>
-            <h2 id="File System">File system</h2>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/linux_journey-480.webp 480w, /assets/img/linux_journey-800.webp 800w, /assets/img/linux_journey-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/linux_journey.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
+            
+            <h2 id="Set up a new environment">Set up a new environment</h2>
+            <h2 id="Tips">Tips</h2>
             <h2 id="Commands">List of Linux commands</h2>
             <p>Moving forward, we will go over a set of Linux commands that you will find yourself using quite often throughout 
               this workshop. These commands are essential tools in your Linux toolkit. You can follow the code in your terminal.
