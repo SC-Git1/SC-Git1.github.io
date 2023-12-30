@@ -43,8 +43,8 @@
       </header>
       <div class="post distill">
          <d-title>
-            <h1>Module 1: Introduction to Conda</h1>
-            <p>Introduction to the package manager Conda and installation of Miniconda on the VSC.</p>
+            <h1>Module 1: Conda</h1>
+            <p>Introduction to the package manager Conda and installation of Miniconda.</p>
          </d-title>
          <d-article>
             <d-contents>
@@ -62,11 +62,12 @@
                It is either a compressed tarball (.tar.bz2 files ) or a .conda file. You do not need to know how these file formats work, but now you can recognize them.
                To install a package, you need a package manager. This is software that installs a package for you. Conda packages are installed with the package manager Conda. The recommended way to get Conda is through one of its distributions. There are two popular distributions of Conda: Miniconda and Anaconda.</p>
 
-               Besides package manager, Miniconda and Anaconda have two additional functionalities:
+               Besides package manager, Conda has two additional functionalities:
                1. Environment manager
                2. Dependency manager
 
                <h3><strong>Environment manager</strong></h3>
+               <p>Not all packages are compatible. For instance, two packages might conflict when they require different versions of the same dependency. If installed in the same space, they would conflict and cause errors. Conda environments are isolated spaces where packages can be installed without interfering with each other. In this way, each package can have its own environment with the specific dependencies it needs.</p>
                <h3><strong>Dependency manager</strong></h3>
 
                The first step in using Conda packages is to install a distribution. If you already have a Conda or Mamba distribution installed, you can skip the installation step. In this workshop, we will install Miniconda, which is the lightweight version and thus requires far less disk space than Anaconda.
