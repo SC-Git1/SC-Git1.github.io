@@ -148,28 +148,25 @@
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
                   <pre class="highlight"><code><span class="c">#List the available environments</span>
-<span class="nf">conda env list</span></code></pre>
+<span class="nf">conda</span><span class="nf"> env </span><span class="nf"> list</span></code></pre>
                </div>
             </div>
 
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                  <pre class="highlight"><code><span class="c">#Create a new Conda environment </span><span class="nf">conda create --name </span><span class='s'>example_env</span><span class="c">#Check the destination (should be: /path/to/miniconda3/envs/example_env) </span><span class="c">Answer "yes" to continue or "no" to quit</span></code></pre>
-               </div>
-            </div>
-
-            <div class="language-plaintext highlighter-rouge">
-               <div class="highlight">
-                  <pre class="highlight"><code><span class="cm"> 
-                     # activate a Conda environment
-                     conda activate example_env
-                     # list the packages installed in the current environment
-                     conda list
-                     # deactivate the current environment
-                     conda deactivate
-                     # remove a Conda environment
-                     conda remove --name example_env --all
-                  </span></code></pre>
+                  <pre class="highlight"><code><span class="c">#Create a new Conda environment</span>
+<span class="nf">conda</span><span class="nf"> create </span><span class="nt">--name</span><span class="s"> example_env</span>
+<span class="c">#Check the destination (should be: /path/to/miniconda3/envs/example_env)</span>
+<span class="c">#Answer "yes" to continue or "no" to quit</span>
+<span class="c"># activate a Conda environment</span>
+<span class="nf">conda</span><span class="nf"> activate </span><span class="s">example_env</span>
+<span class="c"># list the packages installed in the current environment</span>
+<span class="nf">conda</span><span class="nf"> list </span>
+<span class="c"># deactivate the current environment</span>
+<span class="nf">conda</span><span class="nf"> deactivate </span>
+<span class="c"># remove a Conda environment</span>
+<span class="nf">conda</span><span class="nf"> remove </span><span class="nt">--name</span><span class="s">example_env</span><span class="nt">--all</span>
+                  </code></pre>
                </div>
             </div>
 
