@@ -5,7 +5,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title> Module 2 | Slurm jobs</title>
+      <title> Module 1 | Conda</title>
       <meta name="author" content="Sophie Colette">
       <meta name="description" content="Module 2: Introduction to Slurm jobs">
       <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
@@ -50,12 +50,134 @@
             <d-contents>
                <nav class="l-text figcaption">
                   <h3>Contents</h3>
-                  <div><a href="#What are Slurm jobs?">What are Slurm jobs?</a></div>
-                  <div><a href="#How to write a job script?">How to write a job script?</a></div>
-                  <div><a href="#Example">Example</a></div>
+                  <div><a href="#What is Conda?">What is Conda?</a></div>
+                  <div><a href="#Installation">Installation</a></div>
+                  <div><a href="#Conda Commands">Conda Commands</a></div>
+                  <div><a href="#Tips">Tips</a></div>
                </nav>
             </d-contents>
             <h2 id="What is Conda?">What is Conda?</h2>
+            <p>A lot of bioinformatics software is distributed in the form of a package. Two popular formats are Conda packages and Pip packages.
+               For now, let's focus on Conda packages. A Conda package is basically an archive file of the software with any metadata needed for its installation.
+               It is either a compressed tarball (.tar.bz2 files ) or a .conda file. You do not need to know how these file formats work, but now you can recognize them.
+               To install a package, you need a package manager. This is software that installs a package for you. Conda packages are installed with the package manager Conda. The recommended way to get Conda is through one of its distributions. There are two popular distributions of Conda: Miniconda and Anaconda.</p>
+
+               Besides package manager, Conda has two additional functionalities:
+               <li>Environment manager</li>
+               <li>Dependency manager</li>
+               <p>Some software have a range of dependency versions they are compatible with. Additionally, as a user, you may specify a specific version of one or more of the packages that need to be installed. As a dependency manager, Conda analyzes the requirements of each package and identifies a set of packages and versions that satisfy these requirements without conflicts. This saves you from manually resolving the dependencies.</p>
+               <h3><strong>Environment manager</strong></h3>
+               <p>Not all packages are compatible. For instance, two packages might conflict when they require different versions of the same dependency. If installed in the same space, they would conflict and cause errors. Conda environments are isolated spaces where packages can be installed without interfering with each other. In this way, each package can have its own environment with the specific dependencies it needs.
+                  With Conda, you can easily create, update, and delete these environments, providing an efficient way to manage your software.
+               </p>
+            <h3><strong>Dependency manager</strong></h3>
+            <p>Some software have a range of dependencies they are compatible with. Conda automatically finds a combination of packages that is compatible with each other.</p>
+            <p>The first step in using Conda packages is to install a distribution. If you already have a Conda or Mamba distribution installed, you can skip the installation step. In this workshop, we will install Miniconda, which is the lightweight version and thus requires far less disk space than Anaconda.</p>
+            <details><summary>Optional: other package managers</summary>
+               <p>Mamba is a reimplementation of Conda, that is significantly faster during installation and dependency resolution. Mamba is fully compatible with Conda packages and supports most 
+                  Conda commands. You can use Mamba by either installing the Mamba package in your base environment, or by installing its own standalone distribution Micromamba.
+                  However, note that Mamba and Conda do not coexist happily. Also, Conda is still the more popular and supported than Mamba, and therefore it is preferred if you eventually want to share your code with others.
+               </p>
+               <p>Finally, Pip is a package manager specifically for Python. Pip has the most extensive library of Python packages. This means that some packages are only available through Pip.
+                  It is not advised to combine several package managers. However, in case you need to install a Pip package in a Conda environment, you can do so by installing Pip and other packages with Conda, and only at the very last install the necessary package via Pip. In the figure below, you can find an overview and brief comparison between Conda, Mamba and Pip.</p>
+               <figure>
+                  <picture>
+                     </source> <img src="/assets/img/conda.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+                     <source class="responsive-img-srcset" srcset=" //assets/img/conda-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </picture>
+               </figure>
+               <div class="caption">Overview of popular package managers Pip, Conda and Mamba.</div>
+            </details>
+            <h2 id="Installation">Install Miniconda</h2>
+            <p>The most up-to-date information on how to install Miniconda is to go to the official documentation: <a href="https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html" rel="external nofollow noopener" target="_blank">https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html</a> 
+               However, for this workshop (Date: 8 Jan 2023), you can follow the steps below.</p>
+            <p>Connect to the VSC, either via OnDemand or by using a terminal emulator like Putty. Then, go to the DATA directory:
+               <div class="language-shell highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span class="nf">cd</span><span class="s"> $VSC_DATA</span></code></pre>
+                  </div>
+               </div>
+            </p>
+            <p>Download the installer using the wget command. Optionally, set the filename to ./miniconda.sh with option <em>-O</em>:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span><span class="nf"> -O </span><span class="s">./miniconda.sh</span></code></pre>
+               </div>
+            </div>
+            <p>Next, make the installer executable using the command:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">chmod +x </span><span class="s">miniconda.sh</span></code></pre>
+               </div>
+            </div>
+            Run the installer:
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="s">./miniconda.sh</span></code></pre>
+               </div>
+            </div>
+            <p>Follow the instruction in the terminal. When asked about the location, the installer with automatically choose a path in your home folder. Make sure to specify a location in the data folder, e.g. $VSC_DATA/miniconda3. 
+               Next, when asked to update your shell profile, answer "yes". This way, conda will be intialized when you open a terminal. Additionally, the installer activates the base environment. If can always modify this behavior by running:
+               </p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> true </span><span># to activate the automatic activation of base</span></code></pre> 
+                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> false </span><span># to deactivate the automatic activation of base</span></code></pre> 
+               </div>
+            </div>
+            <p></p>
+            <p>Reopen the terminal for the changes to take effect. If the installation was succesful, running <code class="language-plaintext highlighter-rouge">which conda</code> should show output.</p>
+            <p>To get a list of all Conda environments, you can run the command: <code class="language-plaintext highlighter-rouge">conda env list</code>.
+            For now, you only have the base environment. It is advised not to add packages to your base environment. The activated environment is marked by "*".
+            </p>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/conda_env_list-480.webp 480w, /assets/img/conda_env_list-800.webp 800w, /assets/img/conda_env_list-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/conda_env_list.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
+            <div class="caption">Output of the command <code class="language-plaintext highlighter-rouge">conda env list</code> after the installation.</div>
+            <h2 id="Conda commands">Conda commands</h2>
+            <p>Below, you can find a list of some useful conda commands. For example purposes, let's assume you are working with a Conda environment called example_env. When you are running these commands, do not forget to replace the environment's name to yours.</p>
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code>
+                     # List the available environments
+                     conda env list
+                  </code></pre>
+               </div>
+            </div>
+            <div class="language-plaintext highlighter-rouge"><code>
+                     # create a new Conda environment
+                     conda create --name example_env
+                     # check the destination, which normally is: location_of_miniconda3/envs/example_env. Answer "yes" to continue or "no" to quit
+                  </code>
+               </div>
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code>
+                     # activate a Conda environment
+                     conda activate example_env
+                     # list the packages installed in the current environment
+                     conda list
+                     # deactivate the current environment
+                     conda deactivate
+                     # remove a Conda environment
+                     conda remove --name example_env --all
+                  </code></pre>
+               </div>
+            </div>
+            <h2 id="Tips">Tips</h2>
+            <li>It is advised to use separate environments for each software/workflow.</li>
+            <li>If the active Conda environment already has a lot of packages installed, the installation of an additional package, solving the environment will take typically take longer.</li>
+            <li>The fastest way to set-up an environment is to specify all packages you want to use at the creation step. An example is given in Module 3: SNP calling - from fastq to vcf (# add link).</li>
+            <h2>You have completed Module 1!</h2>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/anaconda-480.webp 480w, /assets/img/anaconda-800.webp 800w, /assets/img/anaconda-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/anaconda.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
          </d-article>
          <d-appendix>
             <d-citation-list></d-citation-list>
@@ -63,7 +185,7 @@
          <d-bibliography src="/assets/bibliography/2018-12-22-distill.bib"></d-bibliography>
          <ul class="list-disc pl-8"></ul>
          <h2 class="text-3xl font-semibold mb-4 mt-12">Next module:</h2>
-         <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/3_SNP_Calling_fastq_to_vcf/">Module 3: SNP Calling - from fastq to vcf</a> </li>
+         <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/2_Introduction_to_SLURM_jobs/">Module 2: Introduction to SLURM jobs</a> </li>
       </div>
       <footer class="fixed-bottom">
          <div class="container mt-0"> © Copyright 2023 Sophie Colette. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. </div>
