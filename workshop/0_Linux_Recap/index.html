@@ -49,10 +49,11 @@
          <d-article>
             <d-contents>
                <nav class="l-text figcaption">
-                  <h3>Contents</h3>
+               <h3>Contents</h3>
                   <div><a href="#Introduction">Introduction</a></div>
                   <div><a href="#Glossary">Glossary</a></div>
                   <div><a href="#File System">File System</a></div>
+                  <div><a href="#File Permissions">File Permissions</a></div>
                   <div><a href="#Commands">List of Linux Commands</a></div>
                   <div><a href="#The pipe Command in Linux">The Pipe Command in Linux</a></div>
                   <div><a href="#Writing to a File in Linux">Writing to a File in Linux</a></div>
@@ -64,62 +65,82 @@
             <h2 id="Glossary">Glossary</h2>
             <p>This glossary contains terms that will be used throughout the workshop. Note that some terms may have a different definition depending on the context. The definitions here reflect their meaning in the context of the workshop, which uses terminology related to Linux terminals and Conda distributions.</p>
             <style> 
-            td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%; }
-            td:nth-child(2) { text-align: justify; width:60%; }
-            td:nth-child(1) { width:20%; }
-            td:first-child,td:last-child { text-align: center; }
-          </style>
-          <table class="table" border = 1>
-            <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
-            <tr><td>Argument</td><td>An argument is input given by the user in a command.</td>
-               <td>dir_test (in cd dir_test)</td></tr>
-            <tr><td>Command</td><td>A command is an instruction given by a user to perform a specific task. The first word of every command is called the command name.</td>
-               <td>pwd, ls -l, cd</td></tr>
-            <tr><td>Command Line Tool (CLI)</td><td>A command line tool is a text interface to your computer. The CLI takes in commands, and passes them on to the shell. The shell interprets the command and then passes them on to the operating system to run.</td>
-               <td></td></tr>
-            <tr><td>Command Name</td><td>A command name is the first word of every command.</td>
-                  <td>pwd, ls, cd</td></tr>
-            <tr><td>Dependency</td><td>A dependency is a piece of software that needs to be co-installed in order for the software to work correctly.</td></tr>
-            <tr><td>Graphical User Interface (GUI)</td><td>A graphical user interface is a visual way to interact with a computer using items like windows, icons, and menus. </td>
-               <td></td></tr>
-            <tr><td>Kernel</td><td>The kernel is the heart of the OS. For example, Windows has the NT kernel, and macOS has the XNU kernel.</td>
-                <td>NT kernel<br> (of Windows),<br> XNU kernel<br> (of macOS)</td></tr><tr>
-                <td>Linux</td><td>Technically, Linux is a kernel. However, when most people say “Linux”, they are referring to a whole OS that uses the Linux kernel. There are many OS that use Linux, and they are called distributions. Ubuntu is one example of a Linux distribution.</td>
-                <td></td></tr>
-            <tr><td>Operating system</td><td>The operating system is a software that serves as an intermediary between the user and the computer hardware. It allows users to interact with the computer without needing to understand the computer's language. It performs fundamental tasks like management of the file system, management of resources such as memory and processes, and handling input and output. It consist of a kernel, a shell and other programs that deal with user interface, networking etc.</td>
-               <td>Windows, macOS, Ubuntu</td></tr>
-            <tr><td>Option</td><td> An option is an argument that changes the behavior of a command. It is a predefined string that usually starts with a single or a double dash ("-" or "--").</td>
-                <td>-l (in ls -l)</td></tr>
-            <tr><td>Package</td><td>A (collection of) file(s) that contains everything needed to install, run, or use a piece of software.</td><td></td></tr>
-            <tr><td>Package metadata</td><td>The metadata of a package includes information about the software (its name, version, description), and the dependencies it has. </td><td></td></tr>
-            <tr><td>Package manager</td><td>A package manager is a software that manages the installation, update, configuration and removal of packages in a consistent manner.</td><td>Conda, Mamba</td></tr>
-            <tr><td>Path</td><td>A path is the location of a file or a directory in a human-readable format.</td><td>/home/usr2</td></tr>
-            <tr><td>Prompt</td><td> A prompt is a small section of text that appears on the screen when a user opens a terminal.</td>
-                <td>user@host:~$</td></tr>
-            <tr><td>Shell</td><td>A shell is a program that processes and executes commands and prints output. </td>
-                <td>bash</td></tr>
-            <tr><td>Standard Output</td><td>The standard output is the default place to where a program sends its output data. By default, this is the terminal screen.</td>
-                <td></td></tr>
-            <tr><td>Terminal</td><td>A terminal is an example of a command line interface. It is a wrapper program which runs the shell.</td>
-                <td></td></tr>
-          </table>
+               td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%; }
+               td:nth-child(2) { text-align: justify; width:60%; }
+               td:nth-child(1) { width:20%; }
+               td:first-child,td:last-child { text-align: center; }
+            </style>
+            <table class="table" border = 1>
+               <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
+               <tr><td>Argument</td><td>An argument is input given by the user in a command.</td>
+                  <td>dir_test (in cd dir_test)</td></tr>
+               <tr><td>Command</td><td>A command is an instruction given by a user to perform a specific task. The first word of every command is called the command name.</td>
+                  <td>pwd, ls -l, cd</td></tr>
+               <tr><td>Command Line Tool (CLI)</td><td>A command line tool is a text interface to your computer. The CLI takes in commands, and passes them on to the shell. The shell interprets the command and then passes them on to the operating system to run.</td>
+                  <td></td></tr>
+               <tr><td>Command Name</td><td>A command name is the first word of every command.</td>
+                     <td>pwd, ls, cd</td></tr>
+               <tr><td>Dependency</td><td>A dependency is a piece of software that needs to be co-installed in order for the software to work correctly.</td></tr>
+               <tr><td>Graphical User Interface (GUI)</td><td>A graphical user interface is a visual way to interact with a computer using items like windows, icons, and menus. </td>
+                  <td></td></tr>
+               <tr><td>Kernel</td><td>The kernel is the heart of the OS. For example, Windows has the NT kernel, and macOS has the XNU kernel.</td>
+                  <td>NT kernel<br> (of Windows),<br> XNU kernel<br> (of macOS)</td></tr><tr>
+                  <td>Linux</td><td>Technically, Linux is a kernel. However, when most people say “Linux”, they are referring to a whole OS that uses the Linux kernel. There are many OS that use Linux, and they are called distributions. Ubuntu is one example of a Linux distribution.</td>
+                  <td></td></tr>
+               <tr><td>Operating system</td><td>The operating system is a software that serves as an intermediary between the user and the computer hardware. It allows users to interact with the computer without needing to understand the computer's language. It performs fundamental tasks like management of the file system, management of resources such as memory and processes, and handling input and output. It consist of a kernel, a shell and other programs that deal with user interface, networking etc.</td>
+                  <td>Windows, macOS, Ubuntu</td></tr>
+               <tr><td>Option</td><td> An option is an argument that changes the behavior of a command. It is a predefined string that usually starts with a single or a double dash ("-" or "--").</td>
+                  <td>-l (in ls -l)</td></tr>
+               <tr><td>Package</td><td>A (collection of) file(s) that contains everything needed to install, run, or use a piece of software.</td><td></td></tr>
+               <tr><td>Package metadata</td><td>The metadata of a package includes information about the software (its name, version, description), and the dependencies it has. </td><td></td></tr>
+               <tr><td>Package manager</td><td>A package manager is a software that manages the installation, update, configuration and removal of packages in a consistent manner.</td><td>Conda, Mamba</td></tr>
+               <tr><td>Path</td><td>A path is the location of a file or a directory in a human-readable format.</td><td>/home/usr2</td></tr>
+               <tr><td>Prompt</td><td> A prompt is a small section of text that appears on the screen when a user opens a terminal.</td>
+                  <td>user@host:~$</td></tr>
+               <tr><td>Shell</td><td>A shell is a program that processes and executes commands and prints output. </td>
+                  <td>bash</td></tr>
+               <tr><td>Standard Output</td><td>The standard output is the default place to where a program sends its output data. By default, this is the terminal screen.</td>
+                  <td></td></tr>
+               <tr><td>Terminal</td><td>A terminal is an example of a command line interface. It is a wrapper program which runs the shell.</td>
+                  <td></td></tr>
+            </table>
 
             <h2 id="File System">File system</h2>
             <p>The Linux file system is a structured hierarchy of files and directories. The starting point of the hierarchy is called the root and is represented by a single forward slash: /. Files or empty directories form the endpoints of the hierarchy.
                You can refer to an item in a Linux file system by its path. A path can be absolute or relative. In the Linux file system, an absolute path starts from the root directory "/", followed by the full path to the item. An example is /home/usr2 in the figure below. Relative paths start from the current directory. If for example you are in /home, your can type "usr2" or "./usr2". If you need to go up a directory level i.e., start the relative path from the parent directory, you can start the filepath with "../".
             
-         <figure>
-            <picture>
-               <source class="responsive-img-srcset" srcset=" //assets/img/file_system-480.webp 480w, /assets/img/file_system-800.webp 800w, /assets/img/file_system-1400.webp 1400w, " sizes="95vw" type="image/webp">
-               </source> <img src="/assets/img/file_system.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
-            </picture>
-         </figure>
-         <div class="caption"> A Linux file system. The root is indicated by a forward slash. Three subdirectories of the root are shown here: /bin, /home, and /lib. The directory of user 2 can be found under /home/usr2. The relative path from /home to the directory of user 2 is "usr2" or "./usr2". the relative path from /home to the root directory is "..". </div>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/file_system-480.webp 480w, /assets/img/file_system-800.webp 800w, /assets/img/file_system-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/file_system.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
+            <div class="caption"> A Linux file system. The root is indicated by a forward slash. Three subdirectories of the root are shown here: /bin, /home, and /lib. The directory of user 2 can be found under /home/usr2. The relative path from /home to the directory of user 2 is "usr2" or "./usr2". the relative path from /home to the root directory is "..". </div>
             
-         <h2 id="Commands">List of Linux commands</h2>
+            <h2 id="File Permissions">File Permissions</h2>
+            <p>File permissions are a way to secure your system. File permissions define who can access and which actions are allowed. 
+               The possible actions are 'r'= readable,'w'= writable and "x" = executable or searchable (for directories; meaning ls, cd etc. permitted). You can use the ls command to view file permissions and the chmod command to change them.         
+               In the figure below, you can see an example output of the command: <code class="language-plaintext highlighter-rouge">ls -lah</code>.</p>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset="/assets/img/ls_before_chmod-800.webp 800w, /assets/img/ls_before_chmod-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/ls_before_chmod.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
+            <p>The first character of each line informs you which type of item it is.'-' stands for regular files, 'd' for directories and 'l' for symlinks. The next characters stand for the file permissions on the owner (2-4), the group (5-7) and other (8-10).
+            To add or remove the permissions of your own files, you can use: 
+            </p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">chmod +[rwx]</span> <span class="s">/path/to/file</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">chmod +[rwx]</span> <span class="s">/path/to/file</span></code></pre>
+               </div>
+            </div>
+            <p>With [rwx] meaning any combination of the three characters.</p>
+            <h2 id="Commands">List of Linux commands</h2>
             <p>Moving forward, we will go over a set of Linux commands that you will find yourself using quite often throughout 
-              this workshop. These commands are essential tools in your Linux toolkit. You can follow the code in your terminal.
-              Note that you can find the manual page of each command by typing the command name followed by <em>--help</em>.</p>
+               this workshop. These commands are essential tools in your Linux toolkit. You can follow the code in your terminal.
+               Note that you can find the manual page of each command by typing the command name followed by <em>--help</em>.</p>
             <p><big><strong>pwd</strong></big></p>
             <p>The command pwd stands for <em>print working directory</em>. It prints the full filename of the current working directory</p>
             <div class="language-shell highlighter-rouge">
@@ -139,7 +160,13 @@
                   <pre class="highlight"><code><span class="nf">ls -lah</span> <span class="s"> /path/to/directory</span></code></pre>
                </div>
             </div>
-
+            <p><big><strong>chmod</strong></big></p>
+            <p>The chmod command changes the permissions for a file or directory. It stands for <em>change mode</em>. For example, to make a file exectuable, run the following:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">chmod +x</span><span class="s">/path/to/file</span></code></pre>
+               </div>
+            </div>
             <p><big><strong>cd</strong></big></p>
             <p>If you want to change the working directory you can use the command cd. It stands for <em>change directory</em> and can be used in the following way: </p>
             <div class="language-shell highlighter-rouge">
@@ -153,9 +180,9 @@
             <p>The command mkdir stands for <em>make directory</em>. As the name suggests, it is used to create new, empty directories. Note that if the directory already exists, mkdir will throw an error. The command is used in the following way:
             </p>
             <div class="language-shell highlighter-rouge">
-              <div class="highlight">
-                <pre class="highlight"><code><span class="nf">mkdir</span> <span class="s">/path/to/directory</span></code></pre>
-              </div>
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">mkdir</span> <span class="s">/path/to/directory</span></code></pre>
+               </div>
             </div>
             <p>An option of mkdir that is used often is <em>-p</em>. As an exercise, try to find the meaning of this option in the manual page of the command using the terminal.</p>
             <details><summary>Check your answer</summary> <p>When you type <code class="language-plaintext highlighter-rouge">mkdir --help</code> into the terminal and press enter, the manual page appears. With the option <em>-p</em>, mkdir handles non-existing parent directories by creating them as needed, and it does not throw an error if the directory already exists.</p> </details>
@@ -163,95 +190,95 @@
             <p>The command cp copies files or directories. To copy a file or an empty directory, use:</p>
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">cp</span> <span class="s">/path/to/item /path/to/copy</span></code></pre>
+               <pre class="highlight"><code><span class="nf">cp</span> <span class="s">/path/to/item /path/to/copy</span></code></pre>
                </div>
-             </div>
-             <p>By default, only files are copied to the new location. Thus, if the directory you want to copy contains subdirectories, the command above will throw the error <code class="language-plaintext highlighter-rouge">cp: -r not specified; omitting directory"</code>. As a solution, use the option <em>-r</em> to copy directories recursively.</p>
-             <p><big><strong>mv</strong></big></p>
-             To mv a file instead of copying it, you can use the command mv. Note that you can also use mv to rename a file or directory.
-             <div class="language-shell highlighter-rouge">
+            </div>
+            <p>By default, only files are copied to the new location. Thus, if the directory you want to copy contains subdirectories, the command above will throw the error <code class="language-plaintext highlighter-rouge">cp: -r not specified; omitting directory"</code>. As a solution, use the option <em>-r</em> to copy directories recursively.</p>
+            <p><big><strong>mv</strong></big></p>
+            <p>To move a file instead of copying it, you can use the command mv. Note that you can also use mv to rename a file or directory.</p>
+            <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">mv</span> <span class="s">/path/to/item /new/path/to/item</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">mv</span> <span class="s">/path/to/item /new/path/to/item</span></code></pre>
                </div>
-             </div>
-             <p><big><strong>rm</strong></big></p>
-             <p>To remove a file, you can use the command rm. When you use rm on a directory, the command will throw an error <code class="language-plaintext highlighter-rouge">rm: cannot remove '/path/tp/item': Is a directory</code>. To remove a directory you should use the option <em>-r</em>. </p>
-             <p><strong>Note</strong> that the error is thrown to help you. So, do not add the -r option unless you intend to remove a directory.</p>
-             <div class="language-shell highlighter-rouge">
+            </div>
+            <p><big><strong>rm</strong></big></p>
+            <p>To remove a file, you can use the command rm. When you use rm on a directory, the command will throw an error <code class="language-plaintext highlighter-rouge">rm: cannot remove '/path/tp/item': Is a directory</code>. To remove a directory you should use the option <em>-r</em>. </p>
+            <p><strong>Note</strong> that the error is thrown to help you. So, do not add the -r option unless you intend to remove a directory.</p>
+            <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">rm</span> <span class="s">/path/to/file</span></code></pre>
-                 <pre class="highlight"><code><span class="nf">rm -r</span> <span class="s">/path/to/directory</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">rm</span> <span class="s">/path/to/file</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">rm -r</span> <span class="s">/path/to/directory</span></code></pre>
                </div>
-             </div>
-             <p><big><strong>cat</strong></big></p>
-             <p>The command cat displays the entire content of a file to the standard output (by default).</p>
-             <div class="language-shell highlighter-rouge">
+            </div>
+            <p><big><strong>cat</strong></big></p>
+            <p>The command cat displays the entire content of a file to the standard output (by default).</p>
+            <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">cat</span> <span class="s">/path/to/file</span></code></pre>
+               <pre class="highlight"><code><span class="nf">cat</span> <span class="s">/path/to/file</span></code></pre>
                </div>
-             </div>
-             <p>Note: always check how large the file is before displaying its entire content on the terminal screen. For large files it is adviced to use the commands more instead.</p>
-             <p><big><strong>more</strong></big></p>
-             <p>The command only the part of a file that fits the screen (= a page). On the last line, you can find the % of the file that has been viewed. To view the next line of the file, press "enter". To browse through the pages, press the upwards and downwards pointing arrow. To quit, press "q". When you have arrived at the end of the file, the command automatically quits.</p>
-             <div class="language-shell highlighter-rouge">
+            </div>
+            <p>Note: always check how large the file is before displaying its entire content on the terminal screen. For large files it is adviced to use the commands more instead.</p>
+            <p><big><strong>more</strong></big></p>
+            <p>The command only the part of a file that fits the screen (= a page). On the last line, you can find the % of the file that has been viewed. To view the next line of the file, press "enter". To browse through the pages, press the upwards and downwards pointing arrow. To quit, press "q". When you have arrived at the end of the file, the command automatically quits.</p>
+            <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">more</span> <span class="s">/path/to/file</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">more</span> <span class="s">/path/to/file</span></code></pre>
                </div>
-             </div>
-             <p><big><strong>head</strong></big></p>
+            </div>
+            <p><big><strong>head</strong></big></p>
             <p>To inspect the first lines of a file, you can use the command head. By default, this displays the first 5 lines. To change the number of lines on display, use the option <em>-n</em>, followed by an integer (int).</p>
             # to get everything except the header
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">head</span> <span class="s">/path/to/file</span></code></pre>
-                 <pre class="highlight"><code><span class="nf">head -n</span> <span class="s">int /path/to/directory</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">head</span> <span class="s">/path/to/file</span></code></pre>
+                  <pre class="highlight"><code><span class="nf">head -n</span> <span class="s">int /path/to/directory</span></code></pre>
                </div>
-             </div>
-             <p>Note that similarly to head you can use tail to display the last lines of a file. To get everything except the one-line header from a file: 
-             <p><strong>It is important to note</strong> that a line in a file is a series of characters ending with a newline character: "\n" (A newline character corresponds to pressing "enter" in Linux). So, a line may be longer than the dimensions of the terminal screen. In that case, the terminal will automatically wrap the text to the next line on display.</p>  
-               <div class="language-shell highlighter-rouge">
-                  <div class="highlight">
-                    <pre class="highlight"><code><span class="nf">cat</span> <span class="s">path/to/file </span><span class="nf">| tail </span><span class="s">-n+2</span></code></pre>
-                </div>
-               </div>
-             <p><big><strong>grep</strong></big></p>
-             <p><big><strong>wc</strong></big></p>
-             <p>The wc command is used to find respectively the newline, word and byte count of a file. To only print the newline, word, or byte count, you can use the option <em>-l</em>/<em>-w</em> or <em>-c</em>.</p>
-             <div class="language-shell highlighter-rouge">
-               <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">wc</span> <span class="s">path/to/file</span></code></pre>
-             </div>
             </div>
-             <p><big><strong>wget</strong></big></p>
-             <p>The wget command is a blend of <em>World Wide Web</em> and <em>get</em>. As the name suggests, you can use this command to download a file from the internet.</p>
-             <div class="language-shell highlighter-rouge">
+            <p>Note that similarly to head you can use tail to display the last lines of a file. To get everything except the one-line header from a file: 
+            <p><strong>It is important to note</strong> that a line in a file is a series of characters ending with a newline character: "\n" (A newline character corresponds to pressing "enter" in Linux). So, a line may be longer than the dimensions of the terminal screen. In that case, the terminal will automatically wrap the text to the next line on display.</p>  
+            <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">wget</span> <span class="s">[url]</span></code></pre>
-             </div>
+                  <pre class="highlight"><code><span class="nf">cat</span> <span class="s">path/to/file </span><span class="nf">| tail </span><span class="s">-n+2</span></code></pre>
+               </div>
+            </div>
+            <p><big><strong>grep</strong></big></p>
+            <p><big><strong>wc</strong></big></p>
+            <p>The wc command is used to find respectively the newline, word and byte count of a file. To only print the newline, word, or byte count, you can use the option <em>-l</em>/<em>-w</em> or <em>-c</em>.</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">wc</span> <span class="s">path/to/file</span></code></pre>
+               </div>
+            </div>
+            <p><big><strong>wget</strong></big></p>
+            <p>The wget command is a blend of <em>World Wide Web</em> and <em>get</em>. As the name suggests, you can use this command to download a file from the internet.</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">wget</span> <span class="s">[url]</span></code></pre>
+               </div>
             </div>
             <p>Note: if you want to store the file with a different name, you can use the <em>-O</em>option, to change the destination directory to a different one than the current directory you can use the <em>-P</em> option.</p>
             <p><big><strong>grep</strong></big></p>
             <p>The command grep searches for lines in plain-text files that contain a certain pattern. This pattern can be a string e.g., "name" or a regular expression e.g. "[Nn]ame". In the regular expression both lines containing "Name" and "name" are captured. By default, the output is written to the terminal screen.</p> 
             <h3 id="The Pipe Command in Linux">The Pipe Command in Linux</h3>
-             <p>The pipe command in Linux is used to compactly write a "pipeline" and is represented by "|". A pipeline is a set of actions where the output of one command is redirected to the next. For example, if you want to now the number of words in the first line, you can use:</p>
-             <div class="language-shell highlighter-rouge">
-               <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">head -n</span><span class="s"> 1 path/to/file</span> <span class="nf">| wc -w</span></code></pre>
-             </div>
-            </div>
-            <h3 id="Writing to a File in Linux">Writing to a File in Linux</h3>
-            <p>To write text to a file, you can use the single (">") or double (">>") greater than sign. When using ">", the file is overwritten i.e., any content already in the file will be lost. To append to the end of an existing file, use ">>". For example, to write the one-line header of one file to another:</p>
+            <p>The pipe command in Linux is used to compactly write a "pipeline" and is represented by "|". A pipeline is a set of actions where the output of one command is redirected to the next. For example, if you want to now the number of words in the first line, you can use:</p>
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">head -n</span><span class="s"> 1 path/to/file</span> <span class="nf">| wc -w</span></code></pre>
-             </div>
+                  <pre class="highlight"><code><span class="nf">head -n</span><span class="s"> 1 path/to/file</span> <span class="nf">| wc -w</span></code></pre>
+               </div>
             </div>
+            <h3 id="Writing to a File in Linux">Writing to a File in Linux</h3>
+               <p>To write text to a file, you can use the single (">") or double (">>") greater than sign. When using ">", the file is overwritten i.e., any content already in the file will be lost. To append to the end of an existing file, use ">>". For example, to write the one-line header of one file to another:</p>
+               <div class="language-shell highlighter-rouge">
+                  <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">head -n</span><span class="s"> 1 path/to/file</span> <span class="nf">| wc -w</span></code></pre>
+               </div>
+               </div>
             <h3 id="Nano">Nano</h3>
             <p>Nano is a text-editor available in most terminals. You can open a file with this command:</p>
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span class="nf">nano</span><span class="s">/path/to/file</span></code></pre>
-             </div>
+                  <pre class="highlight"><code><span class="nf">nano</span><span class="s">/path/to/file</span></code></pre>
+               </div>
             </div>
             <p>If the file does not exist yet, your screen will look like this:</p>
             <figure>

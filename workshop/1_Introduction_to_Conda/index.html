@@ -63,21 +63,23 @@
                To install a package, you need a package manager. This is software that installs a package for you. Conda packages are installed with the package manager Conda. The recommended way to get Conda is through one of its distributions. There are two popular distributions of Conda: Miniconda and Anaconda.</p>
 
                Besides package manager, Conda has two additional functionalities:
-               1. Environment manager
-               2. Dependency manager
-
+               <li>Environment manager</li>
+               <li>Dependency manager</li>
+               <p>Some software have a range of dependency versions they are compatible with. Additionally, as a user, you may specify a specific version of one or more of the packages that need to be installed. As a dependency manager, Conda analyzes the requirements of each package and identifies a set of packages and versions that satisfy these requirements without conflicts. This saves you from manually resolving the dependencies.</p>
                <h3><strong>Environment manager</strong></h3>
-               <p>Not all packages are compatible. For instance, two packages might conflict when they require different versions of the same dependency. If installed in the same space, they would conflict and cause errors. Conda environments are isolated spaces where packages can be installed without interfering with each other. In this way, each package can have its own environment with the specific dependencies it needs.</p>
-               <h3><strong>Dependency manager</strong></h3>
-
-               The first step in using Conda packages is to install a distribution. If you already have a Conda or Mamba distribution installed, you can skip the installation step. In this workshop, we will install Miniconda, which is the lightweight version and thus requires far less disk space than Anaconda.
-
-               <details><summary>Optional: What is Mamba?</summary>
-                  <p>Mamba is a reimplementation of Conda, that is significantly faster during installation and dependency resolution. Mamba is fully compatible with Conda packages and supports most 
-                     Conda commands. You can use Mamba by either installing the Mamba package in your base environment, or by installing its own standalone distribution Micromamba.
-                     However, note that Mamba and Conda do not coexist happily. Also, Conda is still the more popular and supported than Mamba, and therefore it is preferred if you eventually want to share your code with others.
-                  </p>
-               </details>
+               <p>Not all packages are compatible. For instance, two packages might conflict when they require different versions of the same dependency. If installed in the same space, they would conflict and cause errors. Conda environments are isolated spaces where packages can be installed without interfering with each other. In this way, each package can have its own environment with the specific dependencies it needs.
+                  With Conda, you can easily create, update, and delete these environments, providing an efficient way to manage your software.
+               </p>
+            <h3><strong>Dependency manager</strong></h3>
+            <p>Some software have a range of dependencies they are compatible with. Conda automatically finds a combination of packages that is compatible with each other.</p>
+            <p>The first step in using Conda packages is to install a distribution. If you already have a Conda or Mamba distribution installed, you can skip the installation step. In this workshop, we will install Miniconda, which is the lightweight version and thus requires far less disk space than Anaconda.</p>
+            <details><summary>Optional: other package managers</summary>
+               <p>Mamba is a reimplementation of Conda, that is significantly faster during installation and dependency resolution. Mamba is fully compatible with Conda packages and supports most 
+                  Conda commands. You can use Mamba by either installing the Mamba package in your base environment, or by installing its own standalone distribution Micromamba.
+                  However, note that Mamba and Conda do not coexist happily. Also, Conda is still the more popular and supported than Mamba, and therefore it is preferred if you eventually want to share your code with others.
+               </p>
+               <p>Finally, Pip is a package manager specifically for Python. Pip has the most extensive library of Python packages. This means that some packages are only available through Pip.
+                  It is not advised to combine several package managers. However, in case you need to install a Pip package in a Conda environment, you can do so by installing Pip and other packages with Conda, and only at the very last install the necessary package via Pip. In the figure below, you can find an overview and brief comparison between Conda, Mamba and Pip.</p>
                <figure>
                   <picture>
                      </source> <img src="/assets/img/conda.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
@@ -85,10 +87,47 @@
                   </picture>
                </figure>
                <div class="caption">Overview of popular package managers Pip, Conda and Mamba.</div>
-
-               <h2 id="Installation">Install MiniConda</h2>
+            </details>
+            <h2 id="Installation">Install MiniConda</h2>
+            <p>The most up-to-date information on how to install Miniconda is to go to the official documentation: a href="https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html" rel="external nofollow noopener" target="_blank">https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html</a> 
+               However, for this workshop (Date: 8 Jan 2023), you can follow the steps below.</p>
+            <p>Connect to the VSC, either via OnDemand or by using a terminal emulator like Putty. Then, go to the DATA directory:
+               <div class="language-shell highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span class="nf">cd</span><span class="s">$VSC_DATA</span></code></pre>
+                  </div>
+               </div>
             </p>
-            <figure>
+            <p>Download the installer using the wget command. Optionally, set the filename to ./miniconda.sh with option <em>-O</em>:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">wget</span><span class="nf">wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span><span class="nf">-O</span><span class="s">./miniconda.sh</span></code></pre>
+               </div>
+            </div>
+            <p>Next, make the installer executable using the command:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">chmod +x</span><span class="s">miniconda.sh</span></code></pre>
+               </div>
+            </div>
+            Run the installer:
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="s">./miniconda.sh</span></code></pre>
+               </div>
+            </div>
+            <p>Follow the instruction in the terminal. If you choose to keep auto_active_base to true (the default), conda will automatically activate the base environment when you open a terminal. The choice is up to you. You can always change your setting later by running:</p>
+            <div class="language-shell highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span>true</span></code></pre> # activate
+                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span>false</span></code></pre> # deactivate
+               </div>
+            </div>
+            <p></p>
+            <p>Reopen the terminal for the changes to take effect. If the installation was succesful, running <code class="language-plaintext highlighter-rouge">conda env list</code> should show output.</p>
+         <p>If you chose to not set <code class="language-plaintext highlighter-rouge">auto_active_base</code>to <code class="language-plaintext highlighter-rouge">true</code>, you can activate conda by running <code class="language-plaintext highlighter-rouge">conda activate</code>.</p>
+            <p>Congratulations, you have now installed Miniconda?</p>
+               <figure>
                <picture>
                   <source class="responsive-img-srcset" srcset=" //assets/img/linux_journey-480.webp 480w, /assets/img/linux_journey-800.webp 800w, /assets/img/linux_journey-1400.webp 1400w, " sizes="95vw" type="image/webp">
                   </source> <img src="/assets/img/linux_journey.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
