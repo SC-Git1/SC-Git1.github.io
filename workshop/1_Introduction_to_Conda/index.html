@@ -117,12 +117,12 @@
                </div>
             </div>
             <p>Follow the instruction in the terminal. When asked about the location, the installer with automatically choose a path in your home folder. Make sure to specify a location in the data folder, e.g. $VSC_DATA/miniconda3. 
-               Next, when asked to update your shell profile, answer "yes". This way, conda will be intialized when you open a terminal. Additionally, the installer activates the base environment. If can always modify this behavior by running:
+               Next, when asked to update your shell profile, answer "yes". This way, conda will be intialized when you open a terminal. Additionally, the installer activates the base environment. You can always modify this behavior by running:
                </p>
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> true </span><span># to activate the automatic activation of base</span></code></pre> 
-                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> false </span><span># to deactivate the automatic activation of base</span></code></pre> 
+                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> true </span><span># to activate</span></code></pre> 
+                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> false </span><span># to deactivate</span></code></pre> 
                </div>
             </div>
             <p></p>
@@ -139,7 +139,7 @@
             <div class="caption">Output of the command <code class="language-plaintext highlighter-rouge">conda env list</code> after the installation.</div>
             <h2 id="Conda commands">Conda commands</h2>
             <p>Below, you can find a list of some useful conda commands. For example purposes, let's assume you are working with a Conda environment called example_env. When you are running these commands, do not forget to replace the environment's name to yours.</p>
-            <div class="language-plaintext highlighter-rouge" style="text-align:left;>
+            <div class="language-shell highlighter-rouge">
                <div class="highlight">
                   <pre class="highlight"><code>
                      # List the available environments
@@ -147,7 +147,7 @@
                   </code></pre>
                </div>
             </div>
-            <div class="language-plaintext highlighter-rouge" style="text-align:left;">
+            <div class="language-shell highlighter-rouge">
                <div class="highlight">
                   <pre class="highlight"><code>
                      # create a new Conda environment
@@ -157,7 +157,7 @@
                   </code></pre>
                </div>
             </div>
-            <div class="language-plaintext highlighter-rouge style="text-align:left;">
+            <div class="language-shell highlighter-rouge>
                <div class="highlight">
                   <pre class="highlight"><code>
                      # activate a Conda environment
