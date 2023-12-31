@@ -52,7 +52,7 @@
                   <h3>Contents</h3>
                   <div><a href="#What is Conda?">What is Conda?</a></div>
                   <div><a href="#Installation">Installation</a></div>
-                  <div><a href="#Set up a new environment">Set up a new environment</a></div>
+                  <div><a href="#Conda Commands">Conda Commands</a></div>
                   <div><a href="#Tips">Tips</a></div>
                </nav>
             </d-contents>
@@ -89,7 +89,7 @@
                <div class="caption">Overview of popular package managers Pip, Conda and Mamba.</div>
             </details>
             <h2 id="Installation">Install Miniconda</h2>
-            <p>The most up-to-date information on how to install Miniconda is to go to the official documentation: a href="https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html" rel="external nofollow noopener" target="_blank">https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html</a> 
+            <p>The most up-to-date information on how to install Miniconda is to go to the official documentation: <a href="https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html" rel="external nofollow noopener" target="_blank">https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html</a> 
                However, for this workshop (Date: 8 Jan 2023), you can follow the steps below.</p>
             <p>Connect to the VSC, either via OnDemand or by using a terminal emulator like Putty. Then, go to the DATA directory:
                <div class="language-shell highlighter-rouge">
@@ -116,32 +116,65 @@
                   <pre class="highlight"><code><span class="s">./miniconda.sh</span></code></pre>
                </div>
             </div>
-            <p>Follow the instruction in the terminal. If you choose to keep auto_active_base to true (the default), conda will automatically activate the base environment when you open a terminal. The choice is up to you. You can always change your setting later by running:</p>
+            <p>Follow the instruction in the terminal. When asked about the location, the installer with automatically choose a path in your home folder. Make sure to specify a location in the data folder, e.g. $VSC_DATA/miniconda3. 
+               Next, when asked to update your shell profile, answer "yes". This way, conda will be intialized when you open a terminal. Additionally, the installer activates the base environment. If can always modify this behavior by running:
+               </p>
             <div class="language-shell highlighter-rouge">
                <div class="highlight">
-                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> true </span><span># activate</span></code></pre> 
-                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> false </span><span># deactivate</span></code></pre> 
+                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> true </span><span># to activate the automatic activation of base</span></code></pre> 
+                  <pre class="highlight"><code><span class="nf">conda config --set auto_active_base</span><span> false </span><span># to deactivate the automatic activation of base</span></code></pre> 
                </div>
             </div>
             <p></p>
-            <p>Reopen the terminal for the changes to take effect. If the installation was succesful, running <code class="language-plaintext highlighter-rouge">conda env list</code> should show output.</p>
-         <p>If you chose to not set <code class="language-plaintext highlighter-rouge">auto_active_base</code> to <code class="language-plaintext highlighter-rouge">true</code>, you can activate conda by running <code class="language-plaintext highlighter-rouge">conda activate</code>.</p>
-            <p>Congratulations, you have now installed Miniconda?</p>
-            
-            <h2 id="Set up a new environment">Set up a new environment</h2>
-            <h2 id="Tips">Tips</h2>
-            <h2 id="Commands">List of Linux commands</h2>
-            <p>Moving forward, we will go over a set of Linux commands that you will find yourself using quite often throughout 
-              this workshop. These commands are essential tools in your Linux toolkit. You can follow the code in your terminal.
-              Note that you can find the manual page of each command by typing the command name followed by <em>--help</em>.</p>
-            <p><big><strong>pwd</strong></big></p>
-            <p>The command pwd stands for <em>print working directory</em>. It prints the full filename of the current working directory</p>
-            <div class="language-shell highlighter-rouge">
+            <p>Reopen the terminal for the changes to take effect. If the installation was succesful, running <code class="language-plaintext highlighter-rouge">which conda</code> should show output.</p>
+            <p>To get a list of all Conda environments, you can run the command: <code class="language-plaintext highlighter-rouge">conda env list</code>.
+            For now, you only have the base environment. It is advised not to add packages to your base environment. The activated environment is marked by "*".
+            </p>
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/conda_env_list-480.webp 480w, /assets/img/conda_env_list-800.webp 800w, /assets/img/conda_env_list-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/conda_env_list.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
+            <div class="caption">Output of the command <code class="language-plaintext highlighter-rouge">conda env list</code> after the installation.</div>
+            <h2 id="Conda commands">Conda commands</h2>
+            <p>Below, you can find a list of some useful conda commands. For example purposes, let's assume you are working with a Conda environment called example_env. When you are running these commands, do not forget to replace the environment's name to yours.</p>
+            <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
-                  <pre class="highlight"><code><span class="nf">pwd</span></code></pre>
+                  <pre class="highlight">v<code>
+                     # List the available environments
+                     conda env list
+                  </code></pre>
                </div>
             </div>
-            <h2>Good luck!</h2>
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight">v<code>
+                     # create a new Conda environment
+                     conda create --name example_env
+                     # check the destination, which normally is: location_of_miniconda3/envs/example_env. Answer "yes" to continue or "no" to quit
+                  </code></pre>
+               </div>
+            </div>
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight">v<code>
+                     # activate a Conda environment
+                     conda activate example_env
+                     # list the packages installed in the current environment
+                     conda list
+                     # deactivate the current environment
+                     conda deactivate
+                     # remove a Conda environment
+                     conda remove --name example_env --all
+                  </code></pre>
+               </div>
+            </div>
+            <h2 id="Tips">Tips</h2>
+            <li>It is advised to use separate environments for each software/workflow.</li>
+            <li>If the active Conda environment already has a lot of packages installed, the installation of an additional package, solving the environment will take typically take longer.</li>
+            <li>The fastest way to set-up an environment is to specify all packages you want to use at the creation step. An example is given in Module 3: SNP calling - from fastq to vcf (# add link).</li>
+            <h2>Congratulations, you have completed Module 1!</h2>
             <figure>
                <picture>
                   <source class="responsive-img-srcset" srcset=" //assets/img/anaconda-480.webp 480w, /assets/img/anaconda-800.webp 800w, /assets/img/anaconda-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -153,6 +186,9 @@
             <d-citation-list></d-citation-list>
          </d-appendix>
          <d-bibliography src="/assets/bibliography/2018-12-22-distill.bib"></d-bibliography>
+         <ul class="list-disc pl-8"></ul>
+         <h2 class="text-3xl font-semibold mb-4 mt-12">Next module:</h2>
+         <li class="my-2"> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/2_Introduction_to_SLURM_jobs/">Module 2: Introduction to SLURM jobs</a> </li>
       </div>
       <footer class="fixed-bottom">
          <div class="container mt-0"> © Copyright 2023 Sophie Colette. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. </div>
