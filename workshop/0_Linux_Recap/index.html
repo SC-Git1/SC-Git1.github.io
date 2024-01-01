@@ -57,6 +57,7 @@
                   <div><a href="#Commands">List of Linux Commands</a></div>
                   <div><a href="#The pipe Command in Linux">The Pipe Command in Linux</a></div>
                   <div><a href="#Writing to a File in Linux">Writing to a File in Linux</a></div>
+                  <div><a href="#Scripts in Linux">Scripts in Linux</a></div>
                </nav>
             </d-contents>
             <h2 id="Introduction">Introduction</h2>
@@ -311,6 +312,23 @@
             <p>For commands that take a while, you can copy a subset of the data to a test file or directory, and run the commands on the subset first to debug your code.</p>
             <p>A suggestion for the next step on your Linux journey, is to learn about regex regressions. That way you can greatly expand the usage of many commands. For example, to remove all files that start with "sample_A1_" you can use:
                <code class="language-plaintext highlighter-rouge">rm sample_A1_*</code></p>
+            </p>
+            <h2 id="Scripts in Linux">Scripts in Linux</h2>
+            A script is a file with instructions written in a language. Examples of languages are bash, Python, or R. In some cases, your script is specific to a (range of) version(s) of the language. An example you may know is python2 versus python3.
+            When you run a script, the system needs to know how to execute it. As a user, you should provide this information in the script. This is done on the very first line of the script by adding a shebang.
+            A shebang always starts with "#!" followed by a path to the interpreter (= the program that executes your script).
+            An example script is:
+            Some examples:
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span class="c">#!/usr/bin/bash</span>
+<span class="c"> ---</span>
+<span class="c">Your script</span>
+<span class="c"> ---</span>
+                  </code></pre>
+               </div>
+            </div> 
+            <p>Note: on the VSC, you may need to load the interpreter first. For R, you can find more information at: <a href="https://docs.vscentrum.be/software/r_command_line_arguments_in_scripts.html" rel="external nofollow noopener" target="_blank">https://docs.vscentrum.be/software/r_command_line_arguments_in_scripts.html</a> 
             </p>
             <h2>Good luck!</h2>
             <figure>
