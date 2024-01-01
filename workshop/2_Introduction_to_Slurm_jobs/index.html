@@ -50,23 +50,56 @@
             <d-contents>
                <nav class="l-text figcaption">
                   <h3>Contents</h3>
+                  <div><a href="HPC architecture">HPC architecture: compute nodes</a></div>
                   <div><a href="#What is Slurm?">What is Slurm?</a></div>
                   <div><a href="#Job script layout">Job script layout</a></div>
+                  <div><a href="#Computing resources">Tips</a></div>
+                  <div><a href="#Memory">Memory</a></div>
+                  <div><a href="#Walltime">Walltime</a></div>
+                  <div><a href="#Partition">Partition</a></div>
+                  <div><a href="#Job name">Job name</a></div>
+                  <div><a href="#Redirecting stdout, stderr">Redirecting stdout, stderr</a></div>
+                  <div><a href="#Mail">Mail</a></div>
                   <div><a href="#Submitting job scripts: an example">Submitting job scripts: an example</a></div>
-                  <div><a href="#Tips">Tips</a></div>
                </nav>
             </d-contents>
+            <p>The Flemish Supercomputer Centrum (VSC) offers a High Performance Computer (HPC) infrastructure for scientific and technical computing. To run jobs on the VSC, it is necessary to familiarize yourself with some terms related to HPCs, particularly about compute nodes. 
+               An overview is given in the figure below.</p>
+               <figure>
+                  <picture>
+                     <source class="responsive-img-srcset" srcset=" //assets/img/anaconda-480.webp 480w, /assets/img/anaconda-800.webp 800w, /assets/img/anaconda-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                     </source> <img src="/assets/img/anaconda.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+                  </picture>
+               </figure>
+            <h2 id="HPC architecture">HPC architecture: compute nodes</h2>
             <h2 id="What is Slurm?">What is Slurm?</h2>
             <p>To work on the VSC, you can either request an interactive session or submit a job script. An interactive sessions allows you to directly communicate with the node(s) and is thus useful for debugging purposes. However, it requires the user to be present when the interactive session starts.
-               Also, it makes the node(s) wait for user input and thus it is an inefficient use of resources. An alternative to an interactive session is to submit a job script.
+               Also, it makes the node(s) wait for user input and thus it is an inefficient use of resources. An alternative to an interactive session is to submit a job script, which will run in a non-interactive session.
                Job scripts typically follow a certain format. On the VSC, this is the format supported by Slurm. Slurm is a (cluster) workload manager and stands for <em>Simple Unix Utility for Resource Management</em>. 
                 As a workload manager, it allocates computing nodes to users for job execution and manages the queue of pending jobs (both interactive and non-interactive).
-               To submit a job, use the sbatch command.
             </p>
             <h2 id="Job script layout">Job script layout</h2>
-            Jobs are submitted using the command <code class="language-plaintext highlighter-rouge">sbatch</code>. Specifications of the resources needed,
-            can be given with the command or written in the job script. Here, we will add the specifications to the job script with "#SBATCH" under the shebang.
+            <p>Jobs are submitted using the command <code class="language-plaintext highlighter-rouge">sbatch</code>. The required resources (number of nodes, walltime, memory etc.) can be
+            specified in the command (using options) or in the job script (in so called <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines). In this workshop, we will add the specifications to the job script.
+            <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines should be added directly below the shebang. In the next paragraphs, we will explain some sbatch options in more detail. For a full overview, you can visit: <a href="https://slurm.schedmd.com/sbatch.html" rel="external nofollow noopener" target="_blank">https://slurm.schedmd.com/sbatch.html</a>
+            </p>
+            <h3 id="Computing resources">Computing resources</h3>
+            <p>The two types of computing resources on the VSC are: CPU and GPU. A GPU is a specialized processor that is ideal for tasks requiring intensive computations that can be run in parallel. 
+               To determine if the software you are using is optimized for GPU, you should consult the software's documentation. Additionally, some software allows you to choose between CPU and GPU processing.
+               Note that running jobs on the GPU nodes is more costly, so it is important to check if the software you use is able to take advantage of the parallel processing capabilities of a GPU.
+            
+            
+               # explain n-tasks and n-cpu
+            </p>
+            <h3 id="Memory">Memory</h3>
             <p></p>
+            <h3 id="Walltime">Walltime</h3>
+            <h3 id="Partition">Partition</h3>
+            <h3 id="Job name">Job name</h3>
+            <h3 id="Redirecting stdout, stderr">Redirecting stdout, stderr</h3>
+            <h3 id="Mail">Mail</h3>
+            <p>When submitting a job script, you can request an email about the status of your job. </p>
+
             <h2 id="Submitting job scripts: an example">Submitting job scripts: an example</h2>
             <p>Job scripts are submitted using the <code class="language-plaintext highlighter-rouge">sbatch</code> command.
                
@@ -74,6 +107,8 @@
                When the job is succesfully submitted, sbatch prints a message containing the unique job id to the terminal.
             
             </p>
+            <h3>Next module:</h3>
+            <li> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/4_project/">Module 4: SNP calling - from fastq to vcf</a> </li>
          </d-article>
          <d-appendix>
             <d-citation-list></d-citation-list>
