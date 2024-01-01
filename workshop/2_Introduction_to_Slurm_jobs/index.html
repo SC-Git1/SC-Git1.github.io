@@ -53,7 +53,6 @@
                   <div><a href="HPC architecture">HPC architecture: compute nodes</a></div>
                   <div><a href="#What is Slurm?">What is Slurm?</a></div>
                   <div><a href="#Job script layout">Job script layout</a></div>
-                  <div><a href="#Computing resources">Tips</a></div>
                   <div><a href="#Memory">Memory</a></div>
                   <div><a href="#Walltime">Walltime</a></div>
                   <div><a href="#Partition">Partition</a></div>
@@ -63,6 +62,7 @@
                   <div><a href="#Submitting job scripts: an example">Submitting job scripts: an example</a></div>
                </nav>
             </d-contents>
+            <h2 id="HPC architecture">HPC architecture: compute nodes</h2>
             <p>The Flemish Supercomputer Centrum (VSC) offers a High Performance Computer (HPC) infrastructure for scientific and technical computing. To run jobs on the VSC, it is necessary to familiarize yourself with some terms related to HPCs, particularly about compute nodes. 
                An overview is given in the figure below.</p>
                <figure>
@@ -71,30 +71,35 @@
                      </source> <img src="/assets/img/HPC_overview.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
                   </picture>
                </figure>
-            <h2 id="HPC architecture">HPC architecture: compute nodes</h2>
             <h2 id="What is Slurm?">What is Slurm?</h2>
-            <p>To work on the VSC, you can either request an interactive session or submit a job script. An interactive sessions allows you to directly communicate with the node(s) and is thus useful for debugging purposes. However, it requires the user to be present when the interactive session starts.
-               Also, it makes the node(s) wait for user input and thus it is an inefficient use of resources. An alternative to an interactive session is to submit a job script, which will run in a non-interactive session.
-               Job scripts typically follow a certain format. On the VSC, this is the format supported by Slurm. Slurm is a (cluster) workload manager and stands for <em>Simple Unix Utility for Resource Management</em>. 
-                As a workload manager, it allocates computing nodes to users for job execution and manages the queue of pending jobs (both interactive and non-interactive).
+            <p>Slurm is a (cluster) workload manager and stands for <em>Simple Unix Utility for Resource Management</em>.
+               As a workload manager, it organizes the allocation of resources like computing power, memory and time to users, and manages the queue of resource requests (= jobs). To request resources on the VSC, you should submit a job.
+               A job is a description of requested resources optionally along with the instructions to run when the resources are allocated. A job that only describes the resources is an interactive job.
+               Once the resources are allocated, you can directly communicate with the node(s). This is useful for debugging purposes. However, it requires the user to be present when the interactive session starts.
+               Also, it makes the node(s) wait for user input, which is an inefficient use of resources. An alternative is to submit a non-interactive job, called a batch job.
+               An advantage of a batch job compared to an interactive job, is that the execution start once the resources are allocated, and thus it does not require the user to be present when the job starts.
+               The next section explains the layout of a job request.
             </p>
+
             <h2 id="Job script layout">Job script layout</h2>
             <p>Jobs are submitted using the command <code class="language-plaintext highlighter-rouge">sbatch</code>. The required resources (number of nodes, walltime, memory etc.) can be
-            specified in the command (using options) or in the job script (in so called <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines). In this workshop, we will add the specifications to the job script.
-            <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines should be added directly below the shebang. In the next paragraphs, we will explain some sbatch options in more detail. For a full overview, you can visit: <a href="https://slurm.schedmd.com/sbatch.html" rel="external nofollow noopener" target="_blank">https://slurm.schedmd.com/sbatch.html</a>
+            specified by adding arguments to the command or by providing a script that contains so called <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines). In this workshop, we will add the specifications to a job script.
+            The next paragraphs provides information on various aspects to take into account when requesting resources.
             </p>
-            <h3 id="Computing resources">Computing resources</h3>
-            <p>The two types of computing resources on the VSC are: CPU and GPU. A GPU is a specialized processor that is ideal for tasks requiring intensive computations that can be run in parallel. 
+            <h3 id="Partition">Partition</h3>
+            <p>A cluster can be broken down into different 'partitions' based on the quality or trait of the nodes.
+               Examples of partitions are: "bigmem", "batch", "gpu", ""... # fill in
+               The two types of computing resources on the VSC are: CPU and GPU. A GPU is a specialized processor that is ideal for tasks requiring intensive computations that can be run in parallel. 
                To determine if the software you are using is optimized for GPU, you should consult the software's documentation. Additionally, some software allows you to choose between CPU and GPU processing.
                Note that running jobs on the GPU nodes is more costly, so it is important to check if the software you use is able to take advantage of the parallel processing capabilities of a GPU.
-            
-            
+               To request GPU, use the following line:
+
+               To request CPU, set the partition to "batch", "bigmem", "" or "". More information about these choices are in the next paragraphs.
                # explain n-tasks and n-cpu
             </p>
             <h3 id="Memory">Memory</h3>
             <p></p>
             <h3 id="Walltime">Walltime</h3>
-            <h3 id="Partition">Partition</h3>
             <h3 id="Job name">Job name</h3>
             <h3 id="Redirecting stdout, stderr">Redirecting stdout, stderr</h3>
             <h3 id="Mail">Mail</h3>
@@ -102,9 +107,10 @@
 
             <h2 id="Submitting job scripts: an example">Submitting job scripts: an example</h2>
             <p>Job scripts are submitted using the <code class="language-plaintext highlighter-rouge">sbatch</code> command.
-               
+               <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines are added directly below the shebang.
 
                When the job is succesfully submitted, sbatch prints a message containing the unique job id to the terminal.
+               The next paragraphs, explain <code class="language-plaintext highlighter-rouge">sbatch</code> options in more detail. For a full overview, you can visit: <a href="https://slurm.schedmd.com/sbatch.html" rel="external nofollow noopener" target="_blank">https://slurm.schedmd.com/sbatch.html</a>
             
             </p>
             <h3>Next module:</h3>
