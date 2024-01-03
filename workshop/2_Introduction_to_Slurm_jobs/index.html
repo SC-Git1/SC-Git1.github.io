@@ -96,14 +96,33 @@
                # explain n-tasks and n-cpu
             </p>
             <h3 id="Memory">Memory</h3>
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><span>#SBATCH --mem-per-cpu=100000k</span>    
+<span>#SBATCH --mem-per-cpu=192000m</span>
+<span>#SBATCH --mem-per-cpu=1g</span>
+<span># find upper/lower limit</span>
+                  </code></pre>
+               </div>
+            </div>
             <p></p>
             <h3 id="Wall time">Wall time</h3>
             <p>Wall time is the compute time. The requested wall time can be written in the following formats: 
             mm (minutes), mm:ss (minutes and seconds), hh:mm:ss (hours, minutes and seconds), d-hh (days and hours), d-hh:mm (days, hours and minutes) or d-hh:mm:ss (days, hours, minutes and seconds).
             Wall time is an estimate of the user, based on for example the runtime of a data subset during the debugging phase. It is recommended to slightly overestimate the time needed to prevent loss of temporary results stored in the node if a job exceeds its allotted time. 
             However, avoid excessive overestimation as jobs with longer wall times are less likely to get squeezed in by the workload manager.
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span>#SBATCH --time=d-hh:mm:ss</span></code></pre>
+               </div>
+            </div>
             </p>
             <h3 id="Job name">Job name</h3>
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span>#SBATCH --job-name=example</span></code></pre>
+               </div>
+            </div>
             <h3 id="Redirecting stdout, stderr">Redirecting stdout, stderr</h3>
             <h3 id="Mail">Mail</h3>
             <p>When submitting a job script, you can request an email about the status of your job. </p>
