@@ -43,81 +43,19 @@
       </header>
       <div class="post distill">
          <d-title>
-            <h1>Module 2: Slurm jobs</h1>
-            <p>Introduction to Slurm jobs.</p>
+            <h1>Module 3: SNP calling - part 1</h1>
+            <p>From fastq to vcf</p>
          </d-title>
          <d-article>
             <d-contents>
                <nav class="l-text figcaption">
                   <h3>Contents</h3>
                   <div><a href="HPC architecture">HPC architecture: compute nodes</a></div>
-                  <div><a href="#What is Slurm?">What is Slurm?</a></div>
-                  <div><a href="#Request a batch job">Request a batch job</a></div>
-                  <div><a href="#Memory">Memory</a></div>
-                  <div><a href="#Walltime">Walltime</a></div>
-                  <div><a href="#Partition">Partition</a></div>
-                  <div><a href="#Job name">Job name</a></div>
-                  <div><a href="#Redirecting stdout, stderr">Redirecting stdout, stderr</a></div>
-                  <div><a href="#Mail">Mail</a></div>
-                  <div><a href="#Submitting job scripts: an example">Submitting job scripts: an example</a></div>
                </nav>
             </d-contents>
             <h2 id="HPC architecture">HPC architecture: compute nodes</h2>
-            <p>The Flemish Supercomputer Centrum (VSC) offers a High Performance Computer (HPC) infrastructure for scientific and technical computing. To run jobs on the VSC, it is necessary to familiarize yourself with some terms related to HPCs, particularly about compute nodes. 
-               An overview is given in the figure below.</p>
-               <figure>
-                  <picture>
-                     <source class="responsive-img-srcset" srcset=" //assets/img/HPC_overview-480.webp 480w, /assets/img/HPC_overview-800.webp 800w, /assets/img/HPC_overview-1400.webp 1400w, " sizes="95vw" type="image/webp">
-                     </source> <img src="/assets/img/HPC_overview.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
-                  </picture>
-               </figure>
-            <h2 id="What is Slurm?">What is Slurm?</h2>
-            <p>Slurm is a (cluster) workload manager and stands for <em>Simple Unix Utility for Resource Management</em>.
-               As a workload manager, it organizes the allocation of resources like computing power, memory and time to users, and manages the queue of resource requests (= jobs). To request resources on the VSC, you should submit a job.
-               A job is a description of requested resources optionally along with the instructions to run when the resources are allocated. A job that only describes the resources is an interactive job.
-               Once the resources are allocated, you can directly communicate with the node(s). This is useful for debugging purposes. However, it requires the user to be present when the interactive session starts.
-               Also, it makes the node(s) wait for user input, which is an inefficient use of resources. An alternative is to submit a non-interactive job, called a batch job.
-               An advantage of a batch job compared to an interactive job, is that the execution start once the resources are allocated, and thus it does not require the user to be present when the job starts.
-               The next section explains the layout of a job request.
-            </p>
-
-            <h2 id="Request a batch job">Request a batch job</h2>
-            <p>Batch jobs are submitted using the command <code class="language-plaintext highlighter-rouge">sbatch</code>. The required resources (number of nodes, walltime, memory etc.) can be
-            specified by adding arguments to the command or by providing a script that contains so called <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines). In this workshop, we will add the specifications to the job script.
-            The next paragraphs provide information on various aspects to take into account when requesting resources.
-            </p>
-            <h3 id="Partition">Partition</h3>
-            <p>A cluster can be divided into different 'partitions' based on the quality or trait of the nodes.
-               Examples of partitions on the VSC (KU Leuven) are: "batch", "batch-long", "gpu", "interactive", "bigmem", and "bigmem-long".
-               Batch jobs that with requested time > 3 days, should be submitted to the "batch-long" partition. Next, GPU is a computing resource like CPU and stands for <em>Graphics Processing Unit</em>. It is a specialized processor that is ideal for tasks requiring intensive computations that can be run in parallel. 
-               GPU can considerably speed up the task. To determine if the software you are using is optimized for GPU, you should consult the software's documentation. Additionally, some software allows you to choose between CPU and GPU processing.
-               Note that running jobs on the GPU nodes is more costly, so it is important to check if the software you use is able to take advantage of the parallel processing capabilities of a GPU.
-               Finally, the "bigmem" partition consists of big memroy nodes, with 2048GB of RAM.
-               # explain n-tasks and n-cpu
-            </p>
-            <h3 id="Memory">Memory</h3>
-            <p></p>
-            <h3 id="Wall time">Wall time</h3>
-            <p>Wall time is the compute time. The requested wall time can be written in the following formats: 
-            mm (minutes), mm:ss (minutes and seconds), hh:mm:ss (hours, minutes and seconds), d-hh (days and hours), d-hh:mm (days, hours and minutes) or d-hh:mm:ss (days, hours, minutes and seconds).
-            Wall time is an estimate of the user, based on for example the runtime of a data subset during the debugging phase. It is recommended to slightly overestimate the time needed to prevent loss of temporary results stored in the node if a job exceeds its allotted time. 
-            However, avoid excessive overestimation as jobs with longer wall times are less likely to get squeezed in by the workload manager.
-            </p>
-            <h3 id="Job name">Job name</h3>
-            <h3 id="Redirecting stdout, stderr">Redirecting stdout, stderr</h3>
-            <h3 id="Mail">Mail</h3>
-            <p>When submitting a job script, you can request an email about the status of your job. </p>
-
-            <h2 id="Submitting job scripts: an example">Submitting job scripts: an example</h2>
-            <p>Job scripts are submitted using the <code class="language-plaintext highlighter-rouge">sbatch</code> command.
-               <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines are added directly below the shebang.
-
-               When the job is succesfully submitted, sbatch prints a message containing the unique job id to the terminal.
-               The next paragraphs, explain <code class="language-plaintext highlighter-rouge">sbatch</code> options in more detail. For a full overview, you can visit: <a href="https://slurm.schedmd.com/sbatch.html" rel="external nofollow noopener" target="_blank">https://slurm.schedmd.com/sbatch.html</a>
-            
-            </p>
             <h3>Next module:</h3>
-            <li> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/4_project/">Module 3: SNP calling - part 1</a> </li>
+            <li> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/4_project/">Module 5: SNP calling - part 2</a> </li>
          </d-article>
          <d-appendix>
             <d-citation-list></d-citation-list>
