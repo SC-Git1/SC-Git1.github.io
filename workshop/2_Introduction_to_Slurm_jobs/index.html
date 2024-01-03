@@ -83,7 +83,14 @@
 
             <h2 id="Request a batch job">Request a batch job</h2>
             <p>Batch jobs are submitted using the command <code class="language-plaintext highlighter-rouge">sbatch</code>. The required resources (number of nodes, walltime, memory etc.) can be
-            specified by adding arguments to the command or by providing a script that contains so called <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines). In this workshop, we will add the specifications to the job script.
+            specified by adding arguments to the command or by creating a .slurm job script that contains so called <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines). In this workshop, we will add the specifications to the job script.
+            <details><summary>Have a look at the manual page of sbatch</summary>
+               <p>               
+                  You can access the manual page by running <code class="language-shell highlighter-rouge"><span class="nf">sbatch --help</span></code>.
+               </p>
+               The manual page is extensive, the most important options to get you started are explained in the next paragraphs.
+            </details>
+            
             The next paragraphs provide information on various aspects to take into account when requesting resources.
             </p>
             <h3 id="Partition">Partition</h3>
@@ -92,7 +99,7 @@
                Batch jobs that with requested time > 3 days, should be submitted to the "batch-long" partition. Next, GPU is a computing resource like CPU and stands for <em>Graphics Processing Unit</em>. It is a specialized processor that is ideal for tasks requiring intensive computations that can be run in parallel. 
                GPU can considerably speed up the task. To determine if the software you are using is optimized for GPU, you should consult the software's documentation. Additionally, some software allows you to choose between CPU and GPU processing.
                Note that running jobs on the GPU nodes is more costly, so it is important to check if the software you use is able to take advantage of the parallel processing capabilities of a GPU.
-               Finally, the "bigmem" partition consists of big memroy nodes, with 2048GB of RAM.
+               Finally, the "bigmem" partition consists of big memroy nodes, with 2048GB of RAM. The partition is specified with the option <em>partition</em>.
             </p>
             <h3 id="Wall time">Wall time</h3>
             <p>Wall time is the compute time. The requested wall time can be written in the following formats: 
@@ -118,13 +125,12 @@
                <div class="highlight">
                   <pre class="highlight"><span>#SBATCH --mem-per-cpu=100000k</span>    
 <span>#SBATCH --mem-per-cpu=3300m</span>
-<span>#SBATCH --mem-per-cpu=1g</span>
-                  </code></pre>
+<span>#SBATCH --mem-per-cpu=1g</span></code></pre>
                </div>
             </div>
             
             <h3 id="Job name">Job name</h3>
-            <p>By default, the job name is the name of the job script. Alternatively, you can give your job a name using the option <code class="language-plaintext highlighter-rouge">--job-name</code>.
+            <p>By default, the job name is the name of the job script. Alternatively, you can give your job a name using the option <em>--job-name</em>.
             </p>
             <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
@@ -139,15 +145,13 @@
                To change this behavior, you can specify stderr with the option <em>--error</em> or <em>(-e)</em>:
                <div class="language-plaintext highlighter-rouge">
                   <div class="highlight">
-                     <pre class="highlight"><span>#SBATCH --error=[filename]</span>
-                     </code></pre>
+                     <pre class="highlight"><span>#SBATCH --error=[filename]</span></code></pre>
                   </div>
                </div>
                and to specify stdout, use the option <em>--output</em> or <em>-o</em>:
                <div class="language-plaintext highlighter-rouge">
                   <div class="highlight">
-                     <pre class="highlight"><span>#SBATCH --output=[filename]</span>
-                     </code></pre>
+                     <pre class="highlight"><span>#SBATCH --output=[filename]</span></code></pre>
                   </div>
                </div>
             </p>
@@ -157,24 +161,48 @@
                the valid values for type are: BEGIN, END, FAIL or ALL.
                <div class="language-plaintext highlighter-rouge">
                   <div class="highlight">
-                     <pre class="highlight"><span>#SBATCH --mail-type=ALL --mail-user name@example.com</span>
-                     </code></pre>
+                     <pre class="highlight"><span>#SBATCH --mail-type=ALL --mail-user name@example.com</span></code></pre>
                   </div>
                </div>
             </p>
-            
-            A job script has the following layout:
+            <h2 id="Submitting job scripts">Submitting job scripts</h2>
+            A slurm batch job script has the following layout:
             <ol>
                <li>#!/usr/bin/bash</li>
                <li><code class="language-plaintext highlighter-rouge">#SBATCH</code> lines</li>
                <li>Commands</li>
              </ol>
+             To submit the job script, use the command:
+             <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span>sbatch /path/to/file.slurm</span></code></pre>
+               </div>
+            </div>
              <p>When the job is succesfully submitted, sbatch prints a message containing the unique job id to the terminal.</p>
-             <h3>Time to practice!</h3>
+             <h2 id="Time to practice!">Time to practice!</h2>
                <p>
-               Create a script that echoes "Hello world" to stdout. Stdout is a file name greeting.txt. Set so you receive an email when the job starts.
-               Run the script on 1 CPU with default memory (#TODO: find out how much memory was used) and a runtime of 1 minute.
+               <strong>Exercise 1</strong><br>
+               Create a script that writes "Hello world" to stdout. Stdout is a file named "greeting.out", stderr is a file named "greetings.err". 
+               Set so you receive an email when the job starts.
+               Run the script on 1 CPU with 3400 megabytes of memory and a runtime of 2 minutes.
+               
                #Question: What is the jobid?
+
+               <p>You can find a list of your active jobs by running: 
+                  <div class="language-plaintext highlighter-rouge">
+                     <div class="highlight">
+                        <pre class="highlight"><code><span>squeue</span></code></pre>
+                     </div>
+                  </div>
+               </p>
+               <strong>Exercise 2: synthesis</strong><br>
+               <p>
+                  Create a new conda environment called "workshop_ex2". Activate the environment and install the tool seqkit in the Conda environment.
+                  Get the "1_control_psbA3_2019_minq7.fastq" file from <a href="https://zenodo.org/records/3736457" target="_blank">https://zenodo.org/records/3736457</a> [1] and upload it to the VSC.
+                  Next, find the command to view some simple statistics of the fastq file. You can have a look at the manual page.
+                  Tip: similarly as for commands, you can display the manual page of a subcommand using [command] [subcommand] --help.
+                  Finally, display all statistics for the "1_control_psbA3_2019_minq7.fastq" file.
+               </p>
                #Question: how much memory was used?
                </p>
             <h3>Next module:</h3>
