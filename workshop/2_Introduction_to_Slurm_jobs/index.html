@@ -88,53 +88,95 @@
             </p>
             <h3 id="Partition">Partition</h3>
             <p>A cluster can be divided into different 'partitions' based on the quality or trait of the nodes.
-               Examples of partitions on the VSC (KU Leuven) are: "batch", "batch-long", "gpu", "interactive", "bigmem", and "bigmem-long".
+               Examples of partitions on the wICE hardware of the VSC (KU Leuven) are: "batch", "batch-long", "gpu", "interactive", "bigmem".
                Batch jobs that with requested time > 3 days, should be submitted to the "batch-long" partition. Next, GPU is a computing resource like CPU and stands for <em>Graphics Processing Unit</em>. It is a specialized processor that is ideal for tasks requiring intensive computations that can be run in parallel. 
                GPU can considerably speed up the task. To determine if the software you are using is optimized for GPU, you should consult the software's documentation. Additionally, some software allows you to choose between CPU and GPU processing.
                Note that running jobs on the GPU nodes is more costly, so it is important to check if the software you use is able to take advantage of the parallel processing capabilities of a GPU.
                Finally, the "bigmem" partition consists of big memroy nodes, with 2048GB of RAM.
-               # explain n-tasks and n-cpu
             </p>
-            <h3 id="Memory">Memory</h3>
-            <div class="language-plaintext highlighter-rouge">
-               <div class="highlight">
-                  <pre class="highlight"><span>#SBATCH --mem-per-cpu=100000k</span>    
-<span>#SBATCH --mem-per-cpu=192000m</span>
-<span>#SBATCH --mem-per-cpu=1g</span>
-<span># find upper/lower limit</span>
-                  </code></pre>
-               </div>
-            </div>
-            <p></p>
             <h3 id="Wall time">Wall time</h3>
             <p>Wall time is the compute time. The requested wall time can be written in the following formats: 
             mm (minutes), mm:ss (minutes and seconds), hh:mm:ss (hours, minutes and seconds), d-hh (days and hours), d-hh:mm (days, hours and minutes) or d-hh:mm:ss (days, hours, minutes and seconds).
             Wall time is an estimate of the user, based on for example the runtime of a data subset during the debugging phase. It is recommended to slightly overestimate the time needed to prevent loss of temporary results stored in the node if a job exceeds its allotted time. 
             However, avoid excessive overestimation as jobs with longer wall times are less likely to get squeezed in by the workload manager.
+            To set the wall time, use the option <em>--time</em> or <em>-t</em>.
             <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
                   <pre class="highlight"><code><span>#SBATCH --time=d-hh:mm:ss</span></code></pre>
                </div>
             </div>
             </p>
+            <h3 id="Memory">Memory</h3>
+            <p>Memory refers to the amount of RAM. You can specify the amount with <code class="language-plaintext highlighter-rouge">--mem-per-cpu=[amount][unit]</code>
+            Again, the memory is an user-defined estimate of the amount of memory needed. It is advised to ask for a slight overestimated amount of RAM. However, make sure not exceed the maximum (see: 
+            <a href="https://docs.vscentrum.be/leuven/tier2_hardware/wice_hardware.html#hardware-details" target="_blank">https://docs.vscentrum.be/leuven/tier2_hardware/wice_hardware.html#hardware-details</a>
+            <div id="TODO">check</div>
+            You can find the memory requirements of past batch jobs with the command: <code class="language-plaintext highlighter-rouge">seff [jobid]</code>
+            Memory is quantized in kilobytes (k), megabytes (m) or gigabytes (g). Examples are: 
+            </p>
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><span>#SBATCH --mem-per-cpu=100000k</span>    
+<span>#SBATCH --mem-per-cpu=3300m</span>
+<span>#SBATCH --mem-per-cpu=1g</span>
+                  </code></pre>
+               </div>
+            </div>
+            
             <h3 id="Job name">Job name</h3>
+            <p>By default, the job name is the name of the job script. Alternatively, you can give your job a name using the option <code class="language-plaintext highlighter-rouge">--job-name</code>.
+            </p>
             <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
                   <pre class="highlight"><code><span>#SBATCH --job-name=example</span></code></pre>
                </div>
             </div>
             <h3 id="Redirecting stdout, stderr">Redirecting stdout, stderr</h3>
-            <h3 id="Mail">Mail</h3>
-            <p>When submitting a job script, you can request an email about the status of your job. </p>
-
-            <h2 id="Submitting job scripts: an example">Submitting job scripts: an example</h2>
-            <p>Job scripts are submitted using the <code class="language-plaintext highlighter-rouge">sbatch</code> command.
-               <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines are added directly below the shebang.
-
-               When the job is succesfully submitted, sbatch prints a message containing the unique job id to the terminal.
-               The next paragraphs, explain <code class="language-plaintext highlighter-rouge">sbatch</code> options in more detail. For a full overview, you can visit: <a href="https://slurm.schedmd.com/sbatch.html" rel="external nofollow noopener" target="_blank">https://slurm.schedmd.com/sbatch.html</a>
-            
+            <p>"stdout" stands for standard output. It is the location where the program writes its output data. When you run a program in the terminal, the stdout is the terminal screen.
+               For batch jobs, the stdout is a file named slurm-<jobid>.out.
+               Similarly, "stderr" stands for standard error and it is the location used to write errors, warnings, and informative messages.
+               By default, stderr is the same file as stdout. This is similar to the behavior in the terminal.
+               To change this behavior, you can specify stderr with the option <em>--error</em> or <em>(-e)</em>:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><span>#SBATCH --error=[filename]</span>
+                     </code></pre>
+                  </div>
+               </div>
+               and to specify stdout, use the option <em>--output</em> or <em>-o</em>:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><span>#SBATCH --output=[filename]</span>
+                     </code></pre>
+                  </div>
+               </div>
             </p>
+            <h3 id="Mail">Mail</h3>
+            <p>Finally, when submitting a job script, you can request to receive an email about the status of your job. To do so, 
+               add your email address with the option <em>--mail-user</em> and the situations in which you like to receive an email with the option <em>--email-type</em>.
+               the valid values for type are: BEGIN, END, FAIL or ALL.
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><span>#SBATCH --mail-type=ALL --mail-user name@example.com</span>
+                     </code></pre>
+                  </div>
+               </div>
+            </p>
+            
+            A job script has the following layout:
+            <ol>
+               <li>#!/usr/bin/bash</li>
+               <li><code class="language-plaintext highlighter-rouge">#SBATCH</code> lines</li>
+               <li>Commands</li>
+             </ol>
+             <p>When the job is succesfully submitted, sbatch prints a message containing the unique job id to the terminal.</p>
+             <h3>Time to practice!</h3>
+               <p>
+               Create a script that echoes "Hello world" to stdout. Stdout is a file name greeting.txt. Set so you receive an email when the job starts.
+               Run the script on 1 CPU with default memory (#TODO: find out how much memory was used) and a runtime of 1 minute.
+               #Question: What is the jobid?
+               #Question: how much memory was used?
+               </p>
             <h3>Next module:</h3>
             <li> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/3_SNP_Calling_from_fastq_to_vcf/">Module 3: SNP calling - part 1</a> </li>
          </d-article>
