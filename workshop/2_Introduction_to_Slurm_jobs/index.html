@@ -145,13 +145,13 @@
                To change this behavior, you can specify stderr with the option <em>--error</em> or <em>(-e)</em>:
                <div class="language-plaintext highlighter-rouge">
                   <div class="highlight">
-                     <pre class="highlight"><span>#SBATCH --error=[filename]</span></code></pre>
+                     <pre class="highlight"><code><span>#SBATCH --error=[filename]</span></code></pre>
                   </div>
                </div>
                and to specify stdout, use the option <em>--output</em> or <em>-o</em>:
                <div class="language-plaintext highlighter-rouge">
                   <div class="highlight">
-                     <pre class="highlight"><span>#SBATCH --output=[filename]</span></code></pre>
+                     <pre class="highlight"><code><span>#SBATCH --output=[filename]</span></code></pre>
                   </div>
                </div>
             </p>
@@ -161,7 +161,7 @@
                the valid values for type are: BEGIN, END, FAIL or ALL.
                <div class="language-plaintext highlighter-rouge">
                   <div class="highlight">
-                     <pre class="highlight"><span>#SBATCH --mail-type=ALL --mail-user name@example.com</span></code></pre>
+                     <pre class="highlight"><code><span>#SBATCH --mail-type=ALL --mail-user name@example.com</span></code></pre>
                   </div>
                </div>
             </p>
@@ -187,8 +187,8 @@
                Run the script on 1 CPU with 3400 megabytes of memory and a runtime of 2 minutes.
                
                #Question: What is the jobid?
-
-               <p>You can find a list of your active jobs by running: 
+               
+               You can find a list of your active jobs by running: 
                   <div class="language-plaintext highlighter-rouge">
                      <div class="highlight">
                         <pre class="highlight"><code><span>squeue</span></code></pre>
@@ -202,9 +202,10 @@
                   Next, find the command to view some simple statistics of the fastq file. You can have a look at the manual page.
                   Tip: similarly as for commands, you can display the manual page of a subcommand using [command] [subcommand] --help.
                   Finally, display all statistics for the "1_control_psbA3_2019_minq7.fastq" file.
-               </p>
+
                #Question: how much memory was used?
                </p>
+               <h2>You have completed Module 2!</h2>
             <h3>Next module:</h3>
             <li> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/3_SNP_Calling_from_fastq_to_vcf/">Module 3: SNP calling - part 1</a> </li>
          </d-article>
