@@ -5,9 +5,9 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title> Module 2 | Slurm jobs</title>
+      <title> Module 3 | SNP calling</title>
       <meta name="author" content="Sophie Colette">
-      <meta name="description" content="Module 2: Introduction to Slurm jobs">
+      <meta name="description" content="Module 3: SNP calling - from fastq to vcf">
       <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
       <link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
@@ -50,12 +50,131 @@
             <d-contents>
                <nav class="l-text figcaption">
                   <h3>Contents</h3>
-                  <div><a href="HPC architecture">HPC architecture: compute nodes</a></div>
+                  <div><a href="Data">Data</a></div>
+                  <div><a href="Create the Conda environment">Create the Conda environment</a></div>
+                  <div><a href="Data">Data</a></div>
                </nav>
             </d-contents>
-            <h2 id="HPC architecture">HPC architecture: compute nodes</h2>
-            <h3>Next module:</h3>
-            <li> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/4_project/">Module 5: SNP calling - part 2</a> </li>
+            <h2 id="Data">Input data</h2>
+            <p>In this workshop, we will run a SNP calling workflow on short read data produced on an Illumina GAIIx from exome-enriched DNA of chromosome 22 of a single human individual. THe data was generated as part of the 1000 genomes Genomes project. 
+               The dataset consists of one million 76bp reads. The data can be downloaded <a href="https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/VariantDet_BASIC/NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq" target="_blank">here</a>.
+               The reference genome of chromosome 22 of version h38 (latest major human genome release) can be downloaded at the bottom of this page: <a href="https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/" target="_blank">https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/</a>.
+               Upload the files to the VSC, decompress the reference h38.fa by using the gunzip tool, and rename it to h38_22.fa to avoid confusion.
+            </p>
+
+            <h2 id="Create the Conda environment">Create the Conda environment</h2>
+            <p>The following packages need to be installed: fastqc, bwa-mem2, samtools, bcftools, matplotlib, vt, and snpeff. First, create a new conda environment:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span>conda create --name ws_snp_calling</span></code></pre>
+                  </div>
+               </div>
+               Next, activate the environment:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span>conda activate ws_snp_calling</span></code></pre>
+                  </div>
+               </div>
+               Finally, install the required packages:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span>conda install bioconda::fastqc bioconda::bwa-mem2 bioconda::samtools bioconda::bcftools conda-forge::matplotlib bioconda::vt bioconda::snpeff</span></code></pre>
+                  </div>
+               </div>
+               
+               Alternatively, you can add the Conda environment by downloading the <a href="/workshop/3_SNP_Calling_from_fastq_to_vcf/ws_snp_calling.yml" download>ws_snp_calling.yml file</a> file, uploading it to the VSC and running:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span>conda env create --name ws_snp_calling -f ws_snp_calling.yml</span></code></pre>
+                  </div>
+               </div>
+               Don't forget to activate the Conda environment:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span>conda activate ws_snp_calling.yml</span></code></pre>
+                  </div>
+               </div>
+            </p>
+            <h2 id="fastqc">fastqc</h2>
+            <p>In this paragraph we will run a QC analysis on the fastq file. The first step is to inspect the file content. This is important as incomplete data transfer can happen when downloading a file.
+            In a first step, we inspect the head of the file:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span>head NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq</span></code></pre>
+                  </div>
+               </div>
+               <figure>
+                  <picture>
+                     <source class="responsive-img-srcset" srcset=" //assets/img/head_fastq-480.webp 480w, /assets/img/head_fastq-800.webp 800w, /assets/img/head_fastq-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                     </source> <img src="/assets/img/head_fastq.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+                  </picture>
+               </figure>
+               <div class="caption">Output of head NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq</div>
+            What does a file in the fastq format normally look like? Every read in a fastq file consists of 4 lines, also called 'fields'.
+            <ul>
+               <li><strong>Field 1</strong>: begins with the "@" character and contains the sequnce id, optionally followed by a description</li>
+               <li><strong>Field 2</strong>: the nucleotide sequence</li>
+               <li><strong>Field 3</strong>: begins with the "+" character, optionally follwed by the content of Field 1</li>
+               <li><strong>Field 4</strong>: contains encoded quality values for each position in the nucleotide sequence</li>
+            </ul>
+            Similarly, the tail of the fastq file should end with Field 4 of the last read i.e., end with a complete read.
+            <figure>
+               <picture>
+                  <source class="responsive-img-srcset" srcset=" //assets/img/head_fastq-480.webp 480w, /assets/img/head_fastq-800.webp 800w, /assets/img/head_fastq-1400.webp 1400w, " sizes="95vw" type="image/webp">
+                  </source> <img src="/assets/img/head_fastq.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+               </picture>
+            </figure>
+            <div class="caption">Output of tail NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq</div>
+            You can also check if the number of lines in the fastq file divided by 4 is equal to an integer.
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span># Number of reads, should output: 1151702</span>
+<span>wc -l NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq | awk '{x=$1/4; print x}'</span>
+<span># Or equivalently, check if the remainder is equal to zero</span>
+<span>wc -l NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq | awk '{x=$1%4; print x}'</span></code></pre>
+               </div>
+            </div>
+            This list is not exhaustive. You can come up with additional checks for your fastq file. For example, you can check whether the sequence in Field 2 and the quality scores in Field 4 of the same length.
+            When you share a file or upload it to a server like the VSC, you can also check if the files before and after transfer are identical by generating checksums with a program like md5sum.
+            If there are issues with the fastq file, try to download it again, or contact the provider of the original file to report the issue.
+         </p>
+         <p>
+            After you controled the validity of the fastq file, you can run the program fastqc to check the quality of the reads. For this, first create an directory for the output data:
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span>mkdir -p fastqc_output</span></code></pre>
+               </div>
+            </div>
+            
+            and then run: 
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span>fastqc fastq_input_data/NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq -o fastqc_output</span></code></pre>
+               </div>
+            </div>
+         </p>
+         Have a look at the file written to the output folder.
+         <div class="language-plaintext highlighter-rouge">
+            <div class="highlight">
+               <pre class="highlight"><code><span>ls -lah ./fastqc_output</span></code></pre>
+            </div>
+         </div>
+         There should be two files in the output directory: a .zip file and a .html file. Download the .html file and open it in your browser.
+         The .html file contains the FastQC report. The quality is measured by 11 statistics. The outcome is labeled in green (= pass), orange ("warning") or red ("error").
+         Note that a warning or an error does not necessarily mean that your data is of poor quality. Some statistics are expected to deviate based on the experiment you performed.
+         It is therefore advised to always look up what the statistic means (within the context of your experiment) and the potential causes of the warning/error.
+         
+         The FastQC report generated here contains 1 error and three warnings. In the next subparagraphs, we will go over each of them.
+         <h3>Per base sequence quality</h3>
+         <h3>Per tile sequence quality</h3>
+         <h3>Per base sequence content</h3>
+         <h3>Per sequence GC content</h3>
+         
+
+         
+
+            
+            <li> <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/5_project/">Module 5: SNP calling - part 2</a> </li>
          </d-article>
          <d-appendix>
             <d-citation-list></d-citation-list>
