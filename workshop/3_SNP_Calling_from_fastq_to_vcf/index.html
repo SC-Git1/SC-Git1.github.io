@@ -106,15 +106,11 @@
         <d-contents>
           <nav class="l-text figcaption">
             <h3>Contents</h3>
-            <div>
-              <a href="Data">Data</a>
-            </div>
-            <div>
-              <a href="Create the Conda environment">Create the Conda environment</a>
-            </div>
-            <div>
-              <a href="Data">Data</a>
-            </div>
+            <div><a href="Data">Data</a></div>
+            <div><a href="Create the Conda environment">Create the Conda environment</a></div>
+            <div><a href="FastQC">FastQC</a></div>
+            <div><a href="Mapping to the reference genome">Mapping to the reference genome</a></div>
+            <div><a href="Quality control of the alignment">Quality control of the alignment</a></div>
           </nav>
         </d-contents>
         <style>
@@ -130,20 +126,28 @@
           <div class="highlight">
             <pre class="highlight"><code><span>conda create --name ws_snp_calling</span></code></pre>
           </div>
-        </div> Next, activate the environment: <div class="language-plaintext highlighter-rouge">
+        </div> 
+        Next, activate the environment: 
+        <div class="language-plaintext highlighter-rouge">
           <div class="highlight">
             <pre class="highlight"><code><span>conda activate ws_snp_calling</span></code></pre>
           </div>
-        </div> Finally, install the required packages: <div class="language-plaintext highlighter-rouge">
+        </div> 
+        Finally, install the required packages: 
+        <div class="language-plaintext highlighter-rouge">
           <div class="highlight">
             <pre class="highlight"><code><span>conda install bioconda::fastqc bioconda::bwa-mem2 bioconda::samtools bioconda::bcftools conda-forge::matplotlib bioconda::vt bioconda::snpeff</span></code>
 				</pre>
           </div>
-        </div> Alternatively, you can add the Conda environment by downloading the <a href="/workshop/3_SNP_Calling_from_fastq_to_vcf/ws_snp_calling.yml" download>ws_snp_calling.yml file</a> file, uploading it to the VSC and running: <div class="language-plaintext highlighter-rouge">
+        </div> 
+        Alternatively, you can add the Conda environment by downloading the <a href="/workshop/3_SNP_Calling_from_fastq_to_vcf/ws_snp_calling.yml" download>ws_snp_calling.yml file</a> file, uploading it to the VSC and running: 
+        <div class="language-plaintext highlighter-rouge">
           <div class="highlight">
             <pre class="highlight"><code><span>conda env create --name ws_snp_calling -f ws_snp_calling.yml</span></code></pre>
           </div>
-        </div> Don't forget to activate the Conda environment: <div class="language-plaintext highlighter-rouge">
+        </div> 
+        Don't forget to activate the Conda environment: 
+        <div class="language-plaintext highlighter-rouge">
           <div class="highlight">
             <pre class="highlight"><code><span>conda activate ws_snp_calling.yml</span></code></pre>
           </div>
@@ -313,9 +317,9 @@
         <h3>Per base sequence quality</h3>
         <figure>
          <picture>
-           <source class="responsive-img-srcset" srcset=" //assets/img/stat1-480.webp 480w, /assets/img/stat1-800.webp 800w, /assets/img/stat1-1400.webp 1400w, " sizes="95vw" type="image/webp">
+           <source class="responsive-img-srcset" srcset=" //assets/img/per_base_quality-480.webp 480w, /assets/img/per_base_quality-800.webp 800w, /assets/img/per_base_quality-1400.webp 1400w, " sizes="95vw" type="image/webp">
            </source>
-           <img src="/assets/img/stat1.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+           <img src="/assets/img/per_base_quality.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
          </picture>
         </figure>
         <p>The "per base sequence quality" plot is the most important analysis in the FastQC report. It shows the distribution of the quality score over all reads per position. The expected output 
@@ -350,14 +354,39 @@
         </p>
         The quality scores are calculated using the following formula:
         $$-10 \log_{10}(e)$$ 
-
-
-        <blockquote class="block-tip"> <h5 id="Tip">TIP</h5> 
-         <p>
-            If the quality drops singificantly towards the end, you might consider trimming the reads by position, or based on quality.
-         </p>
-        </blockquote>
-        <p>In the case of Illumina seqeuncing, frequenlty occurring probelms and their quality trend, are given in the table below.
+        <p>
+         Thus, high scores indicate higher sequence quality. The error rate and base call accuracy of some scores are listed in the table below.
+         <table class="table" border=1px>
+            <tr>
+              <th>Quality score</th>
+              <th>Error rate</th>
+              <th>Base call accuracy</th>
+            </tr>
+            <tr>
+              <td>Q10</strong></td>
+              <td>1 in 10</td>
+              <td>90%</td>
+            </tr>
+            <tr>
+               <td>Q20</strong></td>
+               <td>1 in 100</td>
+               <td>99%</td>
+            </tr>
+            <tr>
+               <td>Q30</strong></td>
+               <td>1 in 1000</td>
+               <td>99.9%</td>
+             </tr>
+             <tr>
+               <td>Q40</strong></td>
+               <td>1 in 10,000</td>
+               <td>99.99%</td>
+             </tr>
+          </table>
+          Quality score above Q30 mean that virtually all of the reads will be perfect. 
+          Q30 is considered a threshold for quality in next-generation sequencing (NGS).
+        </p>
+        <p>In the case of Illumina sequencing, frequenlty occurring probelms and their quality trend, are given in the table below.
             <table class="table" border=1px>
                <tr>
                  <th>Trend</th>
@@ -373,6 +402,11 @@
                </tr>
              </table>
         </p>
+        <blockquote class="block-tip"> <h5 id="Tip">TIP</h5> 
+         <p>
+            If the quality drops singificantly towards the end, you might consider trimming the reads by position, or based on quality.
+         </p>
+        </blockquote>
         <h3>Per tile sequence quality</h3>
         <p>The "per tile sequence quality" plot only appears in the presence of an Illumina library and the original sequence identifiers 
          (which contain the flowcell tile for each read). This plot shows the deviation from the average quality for each combination of flowcell tile (y-axis) and position (x-axis).
@@ -391,20 +425,204 @@
          Therefore, we should interpret this error together with the other statistics.
         </p>
         <h3>Per sequence quality scores</h3>
-
+        <figure>
+         <picture>
+           <source class="responsive-img-srcset" srcset=" //assets/img/per_sequence_quality-480.webp 480w, /assets/img/per_sequence_quality-800.webp 800w, /assets/img/per_sequence_quality-1400.webp 1400w, " sizes="95vw" type="image/webp">
+           </source>
+           <img src="/assets/img/per_sequence_quality.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+         </picture>
+        </figure>
+        The "Per sequence quality scores" plot shows the distribution of the average quality per read. Based on the figure, most reads have a high Phred score and thus are of very good quality.
+        A peak below 27 (0.2% error rate) raises a warning, and a peak below 20 (= 1% error rate) raises an error.
+        Moreover, a small local maximum may be visible at a low scores, which indicates that a subset of the sequences are of overall low quality.
+        Often, the reason for some sequences being poorly imaged is their location at the edge of the field of view and thus this concerns only a small % of the sequences. 
+        It is advised to quickly investigate the sequences of low quality, to identify the cause.
         <h3>Per base sequence content</h3>
+        <figure>
+         <picture>
+           <source class="responsive-img-srcset" srcset=" //assets/img/per_base_sequence_content-480.webp 480w, /assets/img/per_base_sequence_content-800.webp 800w, /assets/img/per_base_sequence_content-1400.webp 1400w, " sizes="95vw" type="image/webp">
+           </source>
+           <img src="/assets/img/per_base_sequence_content.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+         </picture>
+        </figure>
+        <p>
+         The "per base sequence content" plot shows the % of the 4 bases T, C, A and G per position. 
+         In a random library, each position should have a base frequency that approximates the overall frequency in the genome.
+         Deviations are the result of introduced bias during library preparation (e.g., overrepresented sequences) or during sequencing. 
+         Some library preparation procedures will always introduce a technical bias, usually at the beginning of the reads.
+         For example, the hexamer priming step of RNA-seq library preparation or libraries that result from fragmentation using transposases (= tagmentation), have enriched bases in the first 10-12 positions.
+         This is usually not a problem for downstream analysis.
+         A warning is raised when the difference between A/T or G/C in any position exceeds 10%. Errors are raised when the difference exceeds 20%.
+        </p>
         <h3>Per sequence GC content</h3>
+        <figure>
+         <picture>
+           <source class="responsive-img-srcset" srcset=" //assets/img/per_sequence_gc_content-480.webp 480w, /assets/img/per_sequence_gc_content-800.webp 800w, /assets/img/per_sequence_gc_content-1400.webp 1400w, " sizes="95vw" type="image/webp">
+           </source>
+           <img src="/assets/img/per_sequence_gc_content.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+         </picture>
+        </figure>
+        <p>
+         The plot "per sequence GC content" usually contains a normal distribution with a mean equal to the GC content of the studied organism.
+         The blue line represents the expected distribution based on the mean GC content. THe red line represents the actual distribution in the fastq file. Shifts of the normal distribution to the side due to systematic bias are not detected, since the program does not know the expected GC%.
+         Sharp peaks on top of the normal distribution are an indication of contamination of overrepresentation sequences or a highly over-expressed gene. 
+         A broad peak may indicate contamination with another organism.
+         A warning/error is raised if the sum of the deviations from the normal distribution represents more than 15%/30% of the reads.
+         If the total deviations from the standard distribution make up more than 15% or 30% of the reads, a warning or error are raised respectively.   
+         </p>
         <h3>Per base N content</h3>
+        <figure>
+         <picture>
+           <source class="responsive-img-srcset" srcset=" //assets/img/per_base_n_content-480.webp 480w, /assets/img/per_base_n_content-800.webp 800w, /assets/img/per_base_n_content-1400.webp 1400w, " sizes="95vw" type="image/webp">
+           </source>
+           <img src="/assets/img/per_base_n_content.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+         </picture>
+        </figure>
+        <p>
+         The "per base N content" plot shows the % of N per position. An N is assigned each time that the confidence is not high enough to call a base. Thus, high percentages indicate that the data is not of sufficient quality to assure valid base calls. 
+         A warning is raised if any position has an N content of more than 5%.
+        </p>
         <h3>Sequence length distribution</h3>
+        <figure>
+         <picture>
+           <source class="responsive-img-srcset" srcset=" //assets/img/sequence_length_distribution-480.webp 480w, /assets/img/sequence_length_distribution-800.webp 800w, /assets/img/sequence_length_distribution-1400.webp 1400w, " sizes="95vw" type="image/webp">
+           </source>
+           <img src="/assets/img/sequence_length_distribution.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+         </picture>
+        </figure>
+        <p>
+         In our case, all sequences are of the same length. An error is raised if any sequence has a length equal to zero.
+         A warning is raised when not all sequences are of the same length. 
+         Based on the pipeline you used, the presence and degree of sequence variation are a metric of the quality of the base calls.
+         For example, some pipelines remove poor quality base calls from the sequences.
+        </p>
         <h3>Sequence duplication levels</h3>
+        <figure>
+         <picture>
+           <source class="responsive-img-srcset" srcset=" //assets/img/duplication_levels.webp 480w, /assets/img/duplication_levels-800.webp 800w, /assets/img/duplication_levels-1400.webp 1400w, " sizes="95vw" type="image/webp">
+           </source>
+           <img src="/assets/img/duplication_levels.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+         </picture>
+        </figure>
+        <p>
+         The sequence duplication levels are determined for the first 200,000 reads. Any read over 75bp is truncated to 50bp, because only exact matches count. 
+         Because the likelihood of a sequencing error increases with read length, this procedure may lead to an underestimation of the duplication levels for longer sequences.
+         Note that the upwards trend at > 10 in the figure is due to the binning.
+        </p>
         <h3>Overrepresented sequences</h3>
+        <p>
+         There are no overrepresented sequences in the data. Overrepresented sequences are defined as sequences of  at least 20 bp with an occurrence of more than 0.1%.
+         These are often remaining vector or adaptor sequences. They may explain skewed results in the "per sequence GC content" plot.
+         <blockquote class="block-tip"> <h5 id="Tip">TIP</h5> 
+            <p>
+               If you don't recognize the overrepresented sequence immediately, you can identify it by using BLAST.
+            </p>
+           </blockquote>
+        </p>
         <h3>Adapter content</h3>
+        <figure>
+         <picture>
+           <source class="responsive-img-srcset" srcset=" //assets/img/adapter_content-480.webp 480w, /assets/img/adapter_content-800.webp 800w, /assets/img/adapter_content-1400.webp 1400w, " sizes="95vw" type="image/webp">
+           </source>
+           <img src="/assets/img/adapter_content.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+         </picture>
+        </figure>
+        <p>
+         According to the figure, there is no overrepresentation of polyG, polyA, Nextera transposase, Illumina small RNA 5' adapter,
+         Illumina small RNA 3' adapter or the Illumina universal adapter sequences.
+        </p>
         <li>
+         <h2 id="Mapping to the reference genome">Mapping to the reference genome</h2>
+         <p>
+            To call SNPs, the reads should first be mapped to the reference genome. In case you work with multiple conditions e.g., normal vs tumor samples, you should map all samples to the reference genome and compare the called SNPs to filter out the constitutional (germline) variants from the somatic (tumour) variants.
+            Popular mapping tools are bwa-mem, bowtie2, and minimap2. Based on the literature, the tools perform similarly.
+            In this workshop, we will use bwa-mem2, a speed optimized version of bwa-mem.
+         </p>
+         <p>
+            First, create an index of the reference genome. An index makes looking up a seqeunce in the reference more efficient/faster.
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span>bwa-mem2 index h19_chr22.fa</span></code></pre>
+               </div>
+             </div>
+            Then, align the reads and store the output in a SAM (= sequence aligment map) file:
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span>bwa-mem2 mem h19_chr22.fa NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq > NA12878.sam</span></code></pre>
+               </div>
+             </div>
+            Sort the aligments based on their leftmost coordinates. By default, the output is is in the BAM (= binary aligment map) format. A bam file is the compressed (binary) representation of the sorted SAM file. 
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span>samtools sort NA12878.sam > NA12878.bam</span></code></pre>
+               </div>
+             </div>
+             Finally, index the BAM file for faster data retrieval:
+             <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span>samtools index NA12878.bam</span></code></pre>
+               </div>
+             </div>
+             Have a look at the all the files that were created. Note the compression achieved with the BAM format (62M instead of 276M).
+         </p>
+         <h2 id="Quality control of the alignment">Quality control of the alignment</h2>
+         <p>Now, let's have a look at the aligment results. You can display the header of the SAM file with:
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span>samtools view -H NA12878.sam</span></code></pre>
+               </div>
+             </div>
+             The output should be:
+             <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span>@SQ	SN:chr22	LN:51304566</span>
+<span>@PG	ID:bwa-mem2	PN:bwa-mem2	VN:2.2.1	CL:bwa-mem2 mem h19_chr22.fa NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq</span>
+<span>@PG	ID:samtools	PN:samtools	PP:bwa-mem2	VN:1.13	CL:samtools view -H NA12878.sam</span></code>
+                 </pre>
+               </div>
+             </div>
+             <h3>View header</h3>
+               Header lines start with "@". The first line in the header contains information about the reference sequence i.e., the sequence name (SN) and the length (LN).
+               The second line defines the program (PG) used to generate the SAM file:
+               <ul>
+                  <li><strong>ID</strong>: program identifier</li>
+                  <li><strong>PN</strong>: program name</li>
+                  <li><strong>VN</strong>: program version</li>
+                  <li><strong>CL</strong>: the command run</li>
+               </ul>
+               Finally, the third line defines the program used to view the file (ID, PN, VN, CL). "PP" indicate the previous program run. 
+             <h3>View alignments</h3>
+             <p>
+               Each line in a SAM file represents a record and consists of 11 mandatory fiels and optionally some extra fields. 
+               As an example, the first record is:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                    <pre class="highlight"><code><span>61CC3AAXX100125:7:118:2538:5577	16	chr22	16050954	60	76M	*	0	0	GGGGATGAAGGCTCTTAGGTGGTAGCCCTCCAAGAGAATAGATGGTGAATGTCTCTTTTCAGACATTAAAGGTGTC	==?@AFIHEIIFFFHEIIIGIIEDIIIFFIIHIIIIHFEIIFFIIGIGFFHEEEEGGGDIHHEIDEBEEEFDAC>?	NM:i:0	MD:Z:76	AS:i:76	XS:i:0</span></code></pre>
+                  </div>
+                </div>
+               The different columns are:
+               <ul>
+                  <li><strong>QNAME</strong>: name of the query sequence, <em>61CC3AAXX100125:7:118:2538:5577</em></li>
+                  <li><strong>FLAG</strong>: representation of a 10-bit long sequence encoding the read's characteristics. For example, <em>16</em> stands for "mapped on the reverse strand"</li>
+                  <li><strong>RNAME</strong>: name of the reference sequence, <em>chr22</em></li>
+                  <li><strong>POS</strong>: 1-based leftmost position, <em>16050954</em></li>
+                  <li><strong>MAPQ</strong>: mapping quality. In the case of bwa-mem, the quality ranges from 0 (= equally well mapping elsewhere) to 60. The value '255' indicates that the MAPQ value is not available.</li>
+                  <li><strong>CIGAR</strong>: 1-based leftmost position, <em>16050954</em></li>
+                  <li><strong>RNEXT</strong>: 1-based leftmost position, <em>16050954</em></li>
+                  <li><strong>PNEXT</strong>: 1-based leftmost position, <em>16050954</em></li>
+                  <li><strong>TLEN</strong>: 1-based leftmost position, <em>16050954</em></li>
+                  <li><strong>SEQ</strong>: 1-based leftmost position, <em>16050954</em></li>
+                  <li><strong>QUAL</strong>: 1-based leftmost position, <em>16050954</em></li>
+               </ul>
+             </p>
+
+         </p>
           <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/5_project/">Module 5: SNP calling - part 2</a>
         </li>
       </d-article>
       <d-appendix>
         <d-citation-list>
+         <p>https://emea.illumina.com/science/technology/next-generation-sequencing/plan-experiments/quality-scores.html</p>
          <p>https://training.galaxyproject.org/training-material/topics/sequence-analysis/tutorials/quality-control/tutorial.html</p>
         </d-citation-list>
       </d-appendix>
