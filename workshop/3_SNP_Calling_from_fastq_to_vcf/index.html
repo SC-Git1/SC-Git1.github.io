@@ -184,7 +184,7 @@
             <li><strong>Encoding</strong>: guess of the data format used, indicates the type of quality score (Field 4).</li> 
             The three possibilities are: Solexa+64, Phred+64 and Phred+33. Some examples:
                <style> 
-                  td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%; }
+                  td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%; border: 1px solid black;}
                   td:nth-child(2) { text-align: justify; width:60%; }
                   td:nth-child(1) { width:20%; }
                   td:first-child,td:last-child { text-align: center; }
@@ -202,13 +202,13 @@
                Using Phred+64 files in a Phred+33 pipeline results in an incorrect interpretation of the quality score i.e., the quality is overestimated.
                Phred+33 is the standard in the newest Illumina versions, and the most widely supported format.
                To convert your fastq file to Phred+33, you can use for example the "FastQ Groomer" tool of Galaxy.
-
-            
-            <li><strong>Total sequences</strong>total sequences</li>
-            <li><strong>Total bases</strong>Total bases</li>
+            <li><strong>Total sequences</strong>: Total number of sequences processed. It is good practice to keep track of the total number of reads throughout the analysis.</li>
+            <li><strong>Total bases</strong>: Total number of sequences processed.</li>
             <li><strong>Sequences flagged as poor quality</strong>Sequences flagged as poor quality</li>
-            <li><strong>Sequence length</strong>Sequence length</li>
-            <li><strong>%GC</strong>%GC</li>
+            <li><strong>Sequence length</strong></li>
+            <li><strong>%GC</strong></li>
+
+            A question to ask yourself when looking at the table is: are the sequence length and %GC as expected?
 
          </ul>
          In our case, this is equal to "Sanger / Illumina 1.9". This means that the data was generated using Sanger sequencing and the
