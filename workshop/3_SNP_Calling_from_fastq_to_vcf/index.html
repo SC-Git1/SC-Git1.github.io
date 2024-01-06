@@ -160,15 +160,66 @@
             </div>
          </div>
          There should be two files in the output directory: a .zip file and a .html file. Download the .html file and open it in your browser.
-         The .html file contains the FastQC report. The quality is measured by 11 statistics. The outcome is labeled in green (= pass), orange ("warning") or red ("error").
-         Note that a warning or an error does not necessarily mean that your data is of poor quality. Some statistics are expected to deviate based on the experiment you performed.
+         The .html file contains the FastQC report. The quality is measured 10 statistics. The outcome is labeled in green (= pass), orange ("warning") or red ("error").
+         Images of the plots can be found in the .zip file, both in the PNG and SVG format. The FastQC report generated here contains 1 error and three warnings.
+         However, note that a warning or an error does not necessarily mean that your data is of poor quality. Some statistics are expected to deviate based on the experiment you performed.
          It is therefore advised to always look up what the statistic means (within the context of your experiment) and the potential causes of the warning/error.
-         
-         The FastQC report generated here contains 1 error and three warnings. In the next subparagraphs, we will go over each of them.
+         In the next subparagraphs, we will go over all statistics and briefly explain how to interpret them.
+         <h3>Basic statistics</h3>
+         <figure>
+            <picture>
+               <source class="responsive-img-srcset" srcset=" //assets/img/stat1-480.webp 480w, /assets/img/stat1-800.webp 800w, /assets/img/stat1-1400.webp 1400w, " sizes="95vw" type="image/webp">
+               </source> <img src="/assets/img/stat1.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
+            </picture>
+         </figure>
+         The basic statistics section never raises an error or warning, but informs you about some properties of the file:
+         <ul>
+            <li><strong>Filename</strong></li>
+            <li><strong>File type</strong></li>
+            <li><strong>Encoding</strong>: guess of the data format used, indicates the type of quality score (Field 4).</li> 
+            The three possibilities are: Solexa+64, Phred+64 and Phred+33. Some examples:
+               <style> 
+                  td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%; }
+                  td:nth-child(2) { text-align: justify; width:60%; }
+                  td:nth-child(1) { width:20%; }
+                  td:first-child,td:last-child { text-align: center; }
+               </style>
+               <table class="table" border = 1>
+                  <tr><th>Encoding</th><th>Quality score type</th></tr>
+                  <tr><td>Sanger / Illumina 1.8+</td><td>Phred+33</td></tr>
+                  <tr><td>Sanger / Illumina 1.5</td><td>Phred+64</td></tr>
+                  <tr><td>Sanger / Illumina 1.3</td><td>Phred+64</td></tr>
+                  <tr><td>Solexa / Illumina</td><td>Solexa+64</td></tr>
+               </table>
+
+               The type needs to be specified in tools like Trimmomatic (a read trimming tool for Illumina NGS data) and Bowtie2
+               (a reference alignment tool for short reads (50-100 bp)). Other tools only support one format, for example the reference algment tool "bwa-mem" only supports Phred+33 [reference:https://sourceforge.net/p/bio-bwa/mailman/bio-bwa-help/thread/CAF%2BL%2BTeKa9v0Nmjrn-DS9QKzsyTjAEcFyXMNkw-ygzLkdXo4AQ%40mail.gmail.com/#msg31652789].
+               Using Phred+64 files in a Phred+33 pipeline results in an incorrect interpretation of the quality score i.e., the quality is overestimated.
+               Phred+33 is the standard in the newest Illumina versions, and the most widely supported format.
+               To convert your fastq file to Phred+33, you can use for example the "FastQ Groomer" tool of Galaxy.
+
+            
+            <li><strong>Total sequences</strong>total sequences</li>
+            <li><strong>Total bases</strong>Total bases</li>
+            <li><strong>Sequences flagged as poor quality</strong>Sequences flagged as poor quality</li>
+            <li><strong>Sequence length</strong>Sequence length</li>
+            <li><strong>%GC</strong>%GC</li>
+
+         </ul>
+         In our case, this is equal to "Sanger / Illumina 1.9". This means that the data was generated using Sanger sequencing and the
+         with the Illumina 1.9 pipeline. In that case, th e 
          <h3>Per base sequence quality</h3>
          <h3>Per tile sequence quality</h3>
+         <h3>Per sequence quality scores</h3>
          <h3>Per base sequence content</h3>
          <h3>Per sequence GC content</h3>
+         <h3>Per base N content</h3>
+         <h3>Sequence length distribution</h3>
+         <h3>Sequence duplication levels</h3>
+         <h3>Overrepresented sequences</h3>
+         <h3>Adapter content</h3>
+         
+         
          
 
          
