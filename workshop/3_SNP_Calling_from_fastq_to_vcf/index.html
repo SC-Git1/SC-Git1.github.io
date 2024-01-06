@@ -184,12 +184,12 @@
             <li><strong>Encoding</strong>: guess of the data format used, indicates the type of quality score (Field 4).</li> 
             The three possibilities are: Solexa+64, Phred+64 and Phred+33. Some examples:
                <style> 
-                  td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%; border: 1px solid black;}
+                  td, th { padding-top: 1%; padding-bottom: 1%; padding-left: 1%; padding-right: 1%;}
                   td:nth-child(2) { text-align: justify; width:60%; }
                   td:nth-child(1) { width:20%; }
                   td:first-child,td:last-child { text-align: center; }
                </style>
-               <table class="table" border = 1>
+               <table class="table" border = 1px>
                   <tr><th>Encoding</th><th>Quality score type</th></tr>
                   <tr><td>Sanger / Illumina 1.8+</td><td>Phred+33</td></tr>
                   <tr><td>Sanger / Illumina 1.5</td><td>Phred+64</td></tr>
@@ -205,10 +205,10 @@
             <li><strong>Total sequences</strong>: Total number of sequences processed. It is good practice to keep track of the total number of reads throughout the analysis.</li>
             <li><strong>Total bases</strong>: Total number of sequences processed.</li>
             <li><strong>Sequences flagged as poor quality</strong>Sequences flagged as poor quality</li>
-            <li><strong>Sequence length</strong></li>
+            <li><strong>Sequence length</strong>: provides the length of the shortest and longest sequence. Returns one value if those are equal.</li>
             <li><strong>%GC</strong></li>
 
-            A question to ask yourself when looking at the table is: are the sequence length and %GC as expected?
+            A question to ask yourself is are the sequence length and %GC as expected?
 
          </ul>
          In our case, this is equal to "Sanger / Illumina 1.9". This means that the data was generated using Sanger sequencing and the
