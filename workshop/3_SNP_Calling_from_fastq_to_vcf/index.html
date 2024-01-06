@@ -349,7 +349,8 @@
              </table>
         </p>
         The quality scores are calculated using the following formula:
-        [-10 \log_{10}(e)] 
+        \[-10 \log_{10}(e)] 
+
 
         <blockquote class="block-tip"> <h5 id="Tip">TIP</h5> 
          <p>
@@ -375,9 +376,22 @@
         <h3>Per tile sequence quality</h3>
         <p>The "per tile sequence quality" plot only appears in the presence of an Illumina library and the original sequence identifiers 
          (which contain the flowcell tile for each read). This plot shows the deviation from the average quality for each combination of flowcell tile (y-axis) and position (x-axis).
-         The colors range from blue (good) to red (worse). A good plot is entirely blue.
+         The colors range from blue (at or above average) to red (below average). A good plot is entirely blue.
+         An error is raised if any tile has a mean Phred score more than below the mean for that position across all tiles.<br>
+         <strong>Interpretation</strong>
+         <figure>
+            <picture>
+              <source class="responsive-img-srcset" srcset=" //assets/img/tile-480.webp 480w, /assets/img/tile-800.webp 800w, /assets/img/tile-1400.webp 1400w, " sizes="95vw" type="image/webp">
+              </source>
+              <img src="/assets/img/tile.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+            </picture>
+           </figure>
+         The error raised here is thus due to the variability in quality scores in tile 115 for a few positions. However, overall there do not appear to be 
+         major problems with the calls made in tile 115. Note that FastQC's thresholds for raising warnings or errors are not absolute indicators of good or bad data. Instead, they are to help you identify potential quality issues.
+         Therefore, we should interpret this error together with the other statistics.
         </p>
         <h3>Per sequence quality scores</h3>
+
         <h3>Per base sequence content</h3>
         <h3>Per sequence GC content</h3>
         <h3>Per base N content</h3>
