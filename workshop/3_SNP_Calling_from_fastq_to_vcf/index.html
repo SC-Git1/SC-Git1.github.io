@@ -119,7 +119,9 @@
           }
         </style>
         <h2 id="Data">Input data</h2>
-        <p>In this workshop, we will run a SNP calling workflow on short read data produced on an Illumina GAIIx from exome-enriched DNA of chromosome 22 of a single human individual. THe data was generated as part of the 1000 genomes Genomes project. The dataset consists of one million 76bp reads. The data can be downloaded <a href="https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/VariantDet_BASIC/NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq" target="_blank">here</a>. The reference genome of chromosome 22 of version h38 (latest major human genome release) can be downloaded at the bottom of this page: <a href="https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/" target="_blank">https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/</a>. Upload the files to the VSC, decompress the reference h38.fa by using the gunzip tool, and rename it to h38_22.fa to avoid confusion. </p>
+        <p>In this workshop, we will run a SNP calling workflow on short read data produced on an Illumina GAIIx from exome-enriched DNA of chromosome 22 of a single human individual. The data was generated as part of the 1000 genomes Genomes project. The dataset consists of a subset of 1,151,702 reads with a length of 76 bps.
+         The file contains paired-end reads, but most read 2 sequences are not included. However, it is advised to performed separate analyses on your forward and reverse reads. This can easily be done by specifying two files instead of one in the commands below.
+         The data can be downloaded <a href="https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/VariantDet_BASIC/NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq" target="_blank">here</a>. The reference genome of chromosome 22 of version h38 (latest major human genome release) can be downloaded at the bottom of this page: <a href="https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/" target="_blank">https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/</a>. Upload the files to the VSC, decompress the reference h38.fa by using the gunzip tool, and rename it to h38_22.fa to avoid confusion. </p>
         <h2 id="Create the Conda environment">Create the Conda environment</h2>
         <p>The following packages need to be installed: fastqc, bwa-mem2, samtools, bcftools, matplotlib, vt, and snpeff. First, create a new conda environment:
         <div class="language-plaintext highlighter-rouge">
@@ -542,83 +544,177 @@
             First, create an index of the reference genome. An index makes looking up a seqeunce in the reference more efficient/faster.
             <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span>bwa-mem2 index h19_chr22.fa</span></code></pre>
+                 <pre class="highlight"><code><span>bwa-mem2 index hg38_chr22.fa</span></code></pre>
                </div>
-             </div>
+            </div>
             Then, align the reads and store the output in a SAM (= sequence aligment map) file:
             <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span>bwa-mem2 mem h19_chr22.fa NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq > NA12878.sam</span></code></pre>
+                 <pre class="highlight"><code><span>bwa-mem2 mem hg38_chr22.fa NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq > NA12878.sam</span></code></pre>
                </div>
-             </div>
+            </div>
             Sort the aligments based on their leftmost coordinates. By default, the output is is in the BAM (= binary aligment map) format. A bam file is the compressed (binary) representation of the sorted SAM file. 
             <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
                  <pre class="highlight"><code><span>samtools sort NA12878.sam > NA12878.bam</span></code></pre>
                </div>
-             </div>
-             Finally, index the BAM file for faster data retrieval:
-             <div class="language-plaintext highlighter-rouge">
+            </div>
+            Finally, index the BAM file for faster data retrieval:
+            <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
                  <pre class="highlight"><code><span>samtools index NA12878.bam</span></code></pre>
                </div>
-             </div>
-             Have a look at the all the files that were created. Note the compression achieved with the BAM format (62M instead of 276M).
+            </div>
+            Have a look at the all the files that were created. Note the compression achieved with the BAM format (62M instead of 276M).
+            The command samtools view can be used to display the content of the BAM file in a human-readable format.
+            You can at this point delete the sam file to create free space in your file system.
          </p>
          <h2 id="Quality control of the alignment">Quality control of the alignment</h2>
-         <p>Now, let's have a look at the aligment results. You can display the header of the SAM file with:
+         <h3>View header</h3>
+         <p>You can display the header of the BAM file with:
             <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span>samtools view -H NA12878.sam</span></code></pre>
+                 <pre class="highlight"><code><span>samtools view -H NA12878.bam</span></code></pre>
                </div>
-             </div>
-             The output should be:
-             <div class="language-plaintext highlighter-rouge">
+            </div>
+            The output should be:
+            <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
-                 <pre class="highlight"><code><span>@SQ	SN:chr22	LN:51304566</span>
-<span>@PG	ID:bwa-mem2	PN:bwa-mem2	VN:2.2.1	CL:bwa-mem2 mem h19_chr22.fa NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq</span>
-<span>@PG	ID:samtools	PN:samtools	PP:bwa-mem2	VN:1.13	CL:samtools view -H NA12878.sam</span></code>
+                 <pre class="highlight"><code><span>@HD	VN:1.6	SO:coordinate</span>
+<span>@SQ	SN:chr22	LN:50818468</span></code>
+<span>@PG	ID:bwa-mem2	PN:bwa-mem2	VN:2.2.1	CL:bwa-mem2 mem hg38_chr22.fa NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq</span>
+<span>@PG	ID:samtools.1	PN:samtools	PP:samtools	VN:1.18	CL:samtools view -H NA12878.bam</span></code>
                  </pre>
                </div>
-             </div>
-             <h3>View header</h3>
-               Header lines start with "@". The first line in the header contains information about the reference sequence i.e., the sequence name (SN) and the length (LN).
-               The second line defines the program (PG) used to generate the SAM file:
-               <ul>
-                  <li><strong>ID</strong>: program identifier</li>
-                  <li><strong>PN</strong>: program name</li>
-                  <li><strong>VN</strong>: program version</li>
-                  <li><strong>CL</strong>: the command run</li>
-               </ul>
-               Finally, the third line defines the program used to view the file (ID, PN, VN, CL). "PP" indicate the previous program run. 
-             <h3>View alignments</h3>
-             <p>
-               Each line in a SAM file represents a record and consists of 11 mandatory fiels and optionally some extra fields. 
-               As an example, the first record is:
+            </div>
+         </p>
+         <p>Header lines start with "@". The first line in the header starts with @HD, followed by the version of the SAM/BAM format and the sort order (here: based on coordinates). An alternative SO value is "queryname".
+            The second line contains information about the reference sequence i.e., the sequence name (SN) and the length (LN).
+            The third and fourth line define the programs (PG) run to generate the file:
+            <ul>
+               <li><strong>ID</strong>: program identifier</li>
+               <li><strong>PN</strong>: program name</li>
+               <li><strong>VN</strong>: program version</li>
+               <li><strong>CL</strong>: the command run</li>
+               <li><strong>PP</strong>: the previous program run</li>
+            </ul>
+         </p>
+         <h3>View alignments</h3>
+         <div class="language-plaintext highlighter-rouge">
+            <div class="highlight">
+              <pre class="highlight"><code><span>samtools view NA12878.sam | head</span></code></pre>
+            </div>
+         </div>
+         <p>
+            Each line in a SAM file represents a record and consists of 11 mandatory fiels and optionally some extra (in our case: 4) fields. 
+            As an example, the first record is:
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                  <pre class="highlight"><code><span>61CC3AAXX100125:7:88:7051:20873	16	chr22	10536861	0	76M	*	0	0	AGGCGGGTGGATCACGAGGTCAGGAGATCGAGACCATCCTGGCTAACAAGGTGAAACCCCGTCTCTACTAAAAATA	#;?&lt;D;GDIGC@IDCIHHHCGEIIII@??II@FIIAEIEGIIEDGFIGHIHFHGGDIIICH?DCCBCB&lt;BDCB@2?	NM:i:0	MD:Z:76	AS:i:76	XS:i:76</span></code>
+                  </pre>
+               </div>
+            </div>
+            The mandatory fields are:
+            <ul>
+               <li><strong>QNAME</strong>: name of the query sequence, <em>61CC3AAXX100125:7:88:7051:20873</em></li>
+               <li><strong>FLAG</strong>: representation of a 10-bit long sequence encoding the read's characteristics. For example, <em>16</em> stands for mapped on the reverse strand</li>
+               <li><strong>RNAME</strong>: name of the reference sequence, <em>chr22</em></li>
+               <li><strong>POS</strong>: 1-based leftmost (on the + strand) position, <em>10536861</em></li>
+               <li><strong>MAPQ</strong>: mapping quality. In the case of bwa-mem, the quality ranges from 0 (= equally well mapping elsewhere) to 60. The value '255' indicates a missing value.</li>
+               <li><strong>CIGAR</strong>: CIGAR (=Concise Idiosyncratic Gapped Alignment Report) string, how reads align to the reference e.g., <em>76M</em> stands for 76 aligment matches (can be match or mismatch)</li>
+               <li><strong>RNEXT</strong>: the name of the paired-end read's mate, "<em>*</em>" means unavailable</li>
+               <li><strong>PNEXT</strong>: 1-based left-most (on the + strand) position of the paired-end read's mate, <em>0</em> means not available</li>
+               <li><strong>TLEN</strong>: distance between the ends of the read and its mate, <em>0</em> means unavailable (either because single-end or mate unmapped/mapped to different reference sequence)</li>
+               <li><strong>SEQ</strong>: the nucleotide sequence, <em>AGGCGGGTGGATCACGAGGTCAGGAGATCGAGACCATCCTGGCTAACAAGGTGAAACCCCGTCTCTACTAAAAATA</em></li>
+               <li><strong>QUAL</strong>: ASCII-encoded base quality scores, <em>#;?&lt;D;GDIGC@IDCIHHHCGEIIII@??II@FIIAEIEGIIEDGFIGHIHFHGGDIIICH?DCCBCB&lt;BDCB@2?</em></li>
+            </ul>
+         </p>
+             
+         <p>
+            The optional fields are:
+            <ul>
+               <li><strong>NM</strong>: number of differences (mismatches/indels) between the sequence and the reference. Matches are only counted for A, C, G and T bases. "=" is always counted. Here, the value <em>0</em> means that there are no differences.</li>
+               <li><strong>MD</strong>: <em>0</em> encoding of the mismatch and deleted bases in reference, <em>76</em> means a run of 76 reference bases are identical to the corresponding SEQ bases</li>
+               <li><strong>AS</strong>: Alignment score generated by aligner, <em>76</em></li>
+               <li><strong>XS</strong>: secondary aligmnent score,<em>76</em> means there is a secondary alignment with an alignment score of 76. This is consistent with the MPAQ value of 0</li>
+            </ul>
+            Note that the "i" in the NM, AS and XS fields means that the value is an integer. The "Z" in the MD fields indicates a string value. 
+         </p>
+         <h3>samtools idxstats</h3>
+         <div class="language-plaintext highlighter-rouge">
+            <div class="highlight">
+              <pre class="highlight"><code><span>samtools idxstats NA12878.bam</span></code></pre>
+            </div>
+         </div>
+         <figure>
+            <picture>
+               <source class="responsive-img-srcset" srcset=" //assets/img/idxstats.webp 480w, /assets/img/idxstats-800.webp 800w, /assets/img/idxstats-1400.webp 1400w, " sizes="95vw" type="image/webp">
+               </source>
+               <img src="/assets/img/idxstats.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+            </picture>
+         </figure>
+         <p>
+            samtools idxstats reports alignment summary statistics i.e., (1) reference sequence name, (2) reference sequence length, (3) number of mapped read-segments, and (4) number of unmapped read-segments.
+            Based on the reference aligment tool, the unmapped read-segments may be assigned to the reference sequence of their mate. 
+            <details><summary>Optional: Unmapped reads visualisation and fq file generation</summary>
+               To store the unmapped reads in the BAM format, run:
                <div class="language-plaintext highlighter-rouge">
                   <div class="highlight">
-                    <pre class="highlight"><code><span>61CC3AAXX100125:7:118:2538:5577	16	chr22	16050954	60	76M	*	0	0	GGGGATGAAGGCTCTTAGGTGGTAGCCCTCCAAGAGAATAGATGGTGAATGTCTCTTTTCAGACATTAAAGGTGTC	==?@AFIHEIIFFFHEIIIGIIEDIIIFFIIHIIIIHFEIIFFIIGIGFFHEEEEGGGDIHHEIDEBEEEFDAC>?	NM:i:0	MD:Z:76	AS:i:76	XS:i:0</span></code></pre>
+                    <pre class="highlight"><code><span>samtools view -b -f4 NA12878.bam > not_mapped.bam</span></code></pre>
                   </div>
-                </div>
-               The different columns are:
-               <ul>
-                  <li><strong>QNAME</strong>: name of the query sequence, <em>61CC3AAXX100125:7:118:2538:5577</em></li>
-                  <li><strong>FLAG</strong>: representation of a 10-bit long sequence encoding the read's characteristics. For example, <em>16</em> stands for "mapped on the reverse strand"</li>
-                  <li><strong>RNAME</strong>: name of the reference sequence, <em>chr22</em></li>
-                  <li><strong>POS</strong>: 1-based leftmost position, <em>16050954</em></li>
-                  <li><strong>MAPQ</strong>: mapping quality. In the case of bwa-mem, the quality ranges from 0 (= equally well mapping elsewhere) to 60. The value '255' indicates that the MAPQ value is not available.</li>
-                  <li><strong>CIGAR</strong>: 1-based leftmost position, <em>16050954</em></li>
-                  <li><strong>RNEXT</strong>: 1-based leftmost position, <em>16050954</em></li>
-                  <li><strong>PNEXT</strong>: 1-based leftmost position, <em>16050954</em></li>
-                  <li><strong>TLEN</strong>: 1-based leftmost position, <em>16050954</em></li>
-                  <li><strong>SEQ</strong>: 1-based leftmost position, <em>16050954</em></li>
-                  <li><strong>QUAL</strong>: 1-based leftmost position, <em>16050954</em></li>
-               </ul>
-             </p>
-
+               </div>
+               You can convert the unmapped alignments to a fastq file with samtools fastq in the following way:
+               <div class="language-plaintext highlighter-rouge">
+                  <div class="highlight">
+                    <pre class="highlight"><code><span>samtools view -f4 NA12878.bam | samtools fastq > not_mapped.fq</span></code></pre>
+                  </div>
+               </div>
+            </details>
+            In this example, there is only one reference sequence "chr22" with a length of 50,818,468 bases. The BAM file contains 1,136,643 read mappings to chr22. 
+            Note that reads with secondary (multiple mappings e.g., repeats) or supplementary mappings (chimeric alignments i.e., split alignments) are counted more than once.
          </p>
-          <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/5_project/">Module 5: SNP calling - part 2</a>
-        </li>
+         <h3>samtools flagstat</h3>
+         Samtools' flagstat counts the number of alignments for each FLAG type.
+         <figure>
+            <picture>
+               <source class="responsive-img-srcset" srcset=" //assets/img/flagstat.webp 480w, /assets/img/flagstat-800.webp 800w, /assets/img/flagstat-1400.webp 1400w, " sizes="95vw" type="image/webp">
+               </source>
+               <img src="/assets/img/flagstat.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+            </picture>
+         </figure>
+         In this example, there are 
+         <h3>Visualisation</h3>
+         <p>
+            We can visualize the bam file content in some summarising plots. To do this, first generate the summary statistics of the BAM file and write them to a file
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span>samtools stats NA12878.bam > bam_stats.txt</span></code></pre>
+               </div>
+            </div>
+            Next, generate the plots and store them in the output directory "stats_bam_output". Note that to run this step, you need to additionally install the tool gnuplot into your environment.
+            <div class="language-plaintext highlighter-rouge">
+               <div class="highlight">
+                 <pre class="highlight"><code><span>plot-bamstats -p stats_bam_output/ bam_stats.txt</span></code></pre>
+               </div>
+            </div>
+         </p>
+         <h4></h4>
+         The statistics of this output and FastQC overlap. Therefore, you can compare e.g. the GC-content before and after mapping.
+         A first interesting figure to look at is the coverage plot.This plot shows the distribution of the number of mapped bases (log-scaled) against the coverage. In our case, most mapped bases have a very low coverage, which makes sense since the dataset originally only contains a subset of 1e6 reads.
+         Usually, for SNP calling, a coverage around 30 is recommended. Note that this dataset is only a subset used for illustrative purpose.
+         For SNP calling of DNA,  
+         <figure>
+            <picture>
+               <source class="responsive-img-srcset" srcset=" //assets/img/coverage-480.webp 480w, /assets/img/coverage-800.webp 800w, /assets/img/coverage-1400.webp 1400w, " sizes="95vw" type="image/webp">
+               </source>
+               <img src="/assets/img/coverage.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+            </picture>
+         </figure>
+         <p>
+            
+         </p>
+ 
+         <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/5_project/">Module 5: SNP calling - part 2</a>
       </d-article>
       <d-appendix>
         <d-citation-list>
