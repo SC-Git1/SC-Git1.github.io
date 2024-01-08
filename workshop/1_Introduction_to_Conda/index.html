@@ -52,11 +52,13 @@
                   <h3>Contents</h3>
                   <div><a href="#What is Conda?">What is Conda?</a></div>
                   <div><a href="#Installation">Installation</a></div>
-                  <div><a href="#Conda Commands">Conda Commands</a></div>
+                  <div><a href="#Conda commands">Conda commands</a></div>
+                  <div><a href="#Shebang: an update">Shebang: an update</a></div>
+                  <div><a href="#Conda channels">Conda channels</a></div>
                   <div><a href="#Tips">Tips</a></div>
                </nav>
             </d-contents>
-            <h2 id="What is Conda?">What is Conda?</h2>
+            <h2 id="What is Conda?">1.1 What is Conda?</h2>
             <p>A lot of bioinformatics software is distributed in the form of a package. Two popular formats are Conda packages and Pip packages.
                For now, let's focus on Conda packages. A Conda package is basically an archive file of the software with any metadata needed for its installation.
                It is either a compressed tarball (.tar.bz2 files ) or a .conda file. You do not need to know how these file formats work, but now you can recognize them.
@@ -66,11 +68,11 @@
                <li>Environment manager</li>
                <li>Dependency manager</li>
                <p>Some software have a range of dependency versions they are compatible with. Additionally, as a user, you may specify a specific version of one or more of the packages that need to be installed. As a dependency manager, Conda analyzes the requirements of each package and identifies a set of packages and versions that satisfy these requirements without conflicts. This saves you from manually resolving the dependencies.</p>
-               <h3><strong>Environment manager</strong></h3>
+               <h3><strong>1.1.1 Environment manager</strong></h3>
                <p>Not all packages are compatible. For instance, two packages might conflict when they require different versions of the same dependency. If installed in the same space, they would conflict and cause errors. Conda environments are isolated spaces where packages can be installed without interfering with each other. In this way, each package can have its own environment with the specific dependencies it needs.
                   With Conda, you can easily create, update, and delete these environments, providing an efficient way to manage your software.
                </p>
-            <h3><strong>Dependency manager</strong></h3>
+            <h3><strong>1.1.2 Dependency manager</strong></h3>
             <p>Some software have a range of dependencies they are compatible with. Conda automatically finds a combination of packages that is compatible with each other.</p>
             <p>The first step in using Conda packages is to install a distribution. If you already have a Conda or Mamba distribution installed, you can skip the installation step. In this workshop, we will install Miniconda, which is the lightweight version and thus requires far less disk space than Anaconda.</p>
             <details><summary>Optional: other package managers</summary>
@@ -88,7 +90,7 @@
                </figure>
                <div class="caption">Overview of popular package managers Pip, Conda and Mamba.</div>
             </details>
-            <h2 id="Installation">Install Miniconda</h2>
+            <h2 id="Installation">1.2 Install Miniconda</h2>
             <p>The most up-to-date information on how to install Miniconda is to go to the official documentation: <a href="https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html" rel="external nofollow noopener" target="_blank">https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html</a> 
                However, for this workshop (Date: 8 Jan 2023), you can follow the steps below.</p>
             <p>Connect to the VSC, either via OnDemand or by using a terminal emulator like Putty. Then, go to the DATA directory:
@@ -137,7 +139,7 @@
                </picture>
             </figure>
             <div class="caption">Output of the command <code class="language-plaintext highlighter-rouge">conda env list</code> after the installation.</div>
-            <h2 id="Conda commands">Conda commands</h2>
+            <h2 id="Conda commands">1.3 Conda commands</h2>
             <p>Below, you can find a list of some useful conda commands. For example purposes, let's assume you are working with a Conda environment called example_env. When you are running these commands, do not forget to replace the environment's name to yours.</p>
             <style>
                code {
@@ -175,15 +177,15 @@
                   </code></pre>
                </div>
             </div>
-            <h3>Shebang: an update</h3>
+            <h2 id="Shebang: an update">1.4 Shebang: an update</h2>
             <p>Conda allows you to install different versions of a programming language. For example, you may have installed python3.9 in your Conda environment.
                To use that interpreter instead, you can update your shebang to: 
                /usr/bin/env python3.9
             </p>
-            <h2 id="Conda channels">Conda channels</h2>
+            <h2 id="Conda channels">1.5 Conda channels</h2>
             # explain bioconda and conda-forge.
             # conda install commands
-            <h2 id="Tips">Tips</h2>
+            <h2 id="Tips">1.6 Tips</h2>
             <ul>
                <li>The commands to install packages can be found at <a href="https://anaconda.org/" rel="external nofollow noopener" target="_blank">https://anaconda.org/</a>. Or simply google conda [package name].</li>
                <li>It is advised to use separate environments for each software/workflow.</li>
