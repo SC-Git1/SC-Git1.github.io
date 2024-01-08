@@ -108,9 +108,11 @@
             <h3>Contents</h3>
             <div><a href="Data">Data</a></div>
             <div><a href="Create the Conda environment">Create the Conda environment</a></div>
-            <div><a href="FastQC">FastQC</a></div>
+            <div><a href="fastqc">FastQC</a></div>
             <div><a href="Mapping to the reference genome">Mapping to the reference genome</a></div>
             <div><a href="Quality control of the alignment">Quality control of the alignment</a></div>
+            <div><a href="SNP calling with bcftools">SNP calling with bcftools</a></div>
+            <div><a href="Quality control of the VCF file">Quality control of the VCF file</a></div>          
           </nav>
         </d-contents>
         <style>
@@ -118,11 +120,11 @@
             text-align: justify;
           }
         </style>
-        <h2 id="Data">Input data</h2>
+        <h2 id="Data">3.1 Input data</h2>
         <p>In this workshop, we will run a SNP calling workflow on short read data produced on an Illumina GAIIx from exome-enriched DNA of chromosome 22 of a single human individual. The data was generated as part of the 1000 genomes Genomes project. The dataset consists of a subset of 1,151,702 reads with a length of 76 bps.
          The file contains paired-end reads, but most read 2 sequences are not included. However, it is advised to performed separate analyses on your forward and reverse reads. This can easily be done by specifying two files instead of one in the commands below.
          The data can be downloaded <a href="https://swift.rc.nectar.org.au:8888/v1/AUTH_a3929895f9e94089ad042c9900e1ee82/VariantDet_BASIC/NA12878.GAIIx.exome_chr22.1E6reads.76bp.fastq" target="_blank">here</a>. The reference genome of chromosome 22 of version h38 (latest major human genome release) can be downloaded at the bottom of this page: <a href="https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/" target="_blank">https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/</a>. Upload the files to the VSC, decompress the reference h38.fa by using the gunzip tool, and rename it to h38_22.fa to avoid confusion. </p>
-        <h2 id="Create the Conda environment">Create the Conda environment</h2>
+        <h2 id="Create the Conda environment">3.2 Create the Conda environment</h2>
         <p>The following packages need to be installed: fastqc, bwa-mem2, samtools, bcftools, matplotlib, vt, and snpeff. First, create a new conda environment:
         <div class="language-plaintext highlighter-rouge">
           <div class="highlight">
@@ -155,7 +157,7 @@
           </div>
         </div>
         </p>
-        <h2 id="fastqc">fastqc</h2>
+        <h2 id="fastqc">3.3 FastQC</h2>
         <p>In this paragraph we will run a QC analysis on the fastq file. The first step is to inspect the file content. This is important as incomplete data transfer can happen when downloading a file. In a first step, we inspect the head of the file:
         <div class="language-plaintext highlighter-rouge">
           <div class="highlight">
@@ -184,7 +186,7 @@
             <strong>Field 4</strong>: contains encoded quality values for each position in the nucleotide sequence
           </li>
         </ul>
-        <p>Similarly, the tail of the fastq file should end with Field 4 of the last read i.e., end with a complete read.</p>
+        <p>Similarly, th tail of the fastq file should end with Field 4 of the last read i.e., end with a complete read.</p>
         <figure>
           <picture>
             <source class="responsive-img-srcset" srcset=" //assets/img/head_fastq-480.webp 480w, /assets/img/head_fastq-800.webp 800w, /assets/img/head_fastq-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -223,7 +225,7 @@
         <p>There should be two files in the output directory: a .zip file and a .html file. Download the .html file and open it in your browser. The .html file contains the FastQC report. The quality is measured by 10 statistics. The outcome is labeled in green (= pass), orange ("warning") or red ("error"). Images of the plots can be found in the .zip file, both in the PNG and SVG format. The FastQC report generated here contains 1 error and three warnings. However, note that a warning or an error does not necessarily mean that your data is of poor quality. Some statistics are expected to deviate based on the experiment you performed. It is therefore advised to always look up what the statistic means (within the context of your experiment) and the potential causes of the warning/error. In the next subparagraphs, we will go over all statistics and briefly explain how to interpret them.
          For more information we refer to the FastQC manual[TODO: REFERENCE!].
         </p>
-        <h3>Basic statistics</h3>
+        <h3>3.3.1 Basic statistics</h3>
         <figure>
           <picture>
             <source class="responsive-img-srcset" srcset=" //assets/img/stat1-480.webp 480w, /assets/img/stat1-800.webp 800w, /assets/img/stat1-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -316,7 +318,7 @@
           </li>
           <p>A question to ask yourself is: are the sequence length and %GC as expected?</p>
         </ul>
-        <h3>Per base sequence quality</h3>
+        <h3>3.3.2 Per base sequence quality</h3>
         <figure>
          <picture>
            <source class="responsive-img-srcset" srcset=" //assets/img/per_base_quality-480.webp 480w, /assets/img/per_base_quality-800.webp 800w, /assets/img/per_base_quality-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -409,7 +411,7 @@
             If the quality drops singificantly towards the end, you might consider trimming the reads by position, or based on quality.
          </p>
         </blockquote>
-        <h3>Per tile sequence quality</h3>
+        <h3>3.3.3 Per tile sequence quality</h3>
         <p>The "per tile sequence quality" plot only appears in the presence of an Illumina library and the original sequence identifiers 
          (which contain the flowcell tile for each read). This plot shows the deviation from the average quality for each combination of flowcell tile (y-axis) and position (x-axis).
          The colors range from blue (at or above average) to red (below average). A good plot is entirely blue.
@@ -426,7 +428,7 @@
          major problems with the calls made in tile 115. Note that FastQC's thresholds for raising warnings or errors are not absolute indicators of good or bad data. Instead, they are to help you identify potential quality issues.
          Therefore, we should interpret this error together with the other statistics.
         </p>
-        <h3>Per sequence quality scores</h3>
+        <h3>3.3.4 Per sequence quality scores</h3>
         <figure>
          <picture>
            <source class="responsive-img-srcset" srcset=" //assets/img/per_sequence_quality-480.webp 480w, /assets/img/per_sequence_quality-800.webp 800w, /assets/img/per_sequence_quality-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -439,7 +441,7 @@
         Moreover, a small local maximum may be visible at a low scores, which indicates that a subset of the sequences are of overall low quality.
         Often, the reason for some sequences being poorly imaged is their location at the edge of the field of view and thus this concerns only a small % of the sequences. 
         It is advised to quickly investigate the sequences of low quality, to identify the cause.
-        <h3>Per base sequence content</h3>
+        <h3>3.3.5 Per base sequence content</h3>
         <figure>
          <picture>
            <source class="responsive-img-srcset" srcset=" //assets/img/per_base_sequence_content-480.webp 480w, /assets/img/per_base_sequence_content-800.webp 800w, /assets/img/per_base_sequence_content-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -456,7 +458,7 @@
          This is usually not a problem for downstream analysis.
          A warning is raised when the difference between A/T or G/C in any position exceeds 10%. Errors are raised when the difference exceeds 20%.
         </p>
-        <h3>Per sequence GC content</h3>
+        <h3>3.3.6 Per sequence GC content</h3>
         <figure>
          <picture>
            <source class="responsive-img-srcset" srcset=" //assets/img/per_sequence_gc_content-480.webp 480w, /assets/img/per_sequence_gc_content-800.webp 800w, /assets/img/per_sequence_gc_content-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -472,7 +474,7 @@
          A warning/error is raised if the sum of the deviations from the normal distribution represents more than 15%/30% of the reads.
          If the total deviations from the standard distribution make up more than 15% or 30% of the reads, a warning or error are raised respectively.   
          </p>
-        <h3>Per base N content</h3>
+        <h3>3.3.7 Per base N content</h3>
         <figure>
          <picture>
            <source class="responsive-img-srcset" srcset=" //assets/img/per_base_n_content-480.webp 480w, /assets/img/per_base_n_content-800.webp 800w, /assets/img/per_base_n_content-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -484,7 +486,7 @@
          The "per base N content" plot shows the % of N per position. An N is assigned each time that the confidence is not high enough to call a base. Thus, high percentages indicate that the data is not of sufficient quality to assure valid base calls. 
          A warning is raised if any position has an N content of more than 5%.
         </p>
-        <h3>Sequence length distribution</h3>
+        <h3>3.3.8 Sequence length distribution</h3>
         <figure>
          <picture>
            <source class="responsive-img-srcset" srcset=" //assets/img/sequence_length_distribution-480.webp 480w, /assets/img/sequence_length_distribution-800.webp 800w, /assets/img/sequence_length_distribution-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -498,7 +500,7 @@
          Based on the pipeline you used, the presence and degree of sequence variation are a metric of the quality of the base calls.
          For example, some pipelines remove poor quality base calls from the sequences.
         </p>
-        <h3>Sequence duplication levels</h3>
+        <h3>3.3.9 Sequence duplication levels</h3>
         <figure>
          <picture>
            <source class="responsive-img-srcset" srcset=" //assets/img/duplication_levels.webp 480w, /assets/img/duplication_levels-800.webp 800w, /assets/img/duplication_levels-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -511,7 +513,7 @@
          Because the likelihood of a sequencing error increases with read length, this procedure may lead to an underestimation of the duplication levels for longer sequences.
          Note that the upwards trend at > 10 in the figure is due to the binning.
         </p>
-        <h3>Overrepresented sequences</h3>
+        <h3>3.3.10 Overrepresented sequences</h3>
         <p>
          There are no overrepresented sequences in the data. Overrepresented sequences are defined as sequences of  at least 20 bp with an occurrence of more than 0.1%.
          These are often remaining vector or adaptor sequences. They may explain skewed results in the "per sequence GC content" plot.
@@ -521,7 +523,7 @@
             </p>
            </blockquote>
         </p>
-        <h3>Adapter content</h3>
+        <h3>3.3.11 Adapter content</h3>
         <figure>
          <picture>
            <source class="responsive-img-srcset" srcset=" //assets/img/adapter_content-480.webp 480w, /assets/img/adapter_content-800.webp 800w, /assets/img/adapter_content-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -534,7 +536,7 @@
          Illumina small RNA 3' adapter or the Illumina universal adapter sequences.
         </p>
         <li>
-         <h2 id="Mapping to the reference genome">Mapping to the reference genome</h2>
+         <h2 id="Mapping to the reference genome">3.4 Mapping to the reference genome</h2>
          <p>
             To call SNPs, the reads should first be mapped to the reference genome. In case you work with multiple conditions e.g., normal vs tumor samples, you should map all samples to the reference genome and compare the called SNPs to filter out the constitutional (germline) variants from the somatic (tumour) variants.
             Popular mapping tools are bwa-mem, bowtie2, and minimap2. Based on the literature, the tools perform similarly.
@@ -569,8 +571,8 @@
             The command samtools view can be used to display the content of the BAM file in a human-readable format.
             You can at this point delete the sam file to create free space in your file system.
          </p>
-         <h2 id="Quality control of the alignment">Quality control of the alignment</h2>
-         <h3>View header</h3>
+         <h2 id="Quality control of the alignment">3.5 Quality control of the alignment</h2>
+         <h3>3.5.1 View header</h3>
          <p>You can display the header of the BAM file with:
             <div class="language-plaintext highlighter-rouge">
                <div class="highlight">
@@ -599,7 +601,7 @@
                <li><strong>PP</strong>: the previous program run</li>
             </ul>
          </p>
-         <h3>View alignments</h3>
+         <h3>3.5.2 View alignments</h3>
          <div class="language-plaintext highlighter-rouge">
             <div class="highlight">
               <pre class="highlight"><code><span>samtools view NA12878.sam | head</span></code></pre>
@@ -640,7 +642,7 @@
             </ul>
             Note that the "i" in the NM, AS and XS fields means that the value is an integer. The "Z" in the MD fields indicates a string value. 
          </p>
-         <h3>samtools idxstats</h3>
+         <h3>3.5.3 samtools idxstats</h3>
          <div class="language-plaintext highlighter-rouge">
             <div class="highlight">
               <pre class="highlight"><code><span>samtools idxstats NA12878.bam</span></code></pre>
@@ -673,7 +675,7 @@
             In this example, there is only one reference sequence "chr22" with a length of 50,818,468 bases. The BAM file contains 1,136,643 read mappings to chr22. 
             Note that reads with secondary (multiple mappings e.g., repeats) or supplementary mappings (chimeric alignments i.e., split alignments) are counted more than once.
          </p>
-         <h3>samtools flagstat</h3>
+         <h3>3.5.4 samtools flagstat</h3>
          Samtools' flagstat counts the number of alignments for each FLAG type.
          <figure>
             <picture>
@@ -684,7 +686,7 @@
          </figure>
          In this example, there are 1,136,643 succesful mappings to the reference genome. 1,136,571 are primary alignments, and 72 are supplementary alignments.
          As we saw before, the fastq file contains 1,151,702 records (i.e., primary or unique reads). The total treats the supplementary alignments as extra records.
-         <h3>plot-bamstats</h3>
+         <h3>3.5.5 plot-bamstats</h3>
          <p>
             We can visualize the bam file content in some summarising plots. To do this, first generate the summary statistics of the BAM file and write them to a file
             <div class="language-plaintext highlighter-rouge">
@@ -712,7 +714,7 @@
                <img src="/assets/img/coverage.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
             </picture>
          </figure>
-         <h3>IGV</h3>
+         <h3>3.5.6 IGV</h3>
          <p>
           Finally, visualize the BAM file in IGV (= Integrative Genomics Viewer) using the app or in a web browser (<a href="https://igv.org/app/" target="_blank">https://igv.org/app/</a>).
           For this, download the files hg38_chr22.fa, hg38_chr22.fa.fai NA12878.bam, and NA12878.bai. 
@@ -741,7 +743,7 @@
         You could identify some of these regions in your file and try to find the cause. Possible causes are repetitive regions and duplicate genes.
         </p>
 
-        <h2 id="SNP calling with bcftools">SNP calling with bcftools</h2>
+        <h2 id="SNP calling with bcftools">3.6 SNP calling with bcftools</h2>
         <div class="language-plaintext highlighter-rouge">
           <div class="highlight">
             <pre class="highlight"><code><span>bcftools mpileup -Ou -f hg38_chr22.fa NA12878.bam \</span>
@@ -757,7 +759,8 @@
           The option -mv tells the program to only output the variants. The option -m sets the caller to multi-allelic. This means that all alleles that reach the call criteria will be reported.
           Alternatively, you can set the caller to the consensus caller (-c).
         </p>
-        <h3>Quality control of the vcf file</h3>
+        <h2>3.7 Quality control of the VCF file</h2>
+        <h3>3.7.1 Inspect the VCF file</h4>
         <p>
           For quality control you can again first inspect the header lines and the first and last records.
           An example of a record is:
@@ -779,7 +782,7 @@
           <li><strong>INFO</strong>: additional information</li>
         </ol>
       </p>
-      <h3>Visualization in IGV</h3>
+      <h3>3.7.2 Visualization in IGV</h3>
       <p>
         Next, you can visualize a high-quality SNP in IGV. You can sort the VCF file based on descending quality score using:
         <div class="language-plaintext highlighter-rouge">
@@ -811,31 +814,7 @@
         </div> 
         Note that a QUAL score higher than 30 is equal to a confidence of > 99.9%.
       </p>
-      <h2>Clean the VCF file using vt</h2>
-      <p>
-        Run the vt commands to clean up the VCF file.
-      </p>
-      <div class="language-plaintext highlighter-rouge">
-        <div class="highlight">
-          <pre class="highlight"><code><span>cat raw_snps.vcf \</span>
-<span>| vt decompose - \</span>
-<span>| vt normalize -n -r hg38_chr22.fa - \</span>
-<span>| vt uniq - \</span>
-<span>| vt view -f "QUAL>30" -h - \</span>
-<span>> clean_snps.vcf</span></code>
-          </pre>
-        </div>
-      </div>
-      <p>
-        First, vt decompose turns multi-allelic variants into bi-allelic variants. According to the output, 11 variants are decomposed.
-        Next, vt normalize ensures a unique 
-      </p>
-      
-      
-      
-      
-      
-      
+      <h2>You completed module 3!</h2>
 
         <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/4_SNP_cleaning_and_annotation/">Module 5: SNP calling - part 2</a>
       </d-article>
