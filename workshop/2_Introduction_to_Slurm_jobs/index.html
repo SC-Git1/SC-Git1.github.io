@@ -53,16 +53,11 @@
                   <div><a href="HPC architecture">HPC architecture: compute nodes</a></div>
                   <div><a href="#What is Slurm?">What is Slurm?</a></div>
                   <div><a href="#Request a batch job">Request a batch job</a></div>
-                  <div><a href="#Memory">Memory</a></div>
-                  <div><a href="#Walltime">Walltime</a></div>
-                  <div><a href="#Partition">Partition</a></div>
-                  <div><a href="#Job name">Job name</a></div>
-                  <div><a href="#Redirecting stdout, stderr">Redirecting stdout, stderr</a></div>
-                  <div><a href="#Mail">Mail</a></div>
-                  <div><a href="#Submitting job scripts: an example">Submitting job scripts: an example</a></div>
+                  <div><a href="#Submitting job scripts">Submitting job scripts</a></div>
+                  <div><a href="#Exercises">Exercises</a></div>
                </nav>
             </d-contents>
-            <h2 id="HPC architecture">HPC architecture: compute nodes</h2>
+            <h2 id="HPC architecture">2.1 HPC architecture: compute nodes</h2>
             <p>The Flemish Supercomputer Centrum (VSC) offers a High Performance Computer (HPC) infrastructure for scientific and technical computing. To run jobs on the VSC, it is necessary to familiarize yourself with some terms related to HPCs, particularly about compute nodes. 
                An overview is given in the figure below.</p>
                <figure>
@@ -71,7 +66,7 @@
                      </source> <img src="/assets/img/HPC_overview.jpg" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();"> 
                   </picture>
                </figure>
-            <h2 id="What is Slurm?">What is Slurm?</h2>
+            <h2 id="What is Slurm?">2.2 What is Slurm?</h2>
             <p>Slurm is a (cluster) workload manager and stands for <em>Simple Unix Utility for Resource Management</em>.
                As a workload manager, it organizes the allocation of resources like computing power, memory and time to users, and manages the queue of resource requests (= jobs). To request resources on the VSC, you should submit a job.
                A job is a description of requested resources optionally along with the instructions to run when the resources are allocated. A job that only describes the resources is an interactive job.
@@ -81,7 +76,7 @@
                The next section explains the layout of a job request.
             </p>
 
-            <h2 id="Request a batch job">Request a batch job</h2>
+            <h2 id="Request a batch job">2.3 Request a batch job</h2>
             <p>Batch jobs are submitted using the command <code class="language-plaintext highlighter-rouge">sbatch</code>. The required resources (number of nodes, walltime, memory etc.) can be
             specified by adding arguments to the command or by creating a .slurm job script that contains so called <code class="language-plaintext highlighter-rouge">#SBATCH</code> lines). In this workshop, we will add the specifications to the job script.
             <details><summary>Have a look at the manual page of sbatch</summary>
@@ -93,7 +88,7 @@
             
             The next paragraphs provide information on various aspects to take into account when requesting resources.
             </p>
-            <h3 id="Partition">Partition</h3>
+            <h3 id="Partition">2.3.1 Partition</h3>
             <p>A cluster can be divided into different 'partitions' based on the quality or trait of the nodes.
                Examples of partitions on the wICE hardware of the VSC (KU Leuven) are: "batch", "batch-long", "gpu", "interactive", "bigmem".
                Batch jobs that with requested time > 3 days, should be submitted to the "batch-long" partition. Next, GPU is a computing resource like CPU and stands for <em>Graphics Processing Unit</em>. It is a specialized processor that is ideal for tasks requiring intensive computations that can be run in parallel. 
@@ -101,7 +96,7 @@
                Note that running jobs on the GPU nodes is more costly, so it is important to check if the software you use is able to take advantage of the parallel processing capabilities of a GPU.
                Finally, the "bigmem" partition consists of big memroy nodes, with 2048GB of RAM. The partition is specified with the option <em>partition</em>.
             </p>
-            <h3 id="Wall time">Wall time</h3>
+            <h3 id="Wall time">2.3.2 Wall time</h3>
             <p>Wall time is the compute time. The requested wall time can be written in the following formats: 
             mm (minutes), mm:ss (minutes and seconds), hh:mm:ss (hours, minutes and seconds), d-hh (days and hours), d-hh:mm (days, hours and minutes) or d-hh:mm:ss (days, hours, minutes and seconds).
             Wall time is an estimate of the user, based on for example the runtime of a data subset during the debugging phase. It is recommended to slightly overestimate the time needed to prevent loss of temporary results stored in the node if a job exceeds its allotted time. 
@@ -113,7 +108,7 @@
                </div>
             </div>
             </p>
-            <h3 id="Memory">Memory</h3>
+            <h3 id="Memory">2.3.3 Memory</h3>
             <p>Memory refers to the amount of RAM. You can specify the amount with <code class="language-plaintext highlighter-rouge">--mem-per-cpu=[amount][unit]</code>
             Again, the memory is an user-defined estimate of the amount of memory needed. It is advised to ask for a slight overestimated amount of RAM. However, make sure not exceed the maximum (see: 
             <a href="https://docs.vscentrum.be/leuven/tier2_hardware/wice_hardware.html#hardware-details" target="_blank">https://docs.vscentrum.be/leuven/tier2_hardware/wice_hardware.html#hardware-details</a>
@@ -129,7 +124,7 @@
                </div>
             </div>
             
-            <h3 id="Job name">Job name</h3>
+            <h3 id="Job name">2.3.4 Job name</h3>
             <p>By default, the job name is the name of the job script. Alternatively, you can give your job a name using the option <em>--job-name</em>.
             </p>
             <div class="language-plaintext highlighter-rouge">
@@ -137,7 +132,7 @@
                   <pre class="highlight"><code><span>#SBATCH --job-name=example</span></code></pre>
                </div>
             </div>
-            <h3 id="Redirecting stdout, stderr">Redirecting stdout, stderr</h3>
+            <h3 id="Redirecting stdout, stderr">2.3.5 Redirecting stdout, stderr</h3>
             <p>"stdout" stands for standard output. It is the location where the program writes its output data. When you run a program in the terminal, the stdout is the terminal screen.
                For batch jobs, the stdout is a file named slurm-<jobid>.out.
                Similarly, "stderr" stands for standard error and it is the location used to write errors, warnings, and informative messages.
@@ -155,7 +150,7 @@
                   </div>
                </div>
             </p>
-            <h3 id="Mail">Mail</h3>
+            <h3 id="Mail">2.3.6 Mail</h3>
             <p>Finally, when submitting a job script, you can request to receive an email about the status of your job. To do so, 
                add your email address with the option <em>--mail-user</em> and the situations in which you like to receive an email with the option <em>--email-type</em>.
                the valid values for type are: BEGIN, END, FAIL or ALL.
@@ -165,7 +160,7 @@
                   </div>
                </div>
             </p>
-            <h2 id="Submitting job scripts">Submitting job scripts</h2>
+            <h2 id="Submitting job scripts">2.4 Submitting job scripts</h2>
             A slurm batch job script has the following layout:
             <ol>
                <li>#!/usr/bin/bash</li>
@@ -179,7 +174,7 @@
                </div>
             </div>
              <p>When the job is succesfully submitted, sbatch prints a message containing the unique job id to the terminal.</p>
-             <h2 id="Time to practice!">Time to practice!</h2>
+             <h2 id="Exercises">2.5 Exercises</h2>
                <p>
                <strong>Exercise 1</strong><br>
                Create a script that writes "Hello world" to stdout. Stdout is a file named "greeting.out", stderr is a file named "greetings.err". 
