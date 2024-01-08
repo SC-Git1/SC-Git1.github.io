@@ -183,11 +183,28 @@
                /usr/bin/env python3.9
             </p>
             <h2 id="Conda channels">1.5 Conda channels</h2>
-            # explain bioconda and conda-forge.
-            # conda install commands
+            <p>
+               Conda channels are locations where package are stored and through which packages are distributed.
+               Examples of channels are conda-forge and bioconda.
+               The exact channel is specified in the conda install command.
+                An example is 
+               <div class="language-shell highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span class="nf">conda install bioconda::seqkit</span>
+                     </code></pre>
+                  </div>
+               </div>
+               The channels that are configured in your Conda setup can be viewed with:
+               <div class="language-shell highlighter-rouge">
+                  <div class="highlight">
+                     <pre class="highlight"><code><span class="nf">conda config --show channels</span>
+                     </code></pre>
+                  </div>
+               </div>
+               The commands to install packages can be found at <a href="https://anaconda.org/" rel="external nofollow noopener" target="_blank">https://anaconda.org/</a>. Or simply google conda [package name].
+            </p>
             <h2 id="Tips">1.6 Tips</h2>
             <ul>
-               <li>The commands to install packages can be found at <a href="https://anaconda.org/" rel="external nofollow noopener" target="_blank">https://anaconda.org/</a>. Or simply google conda [package name].</li>
                <li>It is advised to use separate environments for each software/workflow.</li>
                <li>If the active Conda environment already has a lot of packages installed, the installation of an additional package will typically take longer because of the time needed to solve the environment.</li>
                <li>The fastest way to set-up an environment is to specify all packages you want to use at the creation step. An example is given in Module 3: SNP calling - from fastq to vcf <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/3_SNP_Calling_from_fastq_to_vcf/">Module 3: from fastq to vcf</a>.</li>
