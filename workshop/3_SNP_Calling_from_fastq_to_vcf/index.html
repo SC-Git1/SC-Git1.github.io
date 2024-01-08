@@ -300,7 +300,7 @@
               <td>Solexa+64</td>
             </tr>
           </table>
-          <p>The type needs to be specified in tools like Trimmomatic (a read trimming tool for Illumina NGS data) and Bowtie2 (a reference alignment tool for short reads (50-100 bp)). Other tools only support one format, for example the reference algment tool "bwa-mem" only supports Phred+33 [reference:https://sourceforge.net/p/bio-bwa/mailman/bio-bwa-help/thread/CAF%2BL%2BTeKa9v0Nmjrn-DS9QKzsyTjAEcFyXMNkw-ygzLkdXo4AQ%40mail.gmail.com/#msg31652789]. Using Phred+64 files in a Phred+33 pipeline results in an incorrect interpretation of the quality score i.e., the quality is overestimated. Phred+33 is the standard in the newest Illumina versions, and the most widely supported format. To convert your fastq file to Phred+33, you can use for example the "FastQ Groomer" tool of Galaxy. </p>
+          <p>The type needs to be specified in tools like Trimmomatic (a read trimming tool for Illumina NGS data) and Bowtie2 (a reference alignment tool for short reads (50-100 bp)). Other tools only support one format, for example the reference algment tool "bwa-mem" only supports Phred+33. Using Phred+64 files in a Phred+33 pipeline results in an incorrect interpretation of the quality score i.e., the quality is overestimated. Phred+33 is the standard in the newest Illumina versions, and the most widely supported format. To convert your fastq file to Phred+33, you can use for example the "FastQ Groomer" tool of Galaxy. </p>
           <li>
             <strong>Total sequences</strong>: Total number of sequences processed. It is good practice to keep track of the total number of reads throughout the analysis.
           </li>
