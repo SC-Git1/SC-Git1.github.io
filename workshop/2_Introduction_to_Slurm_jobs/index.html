@@ -178,10 +178,12 @@
                <p>
                <strong>Exercise 1</strong><br>
                Create a script that writes "Hello world" to stdout. Stdout is a file named "greeting.out", stderr is a file named "greetings.err". 
-               Set so you receive an email when the job starts.
                Run the script on 1 CPU with 3400 megabytes of memory and a runtime of 2 minutes.
                
-               #Question: What is the jobid?
+               Questions:
+               <ul>
+                  <li>What is the jobid?</li>
+               </ul>
                
                You can find a list of your active jobs by running: 
                   <div class="language-plaintext highlighter-rouge">
@@ -192,13 +194,11 @@
                </p>
                <strong>Exercise 2: synthesis</strong><br>
                <p>
-                  Create a new conda environment called "workshop_ex2". Activate the environment and install the tool seqkit in the Conda environment.
-                  Get the "1_control_psbA3_2019_minq7.fastq" file from <a href="https://zenodo.org/records/3736457" target="_blank">https://zenodo.org/records/3736457</a> [1] and upload it to the VSC.
-                  Next, find the command to view some simple statistics of the fastq file. You can have a look at the manual page.
-                  Tip: similarly as for commands, you can display the manual page of a subcommand using [command] [subcommand] --help.
-                  Finally, display all statistics for the "1_control_psbA3_2019_minq7.fastq" file.
-
-               #Question: how much memory was used?
+                  Create a new conda environment called "ex2". Activate the environment and install the tool seqkit in the Conda environment.
+                  View simple statistics with seqkit for the the "1_control_psbA3_2019_minq7.fastq" file available in the VSC folder.
+                  (Alternatively, get the "1_control_psbA3_2019_minq7.fastq" file from <a href="https://zenodo.org/records/3736457" target="_blank">https://zenodo.org/records/3736457</a> [1] and upload it to the VSC)
+                  to find the right command, you can have a look at the manual page using [command] [optionally: subcommand] --help.
+                  Next, write a slurm script that activates the conda environment, executes the command, and writes the statistics to a file named ex2_stats.txt. 
                </p>
                <h2>You have completed Module 2!</h2>
             <h3>Next module:</h3>
