@@ -114,7 +114,9 @@
             text-align: justify;
           }
         </style>
-      <h2 id="Clean the VCF file using vt">Clean the VCF file using vt</h2>
+      <h2 id="Clean the VCF file using vt">4.1 Clean the VCF file using vt</h2>
+      <h2 id="SNP annotation with snpeff">4.1 SNP annotation with snpeff</h2>
+      SNP annotation with snpeff
       <p>
         Run the vt commands to clean up the VCF file.
       </p>
@@ -135,7 +137,7 @@
         Finally, vt view filters out the SNPs with a QUAL value below your desired cutoff and the remaining SNPs are written to a file
         "clean_snps.vcf". 
       </p>
-      <h2 id="SNP annotation with snpeff"></h2>
+      <h2 id="SNP annotation with snpeff">4.2 SNP annotation with snpeff</h2>
       <p>
         Now that we have a list of cleaned SNPs, we can annotate them to predict their effect using snpeff.
         The prgram snpeff is distributed as a .jar file that can be run with java. First, define the location of the .jar file.
@@ -161,7 +163,7 @@
         Have a look at the generated files.
         First, snpEff_summary.html contains statistics of the SNP annotation. Details for each SNP were written to
         annotated_snps.vcf. Finally, an overview of the affected genes are provided in the file snpEff_genes.txt. 
-        <h3>Adapt snpEff setting to your organism</h3>
+        <h3>4.2.1 Adapt snpEff setting to your organism</h3>
         Before running snpEff on another organism than H. sapiens, you should set the genome and genetic code table.
         Detailed instruction are provided at in the official documentation: 
         <a href="https://genomics.sschmeier.com/ngs-voi/#prepare-snpeff-database" target="_blank">https://genomics.sschmeier.com/ngs-voi/#prepare-snpeff-database</a> 
