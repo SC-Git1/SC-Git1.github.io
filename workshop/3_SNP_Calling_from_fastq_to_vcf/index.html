@@ -682,8 +682,9 @@
                <img src="/assets/img/flagstat.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
             </picture>
          </figure>
-         In this example, there are 
-         <h3>Visualisation</h3>
+         In this example, there are 1,136,643 succesful mappings to the reference genome. 1,136,571 are primary alignments, and 72 are supplementary alignments.
+         As we saw before, the fastq file contains 1,151,702 records (i.e., primary or unique reads). The total treats the supplementary alignments as extra records.
+         <h3>plot-bamstats</h3>
          <p>
             We can visualize the bam file content in some summarising plots. To do this, first generate the summary statistics of the BAM file and write them to a file
             <div class="language-plaintext highlighter-rouge">
@@ -698,11 +699,12 @@
                </div>
             </div>
          </p>
-         <h4></h4>
-         The statistics of this output and FastQC overlap. Therefore, you can compare e.g. the GC-content before and after mapping.
-         A first interesting figure to look at is the coverage plot.This plot shows the distribution of the number of mapped bases (log-scaled) against the coverage. In our case, most mapped bases have a very low coverage, which makes sense since the dataset originally only contains a subset of 1e6 reads.
-         Usually, for SNP calling, a coverage around 30 is recommended. Note that this dataset is only a subset used for illustrative purpose.
-         For SNP calling of DNA,  
+         <h4>Interpretation</h4>
+         <p>
+          The statistics of this output and FastQC overlap. Therefore, you can compare e.g. the GC-content before and after mapping.
+          An interesting figure to look at is the coverage plot. This plot shows the distribution of the number of mapped bases (log-scaled) against the coverage. In our case, most mapped bases have a very low coverage, because the dataset is subset of a little over one million reads.
+          Usually, for SNP calling, a coverage of ca. 30 is recommended.
+        </p>         
          <figure>
             <picture>
                <source class="responsive-img-srcset" srcset=" //assets/img/coverage-480.webp 480w, /assets/img/coverage-800.webp 800w, /assets/img/coverage-1400.webp 1400w, " sizes="95vw" type="image/webp">
@@ -710,11 +712,132 @@
                <img src="/assets/img/coverage.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
             </picture>
          </figure>
+         <h3>IGV</h3>
          <p>
-            
-         </p>
- 
-         <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/5_project/">Module 5: SNP calling - part 2</a>
+          Finally, visualize the BAM file in IGV (= Integrative Genomics Viewer) using the app or in a web browser (<a href="https://igv.org/app/" target="_blank">https://igv.org/app/</a>).
+          For this, download the files hg38_chr22.fa, hg38_chr22.fa.fai NA12878.bam, and NA12878.bai. 
+          First, load the genome i.e., the reference and its index into IGV. Next, load the BAM file and its index as a track.
+          In the browser, the screen should now look like this:
+          <figure>
+            <picture>
+               <source class="responsive-img-srcset" srcset=" //assets/img/IGV_browser-480.webp 480w, /assets/img/IGV_browser-800.webp 800w, /assets/img/IGV_browser-1400.webp 1400w, " sizes="95vw" type="image/webp">
+               </source>
+               <img src="/assets/img/IGV_browser.png" class="img-fluid rounded z-depth-1" width="100%" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+            </picture>
+          </figure>
+          Locations on the genome are defined by a string of the format reference_name:start_position-end_position. For example, chr22:1-50,818,468.
+          You can navigate to a window on the reference by changing the coordinates of start and end. 
+          You can sort the BAM file on the MAPQ value to find aligmnments with a high MAPQ value by running:
+          <div class="language-plaintext highlighter-rouge">
+            <div class="highlight">
+              <pre class="highlight"><code><span>samtools view NA12878.bam | sort -k5 -g -r | head</span></code></pre>
+            </div>
+         </div>
+        The sort -k5 -g -r command sorts the records in the BAM file numerically (-g) based on the value in column 5 (-k5) in descending order (-r).
+        Make sure to add a command at the end so that not too much output is written to the screen. 
+        You can for example pipe the output to the command head, which by default only writes the first 10 lines to stdout.
+        As an exercise, have a look at the region chr22:45,319,942-45,331,852. Most reads in this region are of very high quality (MAPQ = 60). 
+        However, around base pair 45,328,200 is a cluster of reads with MAPQ = 0. This means that there is another position in the reference that gives the same alignment score (AS).
+        You could identify some of these regions in your file and try to find the cause. Possible causes are repetitive regions and duplicate genes.
+        </p>
+
+        <h2 id="SNP calling with bcftools">SNP calling with bcftools</h2>
+        <div class="language-plaintext highlighter-rouge">
+          <div class="highlight">
+            <pre class="highlight"><code><span>bcftools mpileup -Ou -f hg38_chr22.fa NA12878.bam \</span>
+<span>bcftools call -mv -Ov -o raw_snps.vcf</span></code></pre>
+          </div>
+        </div>
+        <p>
+          The bcftools mpileup command generates a summary of the coverage of mapped reads on a reference sequence at a single base pair resolution.
+          Concretely, The file contains for each genomic position the reference base, coverage, alternative bases and the genotype likelihoods given the observed data.
+          The option -Ou specifies the format of the output to be uncompressed BCF (= the binary version of the Variant Call Format or VCF).
+          The option -f declares the reference sequence file. Note that at this point in the workflow, you can specify the minimum mapping and/or base quality for the alignment or base to be included with the options -Q and -q.
+          The output is piped into bcftools call. This program makes the actual variant calls based on the genotype likelihoods using a statistical model. The output is written to an uncompressed VCF file (-Ov). The output file (-o) is named named rw_snps.vcf.
+          The option -mv tells the program to only output the variants. The option -m sets the caller to multi-allelic. This means that all alleles that reach the call criteria will be reported.
+          Alternatively, you can set the caller to the consensus caller (-c).
+        </p>
+        <h3>Quality control of the vcf file</h3>
+        <p>
+          For quality control you can again first inspect the header lines and the first and last records.
+          An example of a record is:
+          <div class="language-plaintext highlighter-rouge">
+            <div class="highlight">
+              <pre class="highlight"><code><span>chr22	50799245	.	C	T	4.30749	.	DP=12;VDB=0.14;SGB=-0.453602;RPBZ=-0.859338;MQBZ=0;MQSBZ=0;BQBZ=2.18692;SCBZ=0;MQ0F=0;AC=1;AN=2;DP4=1,9,0,2;MQ=60	GT:PL	0/1:37,0,169</span></code>
+              </pre>
+            </div>
+         </div>
+         The different columns are:
+         <ol>
+          <li><strong>CHROM</strong>: chromosome the variant was found on, <em>chr22</em></li>
+          <li><strong>POS</strong>: 1-based reference position, <em>50799245</em></li>
+          <li><strong>ID</strong>: identifier of the variant e.g. from dbSNP, the value "<em>.</em>" means no identifier is available</li>
+          <li><strong>REF</strong>: the reference base, <em>C</em></li>
+          <li><strong>ALT</strong>: alternative non-reference bases, <em>T</em></li>
+          <li><strong>QUAL</strong>: phred-scaled quality score; probability that the ALT call is wrong (see formula at start of this module)<em>4.30749</em></li>
+          <li><strong>FILTER</strong>: filters used in bcftools call, "<em>.</em>" indicates no filters were used</li>
+          <li><strong>INFO</strong>: additional information</li>
+        </ol>
+      </p>
+      <h3>Visualization in IGV</h3>
+      <p>
+        Next, you can visualize a high-quality SNP in IGV. You can sort the VCF file based on descending quality score using:
+        <div class="language-plaintext highlighter-rouge">
+          <div class="highlight">
+            <pre class="highlight"><code><span>bcftools query -f '%CHROM %POS %REF %ALT %QUAL %FILTER %INFO %FORMAT\n' raw_snps.vcf | sort -k5 -g -r | head</span></code>
+            </pre>
+          </div>
+        </div>
+        The bcftools query command extracts fields specified with the -f option from the file. Next, the records are sorted numerically based on the 5th column (QUAL) in descending order.
+        Only the first 10 lines are displayed with the head command.
+        You can change the number of lines from the default by using the -n option of the head command.
+      </p> 
+      <p>
+      Download and the raw_snps.vcf file from the VSC and load it as an additional track in IGV.
+        Next look at some SNPs (you can just add the position after chr22, IGV will automatically generate a window):
+        <ul>
+          <li><strong>36261582</strong>: allele count = 2 (alternate homozygous), high quality mapping and SNP</li>
+          <li><strong>36256885</strong>: low coverage, therefore a low quality SNP</li>
+          <li><strong>36160775</strong>: allel count = 1 (heterozygous), high quality mapping and SNP</li>
+          <li></li>
+        </ul>
+      </p>
+        You can filter the VCF file to only contain SNPs above a certain QUAL cutoff value by using:
+        <div class="language-plaintext highlighter-rouge">
+          <div class="highlight">
+            <pre class="highlight"><code><span>bcftools filter -i "QUAL>30" raw_snps.vcf</span></code>
+            </pre>
+          </div>
+        </div> 
+        Note that a QUAL score higher than 30 is equal to a confidence of > 99.9%.
+      </p>
+      <h2>Clean the VCF file using vt</h2>
+      <p>
+        Run the vt commands to clean up the VCF file.
+      </p>
+      <div class="language-plaintext highlighter-rouge">
+        <div class="highlight">
+          <pre class="highlight"><code><span>cat raw_snps.vcf \</span>
+<span>| vt decompose - \</span>
+<span>| vt normalize -n -r hg38_chr22.fa - \</span>
+<span>| vt uniq - \</span>
+<span>| vt view -f "QUAL>30" -h - \</span>
+<span>> clean_snps.vcf</span></code>
+          </pre>
+        </div>
+      </div>
+      <p>
+        First, vt decompose turns multi-allelic variants into bi-allelic variants. According to the output, 11 variants are decomposed.
+        Next, vt normalize ensures a unique 
+      </p>
+      
+      
+      
+      
+      
+      
+
+        <a class="text-pink-700 underline font-semibold hover:text-pink-800" href="/workshop/5_project/">Module 5: SNP calling - part 2</a>
       </d-article>
       <d-appendix>
         <d-citation-list>
